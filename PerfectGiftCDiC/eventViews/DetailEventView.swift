@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct DetailEventView: View {
     
@@ -15,10 +16,9 @@ struct DetailEventView: View {
     @Environment(\.presentationMode) private var presentationMode
         
     @State private var birthDate = Date()
-    @State private var titleEvent = ""
-    @State private var nameProfile = ""
+    @State private var titleEvent = "vacio"
     @State private var dateEvent = ""
-    @State private var observationsEvent = ""
+    @State private var observationsEvent = "vacio"
     @State private var yearsAgoEvent = "1"
     @State private var eventSelected: EventeSelected = EventeSelected.birthday
     
@@ -26,8 +26,13 @@ struct DetailEventView: View {
         ZStack{
             Color("background")
                 .edgesIgnoringSafeArea(.all)
-            ScrollView{
                 VStack{
+                    TextFieldProfile(hint: "title", dataString: $titleEvent)
+                        .onReceive(Just(titleEvent)){ value in
+                            if value != "vacio" && value != event.titleEvent{
+                                saveChanges()
+                            }
+                        }
                     //datepicker
                     HStack{
                         DatePicker(selection: $birthDate, displayedComponents: .date) {
@@ -54,11 +59,41 @@ struct DetailEventView: View {
                     }
                     
                     TextEditor(text: $observationsEvent)
-                        .frame(height: UIScreen.main.bounds.height / 4)
-                        .padding()
+                        .frame(height: UIScreen.main.bounds.height / 7)
+                        .padding(1)
                         .cornerRadius(25)
+                        .onReceive(Just(observationsEvent)){ value in
+                            if value != "vacio" && value != event.observations{
+                                saveChanges()
+                            }
+                        }
+                    
+                    IdeasListView(filterProfile: event.profileEventRelation!.idProfile!.uuidString, filterEvent: event.idEvent!.uuidString, event: event)
+            }
+            
+            VStack{
+                
+                Spacer()
+                //boton añadir evento
+                HStack{
                     
                     Spacer()
+                    
+                    NavigationLink(destination: AddIdeaView(newIdea: true, eventParent: event), label: {
+                        ZStack{
+                            Circle()
+                                .foregroundColor(.blue)
+                            Image(systemName: "calendar.badge.plus")
+                                .resizable()
+                                .foregroundColor(.white)
+                                .aspectRatio(contentMode: .fit)
+                                .padding(8)
+                            
+                            
+                        }
+                        .frame(width: 50, height: 50)
+                        .padding()
+                    })
                 }
             }
         }
@@ -77,20 +112,25 @@ struct DetailEventView: View {
                     eventSelected = .birthday
             }
         }
-        .onDisappear{
-            event.observations = observationsEvent
-            event.dateEvent = birthDate            
-            do {
-                try viewContext.save()
-                print("evento guardado")
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
         .navigationTitle(titleEvent)
+    }
+    
+    private func saveChanges(){
+       withAnimation {
+        event.titleEvent = titleEvent
+        event.observations = observationsEvent
+        event.dateEvent = birthDate
+        do {
+            try viewContext.save()
+            print("evento actualizado")
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        
+       }
     }
 }
 
@@ -121,8 +161,8 @@ struct TextFieldModifyEvent: View{
     }
 }
 
-struct DetailEventView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailEventView(event: Event())
-    }
-}
+//struct DetailEventView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetailEventView(event: Event())
+//    }
+//}

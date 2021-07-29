@@ -14,12 +14,17 @@ struct CellEventListView: View {
     @State private var date = Date()
     
     var body: some View {
-        VStack{
-            Text("\(title), \(date, formatter: itemFormatter)")
-        }.onAppear{
-            title = event.titleEvent ?? "No event title"
-            date = event.dateEvent ?? Date()
+        ZStack{
+            VStack{
+                Text("\(title)")
+                Text("\(date, formatter: itemFormatter)")
+            }
+            }.frame(height: 100)
+            .onAppear{
+                title = event.titleEvent ?? "No event title"
+                date = event.dateEvent ?? Date()
         }
+
     }
     
     private let itemFormatter: DateFormatter = {

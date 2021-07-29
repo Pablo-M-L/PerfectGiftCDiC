@@ -25,10 +25,10 @@ struct CellProfileListView: View {
                     Image(uiImage: imgServicio)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
+                        .frame(width: 60, height: 60)
                         .clipShape(Circle())
-                        .shadow(color: .gray, radius: 4, x: 2, y: 2)
-                        .padding()
+                        .shadow(color: .gray, radius: 4, x: 0, y: 2)
+                        .padding(.horizontal, 10)
                     
                     VStack(alignment: .leading){
                         Text(profile.nameProfile ?? "sin nombre")
@@ -37,9 +37,7 @@ struct CellProfileListView: View {
                     Spacer()
                 }
             }
-            .background(Color.gray.opacity(0.5))
-            .frame(height: 100)
-            .cornerRadius(20)
+            .frame(height: 80)
             .onAppear{
                 if profile.imageProfile == nil{
                     imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")

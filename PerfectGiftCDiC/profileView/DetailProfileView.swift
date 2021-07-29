@@ -6,15 +6,16 @@
 //
 
 import SwiftUI
+import Combine
 
 struct DetailProfileView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     
-    @State var profile: Profile
-    @State private var nameProfile = ""
-    @State private var annotationsProfile = ""
+    var profile: Profile
+    @State private var nameProfile = "vacio"
+    @State private var annotationsProfile = "vacio"
     @State private var mostrarImagePicker = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     
@@ -59,17 +60,30 @@ struct DetailProfileView: View {
                     VStack(alignment: .leading){
                         
                         TextFieldProfile(hint: "Name Profile", dataString: $nameProfile)
+                            //onReceive detecta cambio en la variable nameProfile, si hay cambio llama a la funcion de guardar en BD.
+                            //tambien se compara con el string "vacio" que es el valor inicial, porque detectaba el cambio en la variable
+                            //al abrir la pantalla, y guardaba en la BD el valor "vacio", borrando el dato correcto.
+                            .onReceive(Just(nameProfile)){ value in
+                                if value != "vacio" && value != profile.nameProfile{
+                                    saveChangesProfile()
+                                }
+                            }
                         TextFieldProfile(hint: "Info", dataString: $annotationsProfile)
+                            .onReceive(Just(nameProfile)){ value in
+                                if value != "vacio" && value != profile.nameProfile{
+                                    saveChangesProfile()
+                                }
+                            }
                     }
                     
                 }.padding([.horizontal, .top], 10)
                 
-                EventsListView(filter: profile.nameProfile ?? "nadie")
+                EventsListView(filter: profile.nameProfile ?? "nadie", profile: profile)
+                    .colorMultiply(Color("background"))
+                    .edgesIgnoringSafeArea(.all)
                 
                 Spacer()
             }
-            
-            
             
             VStack{
                 
@@ -82,10 +96,11 @@ struct DetailProfileView: View {
                     NavigationLink(destination: AddEventView(profile: profile), label: {
                         ZStack{
                             Circle()
-                                .foregroundColor(.blue)
+                                .foregroundColor(Color("backgroundButton"))
                             Image(systemName: "calendar.badge.plus")
                                 .resizable()
                                 .foregroundColor(.white)
+                                .background(Color("backgroundButton"))
                                 .aspectRatio(contentMode: .fit)
                                 .padding(8)
                             
@@ -111,13 +126,11 @@ struct DetailProfileView: View {
                 imgServicio = UIImage(data: data)!
             }
         }
-        .onDisappear{
-            saveChangesProfile()
-        }
         .navigationTitle(nameProfile)
     }
     
     func saveChangesProfile(){
+        withAnimation{
         profile.nameProfile = nameProfile
         profile.annotationsProfile = annotationsProfile
         let imagenUIRedimensionada = resizeImage(image: imgServicio)
@@ -133,6 +146,10 @@ struct DetailProfileView: View {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
+        }
+        
+       // presentationMode.wrappedValue.dismiss()
+
     }
 }
 
@@ -150,8 +167,8 @@ struct TextFieldProfile: View{
     }
 }
 
-struct DetailProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailProfileView(profile: Profile())
-    }
-}
+//struct DetailProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetailProfileView(profile: Profile())
+//    }
+//}

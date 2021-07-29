@@ -15,6 +15,7 @@ struct ProfileListView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Profile.nameProfile, ascending: true)],
         animation: .default)
     private var profiles: FetchedResults<Profile>
+    
     @State var showAddProfileView: Bool = false
     
     var body: some View {
@@ -22,15 +23,23 @@ struct ProfileListView: View {
                                 
                 List{
                     ForEach(profiles) { profile in
-                        NavigationLink(destination: DetailProfileView(profile: profile) ){
-                            CellProfileListView(profile: profile)
-                        }
-                        
+                        //se muestra con el zstack para quitar la flecha de la celda.
+                        ZStack{
+                            NavigationLink(destination: DetailProfileView(profile: profile) ){
+                                Text("Profile")
+                            }.opacity(0)
                             
+                            CellProfileListView(profile: profile)
+                        }.background(Color("cellprofileBck"))
+                        .cornerRadius(20)
+                        
+
                     }
                     .onDelete(perform: deleteItems)
                     
                 }.listStyle(InsetListStyle())
+                
+                
                 
                 
                 VStack{
@@ -48,10 +57,11 @@ struct ProfileListView: View {
                                     
                                     ZStack{
                                         Circle()
-                                            .foregroundColor(.blue)
+                                            .foregroundColor(Color("backgroundButton"))
                                         Image(systemName: "person.fill.badge.plus")
                                             .resizable()
                                             .foregroundColor(.white)
+                                            .background(Color("backgroundButton"))
                                             .aspectRatio(contentMode: .fit)
                                             .padding(8)
                                             
@@ -104,8 +114,8 @@ struct ProfileListView: View {
     
 }
 
-struct ProfileListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
+//struct ProfileListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//    }
+//}

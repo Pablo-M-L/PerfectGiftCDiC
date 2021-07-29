@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E91AB1226AE910200DF9E3B /* IdeasListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB1126AE910200DF9E3B /* IdeasListView.swift */; };
+		6E91AB1626AE993F00DF9E3B /* AddIdeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB1526AE993F00DF9E3B /* AddIdeaView.swift */; };
+		6E91AB1826AE994C00DF9E3B /* DetailIdeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB1726AE994C00DF9E3B /* DetailIdeaView.swift */; };
+		6E91AB1A26AE996900DF9E3B /* CellIdeaListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB1926AE996900DF9E3B /* CellIdeaListView.swift */; };
+		6E91AB1D26AFE5A400DF9E3B /* UrlsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB1C26AFE5A400DF9E3B /* UrlsListView.swift */; };
+		6E91AB1F26AFE5BC00DF9E3B /* AddUrlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB1E26AFE5BC00DF9E3B /* AddUrlView.swift */; };
+		6E91AB2126AFE5CD00DF9E3B /* DetailUrlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB2026AFE5CD00DF9E3B /* DetailUrlView.swift */; };
+		6E91AB2326AFE5E500DF9E3B /* CellUrlsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB2226AFE5E500DF9E3B /* CellUrlsListView.swift */; };
+		6E91AB2526AFEAA000DF9E3B /* ImageIdeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB2426AFEAA000DF9E3B /* ImageIdeaView.swift */; };
 		6E96C8E62693254A002D25A7 /* PerfectGiftCDiCApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E96C8E52693254A002D25A7 /* PerfectGiftCDiCApp.swift */; };
 		6E96C8E82693254A002D25A7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E96C8E72693254A002D25A7 /* ContentView.swift */; };
 		6E96C8EA2693254D002D25A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E96C8E92693254D002D25A7 /* Assets.xcassets */; };
@@ -26,6 +35,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E91AB1126AE910200DF9E3B /* IdeasListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeasListView.swift; sourceTree = "<group>"; };
+		6E91AB1526AE993F00DF9E3B /* AddIdeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddIdeaView.swift; sourceTree = "<group>"; };
+		6E91AB1726AE994C00DF9E3B /* DetailIdeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailIdeaView.swift; sourceTree = "<group>"; };
+		6E91AB1926AE996900DF9E3B /* CellIdeaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdeaListView.swift; sourceTree = "<group>"; };
+		6E91AB1C26AFE5A400DF9E3B /* UrlsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlsListView.swift; sourceTree = "<group>"; };
+		6E91AB1E26AFE5BC00DF9E3B /* AddUrlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUrlView.swift; sourceTree = "<group>"; };
+		6E91AB2026AFE5CD00DF9E3B /* DetailUrlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUrlView.swift; sourceTree = "<group>"; };
+		6E91AB2226AFE5E500DF9E3B /* CellUrlsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellUrlsListView.swift; sourceTree = "<group>"; };
+		6E91AB2426AFEAA000DF9E3B /* ImageIdeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageIdeaView.swift; sourceTree = "<group>"; };
 		6E96C8E22693254A002D25A7 /* PerfectGiftCDiC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PerfectGiftCDiC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E96C8E52693254A002D25A7 /* PerfectGiftCDiCApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfectGiftCDiCApp.swift; sourceTree = "<group>"; };
 		6E96C8E72693254A002D25A7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,8 +78,32 @@
 		6E19476E26A69FAF00216B9E /* model */ = {
 			isa = PBXGroup;
 			children = (
+				6E96C8F02693254D002D25A7 /* PerfectGiftCDiC.xcdatamodeld */,
 			);
 			path = model;
+			sourceTree = "<group>";
+		};
+		6E91AB1026AE90DC00DF9E3B /* ideas */ = {
+			isa = PBXGroup;
+			children = (
+				6E91AB1126AE910200DF9E3B /* IdeasListView.swift */,
+				6E91AB1526AE993F00DF9E3B /* AddIdeaView.swift */,
+				6E91AB1726AE994C00DF9E3B /* DetailIdeaView.swift */,
+				6E91AB1926AE996900DF9E3B /* CellIdeaListView.swift */,
+				6E91AB2426AFEAA000DF9E3B /* ImageIdeaView.swift */,
+			);
+			path = ideas;
+			sourceTree = "<group>";
+		};
+		6E91AB1B26AFE58B00DF9E3B /* Urls */ = {
+			isa = PBXGroup;
+			children = (
+				6E91AB1C26AFE5A400DF9E3B /* UrlsListView.swift */,
+				6E91AB1E26AFE5BC00DF9E3B /* AddUrlView.swift */,
+				6E91AB2026AFE5CD00DF9E3B /* DetailUrlView.swift */,
+				6E91AB2226AFE5E500DF9E3B /* CellUrlsListView.swift */,
+			);
+			path = Urls;
 			sourceTree = "<group>";
 		};
 		6E96C8D92693254A002D25A7 = {
@@ -83,16 +125,17 @@
 		6E96C8E42693254A002D25A7 /* PerfectGiftCDiC */ = {
 			isa = PBXGroup;
 			children = (
-				6E19476E26A69FAF00216B9E /* model */,
 				6EA601522697AAC00051FB14 /* profileView */,
 				6EA601512697AAAB0051FB14 /* eventViews */,
+				6E91AB1026AE90DC00DF9E3B /* ideas */,
+				6E91AB1B26AFE58B00DF9E3B /* Urls */,
+				6E19476E26A69FAF00216B9E /* model */,
 				6E96C902269487C1002D25A7 /* tools */,
 				6E96C8F926934F97002D25A7 /* views */,
 				6E96C8E52693254A002D25A7 /* PerfectGiftCDiCApp.swift */,
 				6E96C8E92693254D002D25A7 /* Assets.xcassets */,
 				6E96C8EE2693254D002D25A7 /* Persistence.swift */,
 				6E96C8F32693254D002D25A7 /* Info.plist */,
-				6E96C8F02693254D002D25A7 /* PerfectGiftCDiC.xcdatamodeld */,
 				6E96C8EB2693254D002D25A7 /* Preview Content */,
 			);
 			path = PerfectGiftCDiC;
@@ -217,12 +260,21 @@
 				6E96C8FF2693684E002D25A7 /* AddProfileView.swift in Sources */,
 				6EA6014E2697A9D30051FB14 /* CellEventListView.swift in Sources */,
 				6E96C8FB26934FB3002D25A7 /* ProfileListView.swift in Sources */,
+				6E91AB1A26AE996900DF9E3B /* CellIdeaListView.swift in Sources */,
+				6E91AB2326AFE5E500DF9E3B /* CellUrlsListView.swift in Sources */,
+				6E91AB1626AE993F00DF9E3B /* AddIdeaView.swift in Sources */,
 				6E96C8EF2693254D002D25A7 /* Persistence.swift in Sources */,
 				6E96C904269487E2002D25A7 /* ImagePicker.swift in Sources */,
 				6E96C8E82693254A002D25A7 /* ContentView.swift in Sources */,
+				6E91AB2526AFEAA000DF9E3B /* ImageIdeaView.swift in Sources */,
 				6EA601502697AA340051FB14 /* DetailEventView.swift in Sources */,
+				6E91AB1D26AFE5A400DF9E3B /* UrlsListView.swift in Sources */,
 				6E96C906269596F7002D25A7 /* DetailProfileView.swift in Sources */,
+				6E91AB2126AFE5CD00DF9E3B /* DetailUrlView.swift in Sources */,
 				6EF2BF3D2696DAE200FA4494 /* AddEventView.swift in Sources */,
+				6E91AB1826AE994C00DF9E3B /* DetailIdeaView.swift in Sources */,
+				6E91AB1226AE910200DF9E3B /* IdeasListView.swift in Sources */,
+				6E91AB1F26AFE5BC00DF9E3B /* AddUrlView.swift in Sources */,
 				6EA6014C2697A9520051FB14 /* EventsListView.swift in Sources */,
 				6E96C90126945C4E002D25A7 /* CellProfileListView.swift in Sources */,
 				6E96C8F22693254D002D25A7 /* PerfectGiftCDiC.xcdatamodeld in Sources */,

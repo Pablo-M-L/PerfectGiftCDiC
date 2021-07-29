@@ -9,15 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var showProfileListView = true
-    @State private var showAddProfileView = false
-    
     init() {
         
         UINavigationBar.appearance().backgroundColor = UIColor(Color("background"))
         UINavigationBar.appearance().largeTitleTextAttributes = [
             .foregroundColor: UIColor(Color("colorTextoTitulo")),
             .font : UIFont(name:"Marker Felt", size: 50)!]
+        
+        UITabBar.appearance().backgroundColor = UIColor.purple
         
     }
     var body: some View {
@@ -26,18 +25,20 @@ struct ContentView: View {
                     ProfileListView()
                         .tabItem {
                             Image(systemName: "person.fill.badge.plus")
-                        }
+                        }.tag(0)
+                    
                     
                     
                     UpcomingListsView()
                         .tabItem {
                             Image(systemName: "calendar.badge.clock")
-                        }
+                        }.tag(1)
                     
                     
                     
                     
                 }
+                .accentColor(Color("backgroundButton"))
                 .navigationTitle("Perfect Gift")
                 .colorMultiply(Color("background"))
                 .edgesIgnoringSafeArea(.all)

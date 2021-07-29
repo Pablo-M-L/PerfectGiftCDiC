@@ -14,28 +14,38 @@ struct EventsListView: View {
 
     var events: FetchRequest<Event>
     
-    init(filter: String){
+    var profileParent: Profile
+    
+    init(filter: String, profile: Profile){
+        print("filtro: \(filter)")
             events = FetchRequest<Event>(entity: Event.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Event.titleEvent, ascending: true)], predicate: NSPredicate(format: "profileEventRelation.nameProfile MATCHES[dc] %@", filter),animation: .default)
+        
+        profileParent = profile
     }
     
     var body: some View {
         
         VStack{
-            Text("lista de eventos")
+            Text("EVENTS")
             
             List{
                 ForEach(events.wrappedValue, id: \.self) { event in
-                    NavigationLink(destination: DetailEventView(event: event) ){
+                    
+                    ZStack{
+                        NavigationLink(destination: DetailEventView(event: event) ){
+                            Text("Events")
+                        }.opacity(0)
+                        
                         CellEventListView(event: event)
-                    }
+                    }.background(Color("cellprofileBck"))
+                     .cornerRadius(20)
+
                     
                         
                 }
                 //.onDelete(perform: deleteItems)
                 
             }
-        }.onAppear{
-            dump(events)
         }
     }
     
@@ -55,8 +65,8 @@ struct EventsListView: View {
 //    }
 }
 
-struct EventsListView_Previews: PreviewProvider {
-    static var previews: some View {
-        EventsListView(filter: "pablo")
-    }
-}
+//struct EventsListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EventsListView(filter: "pablo")
+//    }
+//}
