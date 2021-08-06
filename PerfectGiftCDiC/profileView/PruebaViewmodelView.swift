@@ -1,33 +1,52 @@
 //
-//  CellProfileListView.swift
+//  PruebaViewmodelView.swift
 //  PerfectGiftCDiC
 //
-//  Created by pablo on 6/7/21.
+//  Created by Pablo Millan on 4/8/21.
 //
 
 import SwiftUI
-import CoreData
 
-struct CellProfileListView: View {
+struct PruebaViewmodelView: View {
     
-    //    TextEditor is backed by UITextView. So you need to get rid of the UITextView's backgroundColor first and then you can set any View to the background.
-    //        init() {
-    //            UITextView.appearance().backgroundColor = .clear
-    //        }
-    
-    
-    var profile: Profile
-    var numeroEventos: Int
-    
-    
-    @State var upcomingEvent: eventUpcoming = eventUpcoming(id: UUID(), titleEvent: "no title", dateEvent: Date(), annualEvent: false, observationEvent: "no observation")
+    @Environment(\.managedObjectContext) private var viewContext
+    @StateObject private var viewModel = ViewModel()
+    private var helper = coredataHelper()
     
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Event.titleEvent, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Profile.nameProfile, ascending: true)],
         animation: .default)
-    private var eventos: FetchedResults<Event>
+    private var profiles: FetchedResults<Profile>
+    
+    
+    var body: some View {
+        List{
+            ForEach(viewModel.profileList, id: \.self){ item in
+                cellPrueba(profile: item, numeroEventos: 1)
+            }
+        }
+            .onAppear{
+                viewModel.profileList = helper.getProlfileList(profiles: profiles)
+                viewModel.profileList.remove(at: 0)
+                do {
+                    try viewContext.save()
+                } catch {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    let nsError = error as NSError
+                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                }
+            }
+    }
+}
+
+struct cellPrueba: View{
+    
+    var profile: profileListItem
+    var numeroEventos: Int
     
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+    @State var upcomingEvent: eventUpcoming = eventUpcoming(id: UUID(), titleEvent: "no title", dateEvent: Date(), annualEvent: false, observationEvent: "no observation")
     
     var body: some View {
         ZStack{
@@ -44,7 +63,7 @@ struct CellProfileListView: View {
                     
                     VStack(alignment: .leading){
                         
-                        Text(profile.nameProfile ?? "sin nombre")
+                        Text(profile.nameProfile)
                             .font(.custom("Marker Felt", size: 22))
                             .bold()
                             .foregroundColor(.purple)
@@ -96,32 +115,27 @@ struct CellProfileListView: View {
             }
             .frame(height: 100)
             .onAppear{
-                if !eventos.isEmpty{
-                    let eventFilter = eventos.filter{$0.profileEventRelation?.nameProfile == profile.nameProfile}
-                    if !eventFilter.isEmpty{
-                        upcomingEvent =  getUpcomingEvent(eventsfitrados: eventFilter)
-                    }
-                }
+//                if !eventos.isEmpty{
+//                    let eventFilter = eventos.filter{$0.profileEventRelation?.nameProfile == profile.nameProfile}
+//                    if !eventFilter.isEmpty{
+//                        upcomingEvent =  getUpcomingEvent(eventsfitrados: eventFilter)
+//                    }
+//                }
                 
                 
-                if profile.imageProfile == nil{
+                if profile.imageProfile.pngData() == nil{
                     imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
                 }
                 else{
-                    let imgData = profile.imageProfile
-                    let data = try! JSONDecoder().decode(Data.self, from: imgData!)
-                    imgServicio = UIImage(data: data)!
+                    imgServicio = profile.imageProfile
                 }
             }
         }
     }
-    
-    
-    
 }
 
-//struct CellProfileListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CellProfileListView(profile: Profile(), numeroEventos: 1, recargarLista: )
-//    }
-//}
+struct PruebaViewmodelView_Previews: PreviewProvider {
+    static var previews: some View {
+        PruebaViewmodelView()
+    }
+}

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Event" representedClassName="Event" syncable="YES" codeGenerationType="class">
+        <attribute name="annualEvent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="dateEvent" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="idEvent" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="observations" optional="YES" attributeType="String"/>
+        <attribute name="observationsEvent" optional="YES" attributeType="String"/>
         <attribute name="titleEvent" optional="YES" attributeType="String"/>
+        <attribute name="typeEvent" optional="YES" attributeType="String"/>
         <relationship name="profileEventRelation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="eventProfileRelation" inverseEntity="Profile"/>
     </entity>
     <entity name="Ideas" representedClassName="Ideas" syncable="YES" codeGenerationType="class">
@@ -36,7 +38,7 @@
         <relationship name="ideaUrlRelation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Ideas" inverseName="urlIdeaRelation" inverseEntity="Ideas"/>
     </entity>
     <elements>
-        <element name="Event" positionX="-63" positionY="36" width="128" height="104"/>
+        <element name="Event" positionX="-63" positionY="36" width="128" height="134"/>
         <element name="Ideas" positionX="-54" positionY="63" width="128" height="194"/>
         <element name="Profile" positionX="-63" positionY="-9" width="128" height="125"/>
         <element name="UrlIdeas" positionX="-45" positionY="72" width="128" height="74"/>

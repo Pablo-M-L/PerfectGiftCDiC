@@ -11,23 +11,24 @@ import CoreData
 struct EventsListView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
-
+        
     var events: FetchRequest<Event>
-    
+
     var profileParent: Profile
     
     init(filter: String, profile: Profile){
-        print("filtro: \(filter)")
             events = FetchRequest<Event>(entity: Event.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Event.titleEvent, ascending: true)], predicate: NSPredicate(format: "profileEventRelation.nameProfile MATCHES[dc] %@", filter),animation: .default)
-        
+
         profileParent = profile
+
     }
     
     var body: some View {
         
         VStack{
             Text("EVENTS")
-            
+                .foregroundColor(Color("colorTextoTitulo"))
+                .font(.custom("marker Felt", size: 18))
             List{
                 ForEach(events.wrappedValue, id: \.self) { event in
                     
@@ -43,9 +44,11 @@ struct EventsListView: View {
                     
                         
                 }
-                //.onDelete(perform: deleteItems)
+               // .onDelete(perform: deleteItems)
                 
             }
+            
+
         }
     }
     
@@ -65,8 +68,8 @@ struct EventsListView: View {
 //    }
 }
 
-//struct EventsListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EventsListView(filter: "pablo")
-//    }
-//}
+struct EventsListView_Previews: PreviewProvider {
+    static var previews: some View {
+        EventsListView(filter: "pablo", profile: Profile())
+    }
+}

@@ -6,10 +6,22 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct UpcomingListsView: View {
+    
+    @FetchRequest(entity: Event.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Event.titleEvent, ascending: true)],
+                  animation: .default)
+    private var events: FetchedResults<Event>
+    
     var body: some View {
-        Text("upconing list")
+        VStack{
+            List{
+                ForEach(events, id: \.self) { evento in
+                    Text("title: \(evento.titleEvent ?? "empty")")
+                }
+            }
+        }
     }
 }
 

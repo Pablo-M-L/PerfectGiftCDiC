@@ -15,33 +15,58 @@ struct DetailEventView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
         
-    @State private var birthDate = Date()
+    @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+    @State private var birthDate: Date = Date(timeIntervalSince1970: 100)
     @State private var titleEvent = "vacio"
     @State private var dateEvent = ""
     @State private var observationsEvent = "vacio"
     @State private var yearsAgoEvent = "1"
     @State private var eventSelected: EventeSelected = EventeSelected.birthday
+    @State private var showAlert = false
+    @State private var borrarEvento = false
+    @State private var anyosCumplidos = 0
     
     var body: some View {
         ZStack{
             Color("background")
                 .edgesIgnoringSafeArea(.all)
                 VStack{
+                    VStack{
                     TextFieldProfile(hint: "title", dataString: $titleEvent)
                         .onReceive(Just(titleEvent)){ value in
                             if value != "vacio" && value != event.titleEvent{
                                 saveChanges()
                             }
                         }
+                    
+                    if eventSelected != .specialDay{
+                        Text("Fecha de nacimiento / conmemorar")
+                            .font(.custom("marker Felt", size: 12))
+                    }
+                    else{
+                        Text("Fecha del evento")
+                            .font(.custom("marker Felt", size: 12))
+                    }
                     //datepicker
                     HStack{
+                        Spacer()
+                        
                         DatePicker(selection: $birthDate, displayedComponents: .date) {
-                            Text("Date: ")
+                            Text("")
                         }.padding(.trailing, 20)
+                        .onReceive(Just(birthDate)) { date in
+                            if birthDate != Date(timeIntervalSince1970: 100){
+                                anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
+                                saveChanges()
+                            }
+                        }
                         
                         if eventSelected == .birthday || eventSelected == .anniversary{
                             HStack{
-                                Text(yearsAgoEvent + "º" + " \(eventSelected.rawValue)" )
+                                Text(String(anyosCumplidos) + "º")
+                                    .font(.custom("marker Felt", size: 20))
+                                Text(" \(eventSelected.rawValue)")
+                                    .font(.custom("marker Felt", size: 9))
                             }
                             .padding(10)
                             .padding(.leading, 20)
@@ -49,13 +74,15 @@ struct DetailEventView: View {
                             .background(Color("background2"))
                             .cornerRadius(8)
                         }
+                        
+                        Spacer()
                     }
                     
                     HStack{
                         Text("Observations")
                             .padding(1)
                         Spacer()
-                        
+                    }
                     }
                     
                     TextEditor(text: $observationsEvent)
@@ -63,12 +90,14 @@ struct DetailEventView: View {
                         .padding(1)
                         .cornerRadius(25)
                         .onReceive(Just(observationsEvent)){ value in
-                            if value != "vacio" && value != event.observations{
+                            if value != "vacio" && value != event.observationsEvent{
                                 saveChanges()
                             }
                         }
                     
                     IdeasListView(filterProfile: event.profileEventRelation!.idProfile!.uuidString, filterEvent: event.idEvent!.uuidString, event: event)
+            }.onTapGesture {
+                UIApplication.shared.endEditing()
             }
             
             VStack{
@@ -97,11 +126,25 @@ struct DetailEventView: View {
                 }
             }
         }
+        .onDisappear{
+            if borrarEvento{
+                deleteEvent()
+            }
+        }
         .onAppear{
             titleEvent = event.titleEvent ?? "no title event"
-            observationsEvent = event.observations ?? "no observations"
-            
-            switch event.titleEvent{
+            observationsEvent = event.observationsEvent ?? "no observations"
+            birthDate = event.dateEvent ?? Date()
+            anyosCumplidos = calcularAnyosCumplidos(dateEvent: event.dateEvent ?? Date())
+            if event.profileEventRelation!.imageProfile == nil{
+                imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+            }
+            else{
+                let imgData = event.profileEventRelation!.imageProfile
+                let data = try! JSONDecoder().decode(Data.self, from: imgData!)
+                imgServicio = UIImage(data: data)!
+            }
+            switch event.typeEvent{
                 case "BirthDay":
                     eventSelected = .birthday
                 case "Special Day":
@@ -113,12 +156,60 @@ struct DetailEventView: View {
             }
         }
         .navigationTitle(titleEvent)
+        .navigationBarItems(trailing:
+                                HStack{
+                                    Image(uiImage: imgServicio)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(Circle())
+                                    .frame(width: 35, height: 35)
+                                    
+                                    Button(action:{
+                                        showAlert = true
+                                        },
+                                    label:{
+                                        Image(systemName: "trash")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .accentColor(Color("backgroundButton"))
+                                            .frame(width: 35, height: 35)
+                                    })
+                                }
+
+        ).alert(isPresented: $showAlert, content: {
+            Alert(
+                title: Text("¿Quieres borrar este evento de \(event.profileEventRelation?.nameProfile ?? "perfil")?"),
+                  primaryButton: .default(Text("Borrar"), action: {
+                    print("borrar evento")
+                    borrarEvento = true
+                    presentationMode.wrappedValue.dismiss()
+                  }),
+                secondaryButton: .cancel(Text("Cancelar")))
+        })
+    }
+    
+    private func deleteEvent(){
+        withAnimation {
+            viewContext.delete(event)
+
+            do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
+        
+        //presentationMode.wrappedValue.dismiss()
     }
     
     private func saveChanges(){
+        print("guardar")
        withAnimation {
         event.titleEvent = titleEvent
-        event.observations = observationsEvent
+        event.observationsEvent = observationsEvent
         event.dateEvent = birthDate
         do {
             try viewContext.save()

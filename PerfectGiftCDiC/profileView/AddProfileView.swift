@@ -16,6 +16,7 @@ struct AddProfileView: View {
     @State private var nameProfile = ""
     @State private var annotationsProfile = ""
     @State private var mostrarImagePicker = false
+    @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     
     var body: some View {
@@ -56,7 +57,7 @@ struct AddProfileView: View {
                         }
                         })
                         .sheet(isPresented: $mostrarImagePicker){
-                            ImagePicker(selectedImage: self.$imgServicio)
+                            ImagePicker(selectedImage: self.$imgServicio, selectedImageDone: $imageDone)
                         }
                         
                         Spacer()
@@ -93,8 +94,6 @@ struct AddProfileView: View {
                     Button(action:{
                         addProfile()
                         presentationMode.wrappedValue.dismiss()
-                        //showAddProfileView = false
-                        
                     },label:{
                             ZStack{
                                 Text("ADD PROFILE")
@@ -107,7 +106,8 @@ struct AddProfileView: View {
                             }
                     }).padding()
                     
-                }.navigationTitle("Add Profile")
+                }
+                .navigationTitle("Add Profile")
         }
         //}
     }

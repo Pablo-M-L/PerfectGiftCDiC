@@ -23,6 +23,7 @@ struct AddIdeaView: View {
     var idea: Ideas?
     var eventParent: Event
     
+    @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var imgIdea1 = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var imgIdea2 = UIImage(imageLiteralResourceName: "logoPerfectgift")
@@ -80,7 +81,7 @@ struct AddIdeaView: View {
                                     imageChange = true
                                 }
                                 .sheet(isPresented: $mostrarImagePicker){
-                                    ImagePicker(selectedImage: self.$imgIdea1)
+                                    ImagePicker(selectedImage: self.$imgIdea1, selectedImageDone: $imageDone)
                                 }
                             
                             Spacer()

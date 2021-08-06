@@ -29,14 +29,11 @@ struct ContentView: View {
                     
                     
                     
-                    UpcomingListsView()
+                    //UpcomingListsView()
+                        PruebaViewmodelView()
                         .tabItem {
                             Image(systemName: "calendar.badge.clock")
                         }.tag(1)
-                    
-                    
-                    
-                    
                 }
                 .accentColor(Color("backgroundButton"))
                 .navigationTitle("Perfect Gift")
@@ -47,13 +44,6 @@ struct ContentView: View {
     }
     
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

@@ -12,19 +12,67 @@ struct CellEventListView: View {
     var event: Event
     @State private var title = ""
     @State private var date = Date()
+    @State private var imgEvent = UIImage(imageLiteralResourceName: "logoPerfectgift")
+    @State private var eventSelected: EventeSelected = EventeSelected.birthday
+    
     
     var body: some View {
         ZStack{
             VStack{
-                Text("\(title)")
-                Text("\(date, formatter: itemFormatter)")
+                HStack{
+                    Image(uiImage: imgEvent)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:70, height: 70)
+                        .clipShape(Circle())
+                    
+                    Spacer()
+                    
+                    VStack{
+                        Text("\(title)")
+                        Text("\(date, formatter: itemFormatter)")
+                    }
+                    .font(.custom("marker Felt", size: 18))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.3)
+                    
+                    Spacer()
+                    
+                    if eventSelected == .birthday || eventSelected == .anniversary{
+                        VStack{
+                            Text(String(calcularAnyosCumplidos(dateEvent: event.dateEvent ?? Date())) + "º")
+                                .font(.custom("marker Felt", size: 22))
+                            Text(" \(eventSelected.rawValue)")
+                                .font(.custom("marker Felt", size: 9))
+                        }
+                        .padding(5)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.3)
+                        .background(Color("background2"))
+                        .cornerRadius(8)
+                    }
+                }
+            }.padding(.horizontal, 10)
+        }.frame(height: 100)
+        .onAppear{
+            title = event.titleEvent ?? "No event title"
+            date = getNextDayEvent(date: event.dateEvent ?? Date()) 
+            switch event.typeEvent{
+            case "BirthDay":
+                eventSelected = .birthday
+                imgEvent = UIImage(imageLiteralResourceName: "birthIcon")
+            case "Special Day":
+                eventSelected = .specialDay
+                imgEvent = UIImage(imageLiteralResourceName: "specialIcon")
+            case "Anniversary":
+                eventSelected = .anniversary
+                imgEvent = UIImage(imageLiteralResourceName: "eventIcon")
+            default:
+                eventSelected = .birthday
+                imgEvent = UIImage(imageLiteralResourceName: "birthIcon")
             }
-            }.frame(height: 100)
-            .onAppear{
-                title = event.titleEvent ?? "No event title"
-                date = event.dateEvent ?? Date()
         }
-
+        
     }
     
     private let itemFormatter: DateFormatter = {

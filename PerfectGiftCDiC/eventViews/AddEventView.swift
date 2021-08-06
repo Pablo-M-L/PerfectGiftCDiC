@@ -91,16 +91,16 @@ struct AddEventView: View {
 //                                .datePickerStyle(GraphicalDatePickerStyle())
 //                                .frame(maxHeight: 400)
                             
-                            if eventSelected == .birthday || eventSelected == .anniversary{
-                                HStack{
-                                    Text(yearsAgoEvent + "º" + " \(eventSelected.rawValue)" )
-                                }
-                                .padding(10)
-                                .padding(.leading, 20)
-                                .font(.custom("marker Felt", size: 18))
-                                .background(Color("background2"))
-                                .cornerRadius(8)
-                            }
+//                            if eventSelected == .birthday || eventSelected == .anniversary{
+//                                HStack{
+//                                    Text(yearsAgoEvent + "º" + " \(eventSelected.rawValue)" )
+//                                }
+//                                .padding(10)
+//                                .padding(.leading, 20)
+//                                .font(.custom("marker Felt", size: 18))
+//                                .background(Color("background2"))
+//                                .cornerRadius(8)
+//                            }
                         }
                         
                         //Text("Date is \(birthDate, formatter: dateFormatter)")
@@ -117,6 +117,9 @@ struct AddEventView: View {
                             .frame(height: UIScreen.main.bounds.height / 4)
                             .padding()
                             .cornerRadius(25)
+                            .onTapGesture {
+                                UIApplication.shared.endEditing()
+                            }
                         
                         Button(action: {
                             addEvent()
@@ -153,7 +156,7 @@ struct AddEventView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .clipShape(Circle())
-                                    .frame(width: 20, height: 20)
+                                    .frame(width: 35, height: 35)
             )
         }
     }
@@ -169,9 +172,18 @@ struct AddEventView: View {
             let newEvent = Event(context: viewContext)
             newEvent.idEvent = UUID()
             newEvent.titleEvent = titleEvent
-            newEvent.observations = observationsEvent
+            newEvent.observationsEvent = observationsEvent
             newEvent.dateEvent = birthDate
+            newEvent.typeEvent = eventSelected.rawValue
             newEvent.profileEventRelation = profile
+            
+            if eventSelected == .anniversary || eventSelected == .birthday{
+                newEvent.annualEvent = true
+            }
+            else{
+                newEvent.annualEvent = false
+            }
+            
             
             do {
                 try viewContext.save()

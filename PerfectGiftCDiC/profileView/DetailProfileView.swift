@@ -14,9 +14,11 @@ struct DetailProfileView: View {
     @Environment(\.presentationMode) private var presentationMode
     
     var profile: Profile
+    
     @State private var nameProfile = "vacio"
     @State private var annotationsProfile = "vacio"
     @State private var mostrarImagePicker = false
+    @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     
     var body: some View {
@@ -40,6 +42,11 @@ struct DetailProfileView: View {
                                         .frame(width: 80, height: 80)
                                         .clipShape(Circle())
                                         .padding(.bottom, 3)
+                                        .onReceive(Just(imageDone)) { done in
+                                            if done{
+                                                saveChangesProfile()
+                                            }
+                                        }
                                 }
                                 else{
                                     Image(systemName: "person")
@@ -53,7 +60,7 @@ struct DetailProfileView: View {
                             .shadow(color: .gray, radius: 3, x: 2, y: 2)
                         })
                         .sheet(isPresented: $mostrarImagePicker){
-                            ImagePicker(selectedImage: self.$imgServicio)
+                            ImagePicker(selectedImage: self.$imgServicio, selectedImageDone: $imageDone)
                         }
                     }
                     
@@ -70,7 +77,7 @@ struct DetailProfileView: View {
                             }
                         TextFieldProfile(hint: "Info", dataString: $annotationsProfile)
                             .onReceive(Just(nameProfile)){ value in
-                                if value != "vacio" && value != profile.nameProfile{
+                                if value != "vacio" && value != profile.annotationsProfile{
                                     saveChangesProfile()
                                 }
                             }
@@ -114,7 +121,7 @@ struct DetailProfileView: View {
             
             
             
-        }.onAppear{
+        }.onAppear{            
             nameProfile = profile.nameProfile ?? "sin nombre"
             annotationsProfile = profile.annotationsProfile ?? ""
             if profile.imageProfile == nil{
@@ -125,6 +132,7 @@ struct DetailProfileView: View {
                 let data = try! JSONDecoder().decode(Data.self, from: imgData!)
                 imgServicio = UIImage(data: data)!
             }
+            
         }
         .navigationTitle(nameProfile)
     }
