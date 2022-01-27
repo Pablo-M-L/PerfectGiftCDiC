@@ -1,20 +1,20 @@
 //
-//  DetailIdeaView.swift
+//  CellGiftDoitView.swift
 //  PerfectGiftCDiC
 //
-//  Created by Pablo Millan on 26/7/21.
+//  Created by pablo millan lopez on 19/8/21.
 //
 
 import SwiftUI
 
-struct DetailIdeaView: View {
+struct CellGiftDoitView: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-struct DetailIdeaView_Previews: PreviewProvider {
+struct CellGiftDoitView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailIdeaView()
+        CellGiftDoitView()
     }
 }

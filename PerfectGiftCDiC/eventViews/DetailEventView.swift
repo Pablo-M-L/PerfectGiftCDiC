@@ -14,6 +14,8 @@ struct DetailEventView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
+    
+    @EnvironmentObject var viewModel: ViewModel
         
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var birthDate: Date = Date(timeIntervalSince1970: 100)
@@ -38,26 +40,37 @@ struct DetailEventView: View {
                                 saveChanges()
                             }
                         }
-                    
-                    if eventSelected != .specialDay{
-                        Text("Fecha de nacimiento / conmemorar")
-                            .font(.custom("marker Felt", size: 12))
-                    }
-                    else{
-                        Text("Fecha del evento")
-                            .font(.custom("marker Felt", size: 12))
-                    }
                     //datepicker
                     HStack{
                         Spacer()
                         
-                        DatePicker(selection: $birthDate, displayedComponents: .date) {
-                            Text("")
-                        }.padding(.trailing, 20)
-                        .onReceive(Just(birthDate)) { date in
-                            if birthDate != Date(timeIntervalSince1970: 100){
-                                anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
-                                saveChanges()
+                        //si no es un special day, solo se puede seleccionar fechas anteriores a la actual ya que los cumpleaños y aniversiarios la fecha siempre será anterior.
+                        if eventSelected != .specialDay{
+                            DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
+                                Text( eventSelected == .birthday ? "Fecha de nacimiento" : "Fecha a conmemorar")
+                                    .font(.custom("marker Felt", size: 12))
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.3)
+                            }.padding(.trailing, 20)
+                            .onReceive(Just(birthDate)) { date in
+                                if birthDate != Date(timeIntervalSince1970: 100){
+                                    anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
+                                    saveChanges()
+                                }
+                            }
+                        }
+                        else{
+                            DatePicker(selection: $birthDate,in: Date()... ,  displayedComponents: .date) {
+                                Text("Fecha del evento")
+                                    .font(.custom("marker Felt", size: 12))
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.3)
+                            }.padding(.trailing, 20)
+                            .onReceive(Just(birthDate)) { date in
+                                if birthDate != Date(timeIntervalSince1970: 100){
+                                    anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
+                                    saveChanges()
+                                }
                             }
                         }
                         
@@ -83,21 +96,26 @@ struct DetailEventView: View {
                             .padding(1)
                         Spacer()
                     }
+                        
+                        TextEditor(text: $observationsEvent)
+                            .frame(height: UIScreen.main.bounds.height / 7)
+                            .padding(1)
+                            .cornerRadius(25)
+                            .onReceive(Just(observationsEvent)){ value in
+                                if value != "vacio" && value != event.observationsEvent{
+                                    saveChanges()
+                                }
+                            }
+                    }.onTapGesture {
+                        UIApplication.shared.endEditing()
                     }
                     
-                    TextEditor(text: $observationsEvent)
-                        .frame(height: UIScreen.main.bounds.height / 7)
-                        .padding(1)
-                        .cornerRadius(25)
-                        .onReceive(Just(observationsEvent)){ value in
-                            if value != "vacio" && value != event.observationsEvent{
-                                saveChanges()
-                            }
-                        }
+
                     
                     IdeasListView(filterProfile: event.profileEventRelation!.idProfile!.uuidString, filterEvent: event.idEvent!.uuidString, event: event)
-            }.onTapGesture {
-                UIApplication.shared.endEditing()
+                    
+                    Spacer()
+                    
             }
             
             VStack{
@@ -105,10 +123,9 @@ struct DetailEventView: View {
                 Spacer()
                 //boton añadir evento
                 HStack{
-                    
                     Spacer()
                     
-                    NavigationLink(destination: AddIdeaView(newIdea: true, eventParent: event), label: {
+                    NavigationLink(destination: AddIdeaView(newIdea: true), label: {
                         ZStack{
                             Circle()
                                 .foregroundColor(.blue)
@@ -132,10 +149,14 @@ struct DetailEventView: View {
             }
         }
         .onAppear{
+            viewModel.currentProfile = event.profileEventRelation!
+            viewModel.currentEvent = event
+            
             titleEvent = event.titleEvent ?? "no title event"
             observationsEvent = event.observationsEvent ?? "no observations"
             birthDate = event.dateEvent ?? Date()
             anyosCumplidos = calcularAnyosCumplidos(dateEvent: event.dateEvent ?? Date())
+            
             if event.profileEventRelation!.imageProfile == nil{
                 imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
             }

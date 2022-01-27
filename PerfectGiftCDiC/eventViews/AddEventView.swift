@@ -77,13 +77,29 @@ struct AddEventView: View {
                         RowDataEvent(textString: "Title", dataString: $titleEvent)
                             .padding(1)
                         
+                        
                         HStack{
                             
-                            DatePicker(selection: $birthDate, displayedComponents: .date) {
-                                Text("Date: ")
-                            }.padding(.trailing, 20)
+                            //si no es un special day, solo se puede seleccionar fechas anteriores a la actual ya que los cumpleaños y aniversiarios la fecha siempre será anterior.
+                            if eventSelected != .specialDay{
+                                DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
+                                    Text(eventSelected == .birthday ? "Fecha de nacimiento" : "Fecha a conmemorar")
+                                        .font(.custom("marker Felt", size: 12))
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.3)
+                                }.padding(.trailing, 20)
+                            }
+                            else{
+                                DatePicker(selection: $birthDate,in:  Date()... ,displayedComponents: .date) {
+                                    Text("Fecha del evento")
+                                        .font(.custom("marker Felt", size: 12))
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.3)
+                                }.padding(.trailing, 20)
+                            }
+
                             
-//                            DatePicker(selection: $birthDate, in: ...Date()displayedComponents: .date) {
+//                            DatePicker(selection: $birthDate, displayedComponents: .date) {
 //                                Text("Date: ")
 //                            }.padding(.trailing, 20)
                             
@@ -117,9 +133,6 @@ struct AddEventView: View {
                             .frame(height: UIScreen.main.bounds.height / 4)
                             .padding()
                             .cornerRadius(25)
-                            .onTapGesture {
-                                UIApplication.shared.endEditing()
-                            }
                         
                         Button(action: {
                             addEvent()
@@ -132,6 +145,8 @@ struct AddEventView: View {
                                 .background(Color.orange)
                                 .cornerRadius(25)
                         })
+                    }.onTapGesture {
+                        UIApplication.shared.endEditing()
                     }
                 }
                 

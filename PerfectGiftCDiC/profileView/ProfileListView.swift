@@ -120,8 +120,8 @@ struct profileList: View{
     }
 }
 
-//struct ProfileListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProfileListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//    }
-//}
+struct ProfileListView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    }
+}

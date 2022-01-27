@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 //para ocultar teclado
 extension UIApplication {
@@ -20,4 +21,24 @@ extension UIApplication {
          UIApplication.shared.endEditing()
      }
      */
+}
+
+struct backToHomeButton: View{
+    
+    var body: some View{
+        ZStack{
+            Circle()
+                .foregroundColor(Color("backgroundButton"))
+            Image(systemName: "home")
+                .resizable()
+                .foregroundColor(.white)
+                .background(Color("backgroundButton"))
+                .aspectRatio(contentMode: .fit)
+                .padding(8)
+            
+            
+        }
+        .frame(width: 50, height: 50)
+        .padding()
+    }
 }

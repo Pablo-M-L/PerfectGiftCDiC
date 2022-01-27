@@ -106,5 +106,8 @@ func calcularAnyosCumplidos(dateEvent: Date)-> Int{
     
     let anyos = Set<Calendar.Component>([.year])
     let result = calendar.dateComponents(anyos, from: dateEvent as   Date,  to: Date() as Date)
-    return ((result.year ?? 0))
+    
+    //calcula los años actuales, por eso se le suma 1, ya que hay que mostrar los años que cumplirá en el proximo cumple.
+    let anyosQueCumplira = (result.year ?? 0) + 1
+    return anyosQueCumplira
 }

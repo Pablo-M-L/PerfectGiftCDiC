@@ -12,14 +12,17 @@ struct DetailProfileView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject var helper: ViewModel
     
     var profile: Profile
+    
     
     @State private var nameProfile = "vacio"
     @State private var annotationsProfile = "vacio"
     @State private var mostrarImagePicker = false
     @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+    @State private var showAddEvent = false
     
     var body: some View {
         ZStack{
@@ -83,24 +86,7 @@ struct DetailProfileView: View {
                             }
                     }
                     
-                }.padding([.horizontal, .top], 10)
-                
-                EventsListView(filter: profile.nameProfile ?? "nadie", profile: profile)
-                    .colorMultiply(Color("background"))
-                    .edgesIgnoringSafeArea(.all)
-                
-                Spacer()
-            }
-            
-            VStack{
-                
-                Spacer()
-                //boton añadir evento
-                HStack{
-                    
-                    Spacer()
-                    
-                    NavigationLink(destination: AddEventView(profile: profile), label: {
+                    NavigationLink(destination: GiftDoitView(), label: {
                         ZStack{
                             Circle()
                                 .foregroundColor(Color("backgroundButton"))
@@ -116,12 +102,55 @@ struct DetailProfileView: View {
                         .frame(width: 50, height: 50)
                         .padding()
                     })
+
+                    
+                }.padding([.horizontal, .top], 10)
+                
+                EventsListView(filter: profile.nameProfile ?? "nadie", profile: profile)
+                    .colorMultiply(Color("background"))
+                    .edgesIgnoringSafeArea(.all)
+                
+                Spacer()
+            }.sheet(isPresented: $showAddEvent) {
+                AddEventView(profile: profile)
+            }
+            
+            VStack{
+                
+                Spacer()
+
+                HStack{
+
+                    Spacer()
+                    
+                    //boton añadir evento
+                    Button(action: {
+                        showAddEvent = true
+                    }, label: {
+                        ZStack{
+                            Circle()
+                                .foregroundColor(Color("backgroundButton"))
+                            Image(systemName: "calendar.badge.plus")
+                                .resizable()
+                                .foregroundColor(.white)
+                                .background(Color("backgroundButton"))
+                                .aspectRatio(contentMode: .fit)
+                                .padding(8)
+                            
+                            
+                        }
+                        .frame(width: 50, height: 50)
+                        .padding()
+                    })
+
                 }
             }
             
             
             
-        }.onAppear{            
+        }.onAppear{
+            helper.currentProfile = profile
+            print("appear detail profile: \(helper.currentProfile.nameProfile)")
             nameProfile = profile.nameProfile ?? "sin nombre"
             annotationsProfile = profile.annotationsProfile ?? ""
             if profile.imageProfile == nil{

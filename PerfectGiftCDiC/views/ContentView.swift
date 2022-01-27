@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @StateObject private var helper = ViewModel()
+    
     init() {
         
         UINavigationBar.appearance().backgroundColor = UIColor(Color("background"))
@@ -29,8 +31,7 @@ struct ContentView: View {
                     
                     
                     
-                    //UpcomingListsView()
-                        PruebaViewmodelView()
+                    UpcomingListsView()
                         .tabItem {
                             Image(systemName: "calendar.badge.clock")
                         }.tag(1)

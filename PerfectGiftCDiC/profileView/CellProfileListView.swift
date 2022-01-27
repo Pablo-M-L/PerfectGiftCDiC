@@ -120,8 +120,9 @@ struct CellProfileListView: View {
     
 }
 
-//struct CellProfileListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CellProfileListView(profile: Profile(), numeroEventos: 1, recargarLista: )
-//    }
-//}
+struct CellProfileListView_Previews: PreviewProvider {
+    static var previews: some View {
+        CellProfileListView(profile: Profile(), numeroEventos: 1)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    }
+}

@@ -14,16 +14,16 @@ class coredataHelper {
     
     func getProlfileList(profiles: FetchedResults<Profile>)->[profileListItem]{
 
-        var arrayProfiles: [profileListItem] = []
+        let arrayProfiles: [profileListItem] = []
 
         if !profiles.isEmpty{
-            profiles.forEach { event in
-                let profileItem = profileListItem(id: event.idProfile!,
-                                                  nameProfile: event.nameProfile!,
-                                                  annotationsProfile: event.annotationsProfile!,
-                                                  imageProfile: event.imageProfile!)
-                arrayProfiles.append(profileItem)
-            }
+//            profiles.forEach { event in
+//                let profileItem = profileListItem(id: event.idProfile!,
+//                                                  nameProfile: event.nameProfile!,
+//                                                  annotationsProfile: event.annotationsProfile!,
+//                                                  imageProfile: event.imageProfile!)
+//                arrayProfiles.append(profileItem)
+//            }
         }
 
         return arrayProfiles

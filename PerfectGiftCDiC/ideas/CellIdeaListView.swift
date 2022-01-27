@@ -15,7 +15,15 @@ struct CellIdeaListView: View {
         var body: some View {
             HStack{
                 Text("\(title)")
-            }.onAppear{
+                    .font(.custom("marker Felt", size: 22))
+                    .padding(5)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.3)
+                    .background(Color("background2"))
+                    .cornerRadius(8)
+            }
+            .frame(height: 50)
+            .onAppear{
                 title = idea.ideaTitle ?? "No event title"
                 print("celda \(title)")
             }

@@ -13,15 +13,21 @@ struct AddIdeaView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     
+    @EnvironmentObject var viewModel: ViewModel
+        
+    
     @State private var nameProfile = ""
     @State private var eventTitle = ""
     @State private var mostrarImagePicker = false
+    @State private var mostrarImagePicker2 = false
+    @State private var mostrarImagePicker3 = false
     @State private var imageChange = false
+    @State private var recargarLista = false
 
     var maxUrl = 3
     var newIdea: Bool
     var idea: Ideas?
-    var eventParent: Event
+   // var eventParent: Event
     
     @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
@@ -38,7 +44,6 @@ struct AddIdeaView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack{
-                ScrollView(.vertical){
                     VStack{
                         VStack{
                             Text("\(nameProfile)")
@@ -69,7 +74,10 @@ struct AddIdeaView: View {
                                         
                                     }
                             }
-                        }
+                        }.onTapGesture {
+                                UIApplication.shared.endEditing()
+                            }
+                        
 
                         HStack{
                             Image(uiImage: imgIdea1)
@@ -92,6 +100,11 @@ struct AddIdeaView: View {
                                 .frame(width: 70, height: 70)
                                 .cornerRadius(20)
                                 .onTapGesture {
+                                    mostrarImagePicker2 = true
+                                    imageChange = true
+                                }
+                                .sheet(isPresented: $mostrarImagePicker2){
+                                    ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
                                 }
                             
                             Spacer()
@@ -101,6 +114,11 @@ struct AddIdeaView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width:  70, height: 70)
                                 .onTapGesture {
+                                    mostrarImagePicker3 = true
+                                    imageChange = true
+                                }
+                                .sheet(isPresented: $mostrarImagePicker3){
+                                    ImagePicker(selectedImage: self.$imgIdea3, selectedImageDone: $imageDone)
                                 }
                             
                         }.padding(.horizontal,20)
@@ -110,38 +128,23 @@ struct AddIdeaView: View {
                             }
                         }
                         
-                        ZStack{
-                            
-                            UrlsListView()
-                            
-                            HStack{
-                                Spacer()
-
-                                NavigationLink(destination: AddUrlView(), label: {
-                                    ZStack{
-                                        Circle()
-                                            .foregroundColor(.blue)
-                                        Image(systemName: "calendar.badge.plus")
-                                            .resizable()
-                                            .foregroundColor(.white)
-                                            .aspectRatio(contentMode: .fit)
-                                            .padding(8)
-                                        
-                                        
-                                    }
-                                    .frame(width: 50, height: 50)
-                                    .padding()
-                                })
-                            }
-                        }
-                        
+                    }
+                
+                
+                if !newIdea{
+                    if recargarLista{
+                        UrlsListView(filterUrl: (idea?.idIdeas!.uuidString)!, idea: idea!)
+                    }else{
+                        UrlsListView(filterUrl: (idea?.idIdeas!.uuidString)!, idea: idea!)
                     }
                 }
-                
-                Spacer()
+
+
             }.padding()
              .font(.custom("Marker Felt", size: 12))
             
+            
+            //boton de guardar o añadir url segun si se está creando una idea o editandola.
             if newIdea{
                 //boton guardar
                 VStack{
@@ -167,12 +170,41 @@ struct AddIdeaView: View {
                     }
                 }
             }
+            else{
+                VStack{
+                    Spacer()
+                    
+                    HStack{
+                        Spacer()
+
+                        NavigationLink(destination: AddUrlView(idea: idea, newUrl: true), label: {
+                            ZStack{
+                                Circle()
+                                    .foregroundColor(.blue)
+                                Image(systemName: "safari")
+                                    .resizable()
+                                    .foregroundColor(.white)
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(8)
+                                
+                                
+                            }
+                            .frame(width: 50, height: 50)
+                            .padding()
+                        })
+                    }
+                }
+            }
 
         }
             .onAppear{
+                recargarLista.toggle()
+//                eventTitle = eventParent.titleEvent ?? "title event Empty"
+//                nameProfile = eventParent.profileEventRelation?.nameProfile ?? "name profile empty"
                 
-                eventTitle = eventParent.titleEvent ?? "title event Empty"
-                nameProfile = eventParent.profileEventRelation?.nameProfile ?? "name profile empty"
+                eventTitle = viewModel.currentEvent.titleEvent ?? "title event Empty"
+                nameProfile = viewModel.currentProfile.nameProfile ?? "name profile empty"
+                
                 if newIdea{
                     titleIdea =  "title"
                 }else{
@@ -181,6 +213,20 @@ struct AddIdeaView: View {
                     
                 }
                 
+//                if eventParent.profileEventRelation?.imageProfile == nil{
+//                    imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+//                }
+                if viewModel.currentProfile.imageProfile == nil{
+                    imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+                }
+                else{
+                    //let imgData = eventParent.profileEventRelation?.imageProfile
+                    let imgData = viewModel.currentProfile.imageProfile
+                    let data = try! JSONDecoder().decode(Data.self, from: imgData!)
+                    imgServicio = UIImage(data: data)!
+                }
+                
+                
                 if idea?.image1Idea == nil{
                     imgIdea1 = UIImage(imageLiteralResourceName: "logoPerfectgift")
                 }
@@ -188,6 +234,24 @@ struct AddIdeaView: View {
                     let imgData = idea?.image1Idea
                     let data = try! JSONDecoder().decode(Data.self, from: imgData!)
                     imgIdea1 = UIImage(data: data)!
+                }
+                
+                if idea?.image2Idea == nil{
+                    imgIdea2 = UIImage(imageLiteralResourceName: "logoPerfectgift")
+                }
+                else{
+                    let imgData = idea?.image2Idea
+                    let data = try! JSONDecoder().decode(Data.self, from: imgData!)
+                    imgIdea2 = UIImage(data: data)!
+                }
+                
+                if idea?.image3Idea == nil{
+                    imgIdea3 = UIImage(imageLiteralResourceName: "logoPerfectgift")
+                }
+                else{
+                    let imgData = idea?.image3Idea
+                    let data = try! JSONDecoder().decode(Data.self, from: imgData!)
+                    imgIdea3 = UIImage(data: data)!
                 }
                 
             }
@@ -228,7 +292,7 @@ struct AddIdeaView: View {
             
             do {
                 try viewContext.save()
-                print("idea guardada")
+                print("idea actualizada")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -248,8 +312,9 @@ struct AddIdeaView: View {
           //  newIdea.profileIdea = nameProfile
             newIdea.descriptionIdea = descriptionIdea
             newIdea.idIdeas = UUID()
-            newIdea.idProfileIdea =  eventParent.profileEventRelation?.idProfile?.uuidString //profileParent.idProfile?.uuidString
-            newIdea.idEventIdea = eventParent.idEvent?.uuidString
+            newIdea.idProfileIdea =  viewModel.currentProfile.idProfile?.uuidString //eventParent.profileEventRelation?.idProfile?.uuidString 
+            //newIdea.idEventIdea = eventParent.idEvent?.uuidString
+            newIdea.idEventIdea = viewModel.currentEvent.idEvent?.uuidString
             
             //imagen 1
             let imagenUIRedimensionada = resizeImage(image: imgIdea1)

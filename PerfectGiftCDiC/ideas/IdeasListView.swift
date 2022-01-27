@@ -16,7 +16,6 @@ struct IdeasListView: View {
     var eventParent: Event
     
     init(filterProfile: String,  filterEvent: String, event: Event){
-        print("filtro idea: \(filterProfile)")
         ideas = FetchRequest<Ideas>(entity: Ideas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.ideaTitle, ascending: true)], predicate: NSPredicate(format: "idProfileIdea MATCHES[dc] %@ AND idEventIdea MATCHES[dc] %@", filterProfile, filterEvent),animation: .default)
 
         eventParent = event
@@ -30,9 +29,14 @@ struct IdeasListView: View {
             
             List{
                 ForEach(ideas.wrappedValue, id: \.self) { idea in
-                    NavigationLink(destination: AddIdeaView(newIdea: false, idea: idea, eventParent: eventParent) ){
+                    ZStack{
+                        NavigationLink(destination: AddIdeaView(newIdea: false, idea: idea) ){
+                            Text("idea")
+                        }.opacity(0)
                         CellIdeaListView(idea: idea)
-                    }                      
+                    }.background(Color("cellprofileBck"))
+                    .cornerRadius(20)
+                     
                 }
             }
         }

@@ -27,7 +27,6 @@ struct PruebaViewmodelView: View {
         }
             .onAppear{
                 viewModel.profileList = helper.getProlfileList(profiles: profiles)
-                viewModel.profileList.remove(at: 0)
                 do {
                     try viewContext.save()
                 } catch {
