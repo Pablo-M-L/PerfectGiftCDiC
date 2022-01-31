@@ -40,6 +40,7 @@
 		6EA6014C2697A9520051FB14 /* EventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA6014B2697A9520051FB14 /* EventsListView.swift */; };
 		6EA6014E2697A9D30051FB14 /* CellEventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA6014D2697A9D30051FB14 /* CellEventListView.swift */; };
 		6EA601502697AA340051FB14 /* DetailEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA6014F2697AA340051FB14 /* DetailEventView.swift */; };
+		6EAA764C27A4154900EAD5E4 /* DetailIdeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA764B27A4154900EAD5E4 /* DetailIdeaView.swift */; };
 		6EF2BF3D2696DAE200FA4494 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2BF3C2696DAE200FA4494 /* AddEventView.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		6EA6014B2697A9520051FB14 /* EventsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListView.swift; sourceTree = "<group>"; };
 		6EA6014D2697A9D30051FB14 /* CellEventListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellEventListView.swift; sourceTree = "<group>"; };
 		6EA6014F2697AA340051FB14 /* DetailEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailEventView.swift; sourceTree = "<group>"; };
+		6EAA764B27A4154900EAD5E4 /* DetailIdeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailIdeaView.swift; sourceTree = "<group>"; };
 		6EF2BF3C2696DAE200FA4494 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,6 +123,7 @@
 				6E91AB1526AE993F00DF9E3B /* AddIdeaView.swift */,
 				6E91AB1926AE996900DF9E3B /* CellIdeaListView.swift */,
 				6E91AB2426AFEAA000DF9E3B /* ImageIdeaView.swift */,
+				6EAA764B27A4154900EAD5E4 /* DetailIdeaView.swift */,
 			);
 			path = ideas;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				6E91AB2326AFE5E500DF9E3B /* CellUrlsListView.swift in Sources */,
 				6E91AB2D26B3FAC800DF9E3B /* Helper.swift in Sources */,
 				6E1C76FA26CED5720058C6C1 /* CellGiftDoitView.swift in Sources */,
+				6EAA764C27A4154900EAD5E4 /* DetailIdeaView.swift in Sources */,
 				6E89EC9F26BB1C860000CF70 /* ViewModel.swift in Sources */,
 				6E91AB1626AE993F00DF9E3B /* AddIdeaView.swift in Sources */,
 				6E96C8EF2693254D002D25A7 /* Persistence.swift in Sources */,

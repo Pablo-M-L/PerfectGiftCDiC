@@ -15,7 +15,8 @@ struct EventsListView: View {
     var events: FetchRequest<Event>
 
     var profileParent: Profile
-    
+    @State private var showAddEvent = false
+
     init(filter: String, profile: Profile){
             events = FetchRequest<Event>(entity: Event.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Event.titleEvent, ascending: true)], predicate: NSPredicate(format: "profileEventRelation.nameProfile MATCHES[dc] %@", filter),animation: .default)
 
@@ -24,32 +25,64 @@ struct EventsListView: View {
     }
     
     var body: some View {
-        
-        VStack{
-            Text("EVENTS")
-                .foregroundColor(Color("colorTextoTitulo"))
-                .font(.custom("marker Felt", size: 18))
-            List{
-                ForEach(events.wrappedValue, id: \.self) { event in
-                    
-                    ZStack{
-                        NavigationLink(destination: DetailEventView(event: event) ){
-                            Text("Events")
-                        }.opacity(0)
+        ZStack{
+            VStack{
+                Text("EVENTS")
+                    .foregroundColor(Color("colorTextoTitulo"))
+                    .font(.custom("marker Felt", size: 18))
+                List{
+                    ForEach(events.wrappedValue, id: \.self) { event in
                         
-                        CellEventListView(event: event)
-                    }.background(Color("cellprofileBck"))
-                     .cornerRadius(20)
+                        ZStack{
+                            NavigationLink(destination: DetailEventView(event: event) ){
+                                Text("Events")
+                            }.opacity(0)
+                            
+                            CellEventListView(event: event)
+                        }.background(Color("cellprofileBck"))
+                         .cornerRadius(20)
 
-                    
                         
+                            
+                    }
+                   // .onDelete(perform: deleteItems)
+                    
                 }
-               // .onDelete(perform: deleteItems)
                 
+
             }
             
-
+            HStack{
+                Spacer()
+                
+                VStack{
+                    Spacer()
+                    
+                    //boton añadir evento
+                    Button(action: {
+                        showAddEvent = true
+                    }, label: {
+                        ZStack{
+                            Circle()
+                                .foregroundColor(Color("backgroundButton"))
+                            Image(systemName: "calendar.badge.plus")
+                                .resizable()
+                                .foregroundColor(.white)
+                                .background(Color("backgroundButton"))
+                                .aspectRatio(contentMode: .fit)
+                                .padding(8)
+                            
+                            
+                        }
+                        .frame(width: 50, height: 50)
+                        .padding()
+                    }).sheet(isPresented: $showAddEvent) {
+                        AddEventView(profile: profileParent)
+                    }
+                }
+            }.padding(.bottom, 30)
         }
+       
     }
     
 //    private func deleteItems(offsets: IndexSet) {

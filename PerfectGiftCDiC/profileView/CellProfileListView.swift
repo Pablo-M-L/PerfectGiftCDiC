@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 
+/** formato de cada celda (fila) de perfil que se muesta en la vista de profileList*/
 struct CellProfileListView: View {
     
     //    TextEditor is backed by UITextView. So you need to get rid of the UITextView's backgroundColor first and then you can set any View to the background.
@@ -15,6 +16,7 @@ struct CellProfileListView: View {
     //            UITextView.appearance().backgroundColor = .clear
     //        }
     
+    @EnvironmentObject var viewModel: ViewModel
     
     var profile: Profile
     var numeroEventos: Int
@@ -28,59 +30,50 @@ struct CellProfileListView: View {
     private var eventos: FetchedResults<Event>
     
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+    @State private var showSheetMode = false
     
     var body: some View {
         ZStack{
             VStack{
                 HStack{
-                    
+                    //imagen del perfil
                     Image(uiImage: imgServicio)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 60, height: 60)
-                        .clipShape(Circle())
-                        .shadow(color: .gray, radius: 4, x: 0, y: 2)
-                        .padding(.horizontal, 10)
+                        .frame(width: 65, height: 70)
+                        .cornerRadius(20)
+                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 3))
+                        .padding(.leading, 8)
+                        .padding(.trailing, 3)
                     
                     VStack(alignment: .leading){
-                        
+                        //nombre del perfil
                         Text(profile.nameProfile ?? "sin nombre")
-                            .font(.custom("Marker Felt", size: 22))
+                            .font(.custom("Marker Felt", size: 26))
                             .bold()
                             .foregroundColor(.purple)
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
                         
-                        
+                        //muestra el nombre del evento mas cercano y la fecha.
                         HStack{
                             if numeroEventos > 0{
                                 VStack(alignment: .leading){
-                                    
                                     Text("\(upcomingEvent.titleEvent)")
+                                        .font(.custom("Marker Felt", size: 20))
                                         .bold()
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.3)
+                                    Text("In \(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent)) Days")
+                                        .bold()
+                                        .minimumScaleFactor(0.3)
+                                        .foregroundColor(.red)
                                     Text("\(upcomingEvent.dateEvent, formatter: itemFormatter)")
                                         .bold()
-                                        .lineLimit(2)
+                                        .lineLimit(1)
                                         .minimumScaleFactor(0.3)
                                     
                                 }
-                                
-                                Spacer()
-                                
-                                HStack(alignment: .top){
-                                    Text("\(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent))")
-                                        .font(.custom("Marker Felt", size: 22))
-                                    Text("Dias")
-                                        .font(.custom("Marker Felt", size: 10))
-                                }
-                                .padding(5)
-                                .background(Color("background3"))
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                                
-                                .offset(x: 0, y: -20)
-
                             }
                             else{
                                 Text("No hay eventos")
@@ -89,12 +82,33 @@ struct CellProfileListView: View {
                         }
                         .font(.custom("Marker Felt", size: 16))
                         .foregroundColor(Color("backgroundButton"))
-                    }
-                    Spacer()
+                    }.padding(.vertical,5)
                     
+                    Spacer()
+
+                    Button(action: {
+                        print("abrir sheet")
+                        showSheetMode = true
+                    }, label: {
+                        ZStack{
+                               Circle()
+                                   .foregroundColor(Color("backgroundButton"))
+                               Image(systemName: "person.fill.badge.plus")
+                                   .resizable()
+                                   .foregroundColor(.white)
+                                   .background(Color("backgroundButton"))
+                                   .aspectRatio(contentMode: .fit)
+                                   .padding(8)
+                           
+                       }
+                       .frame(width: 50, height: 50)
+                    }).buttonStyle(BorderlessButtonStyle())
+                        .sheet(isPresented: $showSheetMode,
+                               onDismiss: {print("cerrar vista añadir idea") },
+                               content: {AddIdeaView(profile: profile, showSheetMode: $showSheetMode)})
+                        .padding(5)
                 }
             }
-            .frame(height: 100)
             .onAppear{
                 if !eventos.isEmpty{
                     let eventFilter = eventos.filter{$0.profileEventRelation?.nameProfile == profile.nameProfile}
@@ -119,6 +133,7 @@ struct CellProfileListView: View {
     
     
 }
+
 
 struct CellProfileListView_Previews: PreviewProvider {
     static var previews: some View {

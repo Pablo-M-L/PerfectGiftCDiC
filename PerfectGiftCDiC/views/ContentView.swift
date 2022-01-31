@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+/**{
+ Vista principal con la que abre la aplicacion.
+ consta de un tabView que contiene la vista con los perfiles
+ y otra con la lista de los eventos en orden ascendente de fecha.
+ */
 struct ContentView: View {
     
-    @StateObject private var helper = ViewModel()
+    @StateObject private var viewModel = ViewModel()
     
     init() {
         

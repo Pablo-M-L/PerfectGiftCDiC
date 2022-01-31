@@ -9,6 +9,9 @@ import SwiftUI
 import CoreData
 import Combine
 
+/**
+ Vista que contiene la lista de perfiles creados.
+ */
 struct ProfileListView: View {
     
     @State var recargarLista = true
@@ -36,6 +39,9 @@ struct ProfileListView: View {
     
 }
 
+/**
+ struct saveProfileButton, boton flotante que abre la vista AddProfileView para añadir un perfil nuevo.
+ */
 struct saveProfileButton: View{
     var body: some View{
         VStack{
@@ -74,12 +80,14 @@ struct saveProfileButton: View{
     }
 }
 
+/** struct profileList, lista de perfiles que se muestra en la vista profileListView */
 struct profileList: View{
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Profile.nameProfile, ascending: true)],
         animation: .default)
+    
     private var profiles: FetchedResults<Profile>
     
     
@@ -91,13 +99,14 @@ struct profileList: View{
                     NavigationLink(destination: DetailProfileView(profile: profile) ){
                         Text("Profile")
                     }.opacity(0)
-                    
                     CellProfileListView(profile: profile, numeroEventos: profile.eventProfileRelation?.count ?? 0)
+                        .shadow(color: .gray, radius: 2, x: 2, y: 2)
                     
                 }
                 .background(Color("cellprofileBck"))
                 .cornerRadius(20)
-                
+                .shadow(color: .gray, radius: 4, x: 3, y: 3)
+                .buttonStyle(BorderlessButtonStyle())
 
             }
             .onDelete(perform: deleteItems)

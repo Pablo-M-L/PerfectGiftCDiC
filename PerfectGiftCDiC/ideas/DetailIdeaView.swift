@@ -1,18 +1,16 @@
 //
-//  AddIdeaView.swift
+//  DetailIdeaView.swift
 //  PerfectGiftCDiC
 //
-//  Created by Pablo Millan on 26/7/21.
+//  Created by pablo millan lopez on 28/1/22.
 //
 
 import SwiftUI
 import Combine
 
-
-/** vista para añadir o editar una idea*/
-struct AddIdeaView: View {
-    
+struct DetailIdeaView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) private var presentationMode
     
     @EnvironmentObject var viewModel: ViewModel
         
@@ -24,14 +22,10 @@ struct AddIdeaView: View {
     @State private var mostrarImagePicker3 = false
     @State private var imageChange = false
     @State private var recargarLista = false
-    @State private var ideaYaGuardada = false //si se abre la vista de añadir url y se guarda la idea, hay que actualizar no guardar
-    @State private var showAlertUrl = false
 
     var maxUrl = 3
-    @State var idea: Ideas?
+    var idea: Ideas?
     var profile: Profile?
-    @Binding var showSheetMode: Bool
-    @State var showUrl = false
     
    // var eventParent: Event
     
@@ -51,41 +45,39 @@ struct AddIdeaView: View {
             
             VStack{
                     VStack{
-                        VStack{
-                            HStack{
-                                
-                                Text("Idea For......")
-                                    .foregroundColor(Color("colorTextoTitulo"))
-                                    .font(.custom("marker Felt", size: 36))
-                                Spacer()
-
-                                Image(uiImage: imgServicio)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:  70, height: 70)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(.white, lineWidth: 3))
-                            }
-                            .padding(.horizontal, 25)
+                        HStack{
                             
+                            Text("Idea For......")
+                                .foregroundColor(Color("colorTextoTitulo"))
+                                .font(.custom("marker Felt", size: 36))
+                            Spacer()
+
+                            Image(uiImage: imgServicio)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width:  70, height: 70)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(.white, lineWidth: 3))
+                        }
+                        .padding(.horizontal, 25)
+                        
+                        VStack{
                             TextField("Enter Title", text: $titleIdea)
                                 .padding(5)
                                 .background(Color.white)
                                 .font(.custom("Arial", size: 24))
                                 .cornerRadius(10)
+                                
                                 .onReceive(Just(titleIdea)){ value in
                                     if value != "vacio" && value != idea?.ideaTitle{
-                                        if ideaYaGuardada{
-                                            updateIdea()
-                                        }
+                                        updateIdea()
                                     }
                                     
                                 }
-                                
                             VStack{
                                 HStack{
                                     Text("Description")
-                                        .font(.custom("marker Felt", size: 24))
+                                        .font(.custom("Arial", size: 24))
                                         .foregroundColor(.purple)
                                     Spacer()
                                     
@@ -93,18 +85,14 @@ struct AddIdeaView: View {
                                 
                                 TextEditor(text: $descriptionIdea)
                                     .frame(height: UIScreen.main.bounds.height / 5.5)
-                                    .font(.custom("Arial", size: 18))
                                     .cornerRadius(25)
                                     .onReceive(Just(descriptionIdea)){ value in
                                         if value != "vacio" && value != idea?.descriptionIdea{
-                                            if ideaYaGuardada{
-                                                updateIdea()
-                                            }
+                                            updateIdea()
                                         }
                                         
                                     }
-                                    
-                            }
+                            }.padding(.vertical, 5)
                         }.onTapGesture {
                             //para ocultar el teclado
                                 UIApplication.shared.endEditing()
@@ -154,13 +142,16 @@ struct AddIdeaView: View {
                                 }
                             
                         }.padding(.horizontal,20)
+                            .padding(.vertical, 10)
                             .shadow(color: .gray, radius: 3, x: 3, y: 3)
                         .onDisappear{
-                            print("Cerrar añadir idea")
+                            if imageChange{
+                                updateIdea()
+                            }
                         }
                         
                     }
-                
+
                 ZStack{
                     
                     if recargarLista{
@@ -177,18 +168,12 @@ struct AddIdeaView: View {
                         
                     }
                     
-
-                    
                     //boton de guardar url segun si se está creando una idea o editandola.
                     VStack{
                         HStack{
                             Spacer()
-                            Button(action:{
-                                //antes de abrir la vista para crear una entrada de Url, hay que guardar la idea abierta.
-                                //sin no hay una idea creada no se puede crear la url ya que necesita estar vinculada con una idea.
-                                
-                                showAlertUrl = true
-                            }, label:{
+
+                            NavigationLink(destination: AddUrlView(idea: idea, newUrl: true), label: {
                                 ZStack{
                                     Circle()
                                         .foregroundColor(.blue)
@@ -203,57 +188,42 @@ struct AddIdeaView: View {
                                 .frame(width: 50, height: 50)
                                 .padding()
                             })
-                                .alert(isPresented: $showAlertUrl, content: {
-                                    Alert(title: Text("Save Idea"),
-                                          message: Text("To be able to add Links you have to save the Idea first."),
-                                          primaryButton: Alert.Button.default(Text("Accept"), action: {addIdea(); showUrl = true }),
-                                          secondaryButton: Alert.Button.destructive(Text("Cancel")))
-                                })
-                                .sheet(isPresented: $showUrl,
-                                                             onDismiss: {print("cerrar vista añadir idea") },
-                                                             content: {AddUrlView(idea: idea, newUrl: true)})
-
                         }
                         
                         Spacer()
                     }
                 }
-                Spacer()
+                    
+                
+                HStack{
+                    Button(action: {
+                        print("borrar idea")
+                        deleteIdea(idea: idea!)
+                    },label:{
+                        Image(systemName: "trash")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.purple)
+                    }).padding(20)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        print("guardar como regalado")
+                    }, label:{
+                        Image(uiImage: UIImage(imageLiteralResourceName: "logoPerfectgift"))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40, height: 40)
+                    })
+                }
+
 
             }.padding()
              .font(.custom("Marker Felt", size: 12))
-            
-            
-            //boton añadir url segun si se está creando una idea o editandola.
-            //boton guardar
-            VStack{
-                Spacer()
-                
-                HStack{
-                    Spacer()
-                    Button(action: {
-                        print("guardar idea")
-                        if ideaYaGuardada{
-                            updateIdea()
-                        }
-                        else{
-                            addIdea()
-                        }
-                        
-                        showSheetMode = false
-                    }, label: {
-                        
-                        Text(ideaYaGuardada ? "Update Idea" : "Save Idea")
-                            .font(.custom("Marker Felt", size: 18))
-                            .foregroundColor(.blue)
-                            .padding(20)
-                            .background(Color.orange)
-                            .cornerRadius(25)
-                    })
-                }.padding()
-            }
 
-        }
+        }.navigationBarTitle("", displayMode: .inline)
             .onAppear{
                 recargarLista.toggle()
 //                eventTitle = eventParent.titleEvent ?? "title event Empty"
@@ -261,8 +231,8 @@ struct AddIdeaView: View {
 //                eventTitle = viewModel.currentEvent.titleEvent ?? "title event Empty"
 
                 
-                viewModel.currentProfile = profile!
-                titleIdea =  "title"
+                titleIdea = idea?.ideaTitle ?? "empty"
+                descriptionIdea = idea?.descriptionIdea ?? "description"
                 
                 eventTitle = "title event Empty"
                 nameProfile = viewModel.currentProfile.nameProfile ?? "name profile empty"
@@ -309,9 +279,28 @@ struct AddIdeaView: View {
                 }
                 
             }
-            .navigationBarTitle("", displayMode: .inline)
+    }
+    
+    private func deleteIdea(idea: Ideas){
+        presentationMode.wrappedValue.dismiss()
+        @FetchRequest(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.ideaTitle, ascending: true)],
+            animation: .default)
         
-
+        var profiles: FetchedResults<Ideas>
+        
+        viewContext.delete(idea)
+        
+        do {
+            try viewContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        
+        
     }
     
     private func updateIdea(){
@@ -350,58 +339,10 @@ struct AddIdeaView: View {
        // presentationMode.wrappedValue.dismiss()
         
     }
-    
-    private func addIdea(){
-        print("añadiendo idea")
-        
-        withAnimation {
-            let newIdea = Ideas(context: viewContext)
-            newIdea.ideaTitle = titleIdea
-           // newIdea.eventTitleIdea = eventTitle
-          //  newIdea.profileIdea = nameProfile
-            newIdea.descriptionIdea = descriptionIdea
-            newIdea.idIdeas = UUID()
-            newIdea.idProfileIdea =  profile!.idProfile?.uuidString //eventParent.profileEventRelation?.idProfile?.uuidString
-            //newIdea.idEventIdea = eventParent.idEvent?.uuidString
-            //newIdea.idEventIdea = viewModel.currentEvent.idEvent?.uuidString
-            
-            //imagen 1
-            let imagenUIRedimensionada = resizeImage(image: imgIdea1)
-            let imageData =  imagenUIRedimensionada.jpegData(compressionQuality: 0.5)
-            let data = try! JSONEncoder().encode(imageData)
-            newIdea.image1Idea = data
-            
-            //imagen 2
-            let imagenUIRedimensionada2 = resizeImage(image: imgIdea2)
-            let imageData2 =  imagenUIRedimensionada2.jpegData(compressionQuality: 0.5)
-            let data2 = try! JSONEncoder().encode(imageData2)
-            newIdea.image2Idea = data2
-            
-            // imagen 3
-            let imagenUIRedimensionada3 = resizeImage(image: imgIdea3)
-            let imageData3 =  imagenUIRedimensionada3.jpegData(compressionQuality: 0.5)
-            let data3 = try! JSONEncoder().encode(imageData3)
-            newIdea.image3Idea = data3
-
-            
-            do {
-                try viewContext.save()
-                idea = newIdea
-                ideaYaGuardada = true
-                print("idea guardada")
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
 }
 
-//struct AddIdeaView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddIdeaView(nameProfile: "pablo", eventTitle: "cumple",newIdea: true)
-//    }
-//}
+struct DetailIdeaView_Previews: PreviewProvider {
+    static var previews: some View {
+        DetailIdeaView()
+    }
+}

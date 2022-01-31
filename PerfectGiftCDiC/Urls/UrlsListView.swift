@@ -16,15 +16,17 @@ struct UrlsListView: View {
     var urls: FetchRequest<UrlIdeas>
     var ideaParent: Ideas
     
-    init(filterUrl: String, idea: Ideas){
-        urls = FetchRequest<UrlIdeas>(entity: UrlIdeas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UrlIdeas.titleUrl, ascending: true)], predicate: NSPredicate(format: "idIdeaUrl MATCHES[dc] %@",filterUrl),animation: .default)
+    init(idea: Ideas){
+        urls = FetchRequest<UrlIdeas>(entity: UrlIdeas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UrlIdeas.titleUrl, ascending: true)], predicate: NSPredicate(format: "idIdeaUrl MATCHES[dc] %@",idea.idIdeas?.uuidString ?? "00"),animation: .default)
 
         ideaParent = idea
 
     }
     var body: some View {
         VStack{
-            Text("paginas de interes")
+            Text("Links")
+                .foregroundColor(.purple)
+                .font(.custom("marker Felt", size: 18))
 
             List{
                 ForEach(urls.wrappedValue, id: \.self) { url in

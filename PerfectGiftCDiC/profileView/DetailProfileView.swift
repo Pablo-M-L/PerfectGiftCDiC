@@ -22,14 +22,14 @@ struct DetailProfileView: View {
     @State private var mostrarImagePicker = false
     @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
-    @State private var showAddEvent = false
+    
     
     var body: some View {
         ZStack{
             
             Color("background")
                 .edgesIgnoringSafeArea(.all)
-            
+            //bloque de datos del profile
             VStack{
                 HStack{
                     //boton cambiar imagen y toggle
@@ -44,6 +44,7 @@ struct DetailProfileView: View {
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 80, height: 80)
                                         .clipShape(Circle())
+                                        .overlay(Circle().stroke(.white, lineWidth: 3))
                                         .padding(.bottom, 3)
                                         .onReceive(Just(imageDone)) { done in
                                             if done{
@@ -67,6 +68,7 @@ struct DetailProfileView: View {
                         }
                     }
                     
+                    //nombre y anotaciones
                     VStack(alignment: .leading){
                         
                         TextFieldProfile(hint: "Name Profile", dataString: $nameProfile)
@@ -85,72 +87,41 @@ struct DetailProfileView: View {
                                 }
                             }
                     }
-                    
-                    NavigationLink(destination: GiftDoitView(), label: {
-                        ZStack{
-                            Circle()
-                                .foregroundColor(Color("backgroundButton"))
-                            Image(systemName: "calendar.badge.plus")
-                                .resizable()
-                                .foregroundColor(.white)
-                                .background(Color("backgroundButton"))
-                                .aspectRatio(contentMode: .fit)
-                                .padding(8)
-                            
-                            
-                        }
-                        .frame(width: 50, height: 50)
-                        .padding()
-                    })
 
                     
                 }.padding([.horizontal, .top], 10)
                 
-                EventsListView(filter: profile.nameProfile ?? "nadie", profile: profile)
-                    .colorMultiply(Color("background"))
-                    .edgesIgnoringSafeArea(.all)
-                
-                Spacer()
-            }.sheet(isPresented: $showAddEvent) {
-                AddEventView(profile: profile)
+                TabView{
+                    IdeasListView(profile: profile)
+                        .colorMultiply(Color("background"))
+                        .edgesIgnoringSafeArea(.all)
+                        .tabItem {
+                            Image(systemName: "calendar.badge.plus")
+                        }
+                    
+                    EventsListView(filter: profile.nameProfile ?? "nadie", profile: profile)
+                        .colorMultiply(Color("background"))
+                        .edgesIgnoringSafeArea(.all)
+                        .tabItem {
+                            Image(systemName: "calendar.badge.plus")
+                        }
+                    
+                    ListGiftDoitView()
+                        .colorMultiply(Color("background"))
+                        .edgesIgnoringSafeArea(.all)
+                        .tabItem {
+                            Image(systemName: "calendar.badge.plus")
+                        }
+                    
+                }.tabViewStyle(PageTabViewStyle())
             }
             
-            VStack{
-                
-                Spacer()
-
-                HStack{
-
-                    Spacer()
-                    
-                    //boton añadir evento
-                    Button(action: {
-                        showAddEvent = true
-                    }, label: {
-                        ZStack{
-                            Circle()
-                                .foregroundColor(Color("backgroundButton"))
-                            Image(systemName: "calendar.badge.plus")
-                                .resizable()
-                                .foregroundColor(.white)
-                                .background(Color("backgroundButton"))
-                                .aspectRatio(contentMode: .fit)
-                                .padding(8)
-                            
-                            
-                        }
-                        .frame(width: 50, height: 50)
-                        .padding()
-                    })
-
-                }
-            }
+            
             
             
             
         }.onAppear{
             helper.currentProfile = profile
-            print("appear detail profile: \(helper.currentProfile.nameProfile)")
             nameProfile = profile.nameProfile ?? "sin nombre"
             annotationsProfile = profile.annotationsProfile ?? ""
             if profile.imageProfile == nil{
@@ -163,9 +134,10 @@ struct DetailProfileView: View {
             }
             
         }
-        .navigationTitle(nameProfile)
+        .navigationTitle(nameProfile == "" ? "Name" : nameProfile )
     }
     
+    //funcion que guarda el nombre, anotaciones e imagen del perfil.
     func saveChangesProfile(){
         withAnimation{
         profile.nameProfile = nameProfile

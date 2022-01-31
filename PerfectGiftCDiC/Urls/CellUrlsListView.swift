@@ -20,7 +20,7 @@ struct CellUrlsListView: View {
             
             Button(action:{
                 print("ir a la web \(url.webUrl)")
-                if let link = URL(string: url.webUrl ?? "www.google.com") {
+                if let link = URL(string: url.webUrl ?? "https://.google.com") {
                     UIApplication.shared.open(link)
                 }
             }){

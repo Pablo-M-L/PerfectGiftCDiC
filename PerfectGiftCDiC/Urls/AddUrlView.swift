@@ -28,14 +28,19 @@ struct AddUrlView: View {
                 TextField("Title url", text: $titleUrl)
                     .onReceive(Just(titleUrl)){ value in
                         if value != "vacio" && value != urlIdea?.titleUrl{
-                            updateUrl()
+                            if !newUrl{
+                                updateUrl()
+                            }
                         }
                         
                     }
                 TextField("web url", text: $webUrl)
                     .onReceive(Just(webUrl)){ value in
                         if value != "vacio" && value != urlIdea?.webUrl{
-                            updateUrl()
+                            if !newUrl{
+                                updateUrl()
+                            }
+                            
                         }
                         
                     }
@@ -79,6 +84,7 @@ struct AddUrlView: View {
     
     
     private func updateUrl(){
+        print(newUrl)
         withAnimation {
             urlIdea?.titleUrl = titleUrl
             urlIdea?.webUrl = webUrl

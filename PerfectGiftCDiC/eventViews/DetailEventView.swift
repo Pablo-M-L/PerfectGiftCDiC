@@ -27,6 +27,7 @@ struct DetailEventView: View {
     @State private var showAlert = false
     @State private var borrarEvento = false
     @State private var anyosCumplidos = 0
+    @State private var showSheetMode = false
     
     var body: some View {
         ZStack{
@@ -112,7 +113,7 @@ struct DetailEventView: View {
                     
 
                     
-                    IdeasListView(filterProfile: event.profileEventRelation!.idProfile!.uuidString, filterEvent: event.idEvent!.uuidString, event: event)
+                    //IdeasListView(filterProfile: event.profileEventRelation!.idProfile!.uuidString)
                     
                     Spacer()
                     
@@ -125,7 +126,7 @@ struct DetailEventView: View {
                 HStack{
                     Spacer()
                     
-                    NavigationLink(destination: AddIdeaView(newIdea: true), label: {
+                    NavigationLink(destination: AddIdeaView(showSheetMode: $showSheetMode), label: {
                         ZStack{
                             Circle()
                                 .foregroundColor(.blue)
