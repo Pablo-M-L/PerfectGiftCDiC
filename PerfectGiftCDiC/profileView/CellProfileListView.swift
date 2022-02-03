@@ -16,10 +16,33 @@ struct CellProfileListView: View {
     //            UITextView.appearance().backgroundColor = .clear
     //        }
     
-    @EnvironmentObject var viewModel: ViewModel
+    
     
     var profile: Profile
     var numeroEventos: Int
+    
+    var body: some View {
+        HStack{
+            datosProfileCell(profile: profile, numeroEventos: numeroEventos)
+                .buttonStyle(.borderless)
+            
+            Spacer()
+            
+            addIdeaButton(profile: profile)
+                .buttonStyle(.borderless)
+                .padding(.trailing,5)
+        }
+        
+        
+    }
+    
+    
+    
+}
+
+struct datosProfileCell:View{
+    @EnvironmentObject var viewModel: ViewModel
+    @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     
     
     @State var upcomingEvent: eventUpcoming = eventUpcoming(id: UUID(), titleEvent: "no title", dateEvent: Date(), annualEvent: false, observationEvent: "no observation")
@@ -29,111 +52,151 @@ struct CellProfileListView: View {
         animation: .default)
     private var eventos: FetchedResults<Event>
     
-    @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+    var profile: Profile
+    var numeroEventos: Int
     @State private var showSheetMode = false
     
-    var body: some View {
+    var body: some View{
+        
         ZStack{
-            VStack{
-                HStack{
-                    //imagen del perfil
-                    Image(uiImage: imgServicio)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 65, height: 70)
-                        .cornerRadius(20)
-                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 3))
-                        .padding(.leading, 8)
-                        .padding(.trailing, 3)
+                NavigationLink(destination: DetailProfileView(profile: profile), isActive: $showSheetMode){
+                    Text("link detail")
+                }
+            
+            HStack{
+                //imagen del perfil
+                Image(uiImage: imgServicio)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 65, height: 70)
+                    .cornerRadius(20)
+                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 3))
+                    .padding(.leading, 8)
+                    .padding(.trailing, 3)
+                
+                VStack(alignment: .leading){
+                    //nombre del perfil
+                    Text(profile.nameProfile ?? "sin nombre")
+                        .font(.custom("Marker Felt", size: 16))
+                        .bold()
+                        .foregroundColor(.purple)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
                     
-                    VStack(alignment: .leading){
-                        //nombre del perfil
-                        Text(profile.nameProfile ?? "sin nombre")
-                            .font(.custom("Marker Felt", size: 26))
-                            .bold()
-                            .foregroundColor(.purple)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                        
-                        //muestra el nombre del evento mas cercano y la fecha.
-                        HStack{
-                            if numeroEventos > 0{
-                                VStack(alignment: .leading){
-                                    Text("\(upcomingEvent.titleEvent)")
-                                        .font(.custom("Marker Felt", size: 20))
+                    //muestra el nombre del evento mas cercano y la fecha.
+                    HStack{
+                        if numeroEventos > 0{
+                            VStack(alignment: .leading){
+                                Text("\(upcomingEvent.titleEvent)")
+                                    .font(.custom("Marker Felt", size: 20))
+                                    .bold()
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.3)
+                                Text("\(upcomingEvent.dateEvent, formatter: itemFormatter)")
+                                    .bold()
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.3)
+                                
+                                
+                                //barra de progreso que indica los dias que faltan
+                                ZStack{
+                                    
+                                    HStack{
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .foregroundColor(.red)
+                                            .opacity(0.7)
+                                            .frame(width: UIScreen.main.bounds.width / 2.3, height: 25, alignment: .leading)
+                                        Spacer()
+                                    }
+                                    HStack{
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .foregroundColor(.green)
+                                            .opacity(0.8)
+                                            .frame(width: ((UIScreen.main.bounds.width / 2.3) * CGFloat(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent))) / 365,
+                                                   height: 25,
+                                                   alignment: .leading)
+                                        Spacer()
+                                    }
+                                    Text("\(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent)) Days")
+                                        .foregroundColor(.white)
                                         .bold()
+                                        .font(.custom("marker felt", size: 16))
+                                        .minimumScaleFactor(0.3)
                                         .lineLimit(1)
-                                        .minimumScaleFactor(0.3)
-                                    Text("In \(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent)) Days")
-                                        .bold()
-                                        .minimumScaleFactor(0.3)
-                                        .foregroundColor(.red)
-                                    Text("\(upcomingEvent.dateEvent, formatter: itemFormatter)")
-                                        .bold()
-                                        .lineLimit(1)
-                                        .minimumScaleFactor(0.3)
+                                    
                                     
                                 }
-                            }
-                            else{
-                                Text("No hay eventos")
-                                    .bold()
+                                
                             }
                         }
-                        .font(.custom("Marker Felt", size: 16))
-                        .foregroundColor(Color("backgroundButton"))
-                    }.padding(.vertical,5)
-                    
-                    Spacer()
-
-                    Button(action: {
-                        print("abrir sheet")
-                        showSheetMode = true
-                    }, label: {
-                        ZStack{
-                               Circle()
-                                   .foregroundColor(Color("backgroundButton"))
-                               Image(systemName: "person.fill.badge.plus")
-                                   .resizable()
-                                   .foregroundColor(.white)
-                                   .background(Color("backgroundButton"))
-                                   .aspectRatio(contentMode: .fit)
-                                   .padding(8)
-                           
-                       }
-                       .frame(width: 50, height: 50)
-                    }).buttonStyle(BorderlessButtonStyle())
-                        .sheet(isPresented: $showSheetMode,
-                               onDismiss: {print("cerrar vista añadir idea") },
-                               content: {AddIdeaView(profile: profile, showSheetMode: $showSheetMode)})
-                        .padding(5)
+                        else{
+                            Text("No hay eventos")
+                                .bold()
+                        }
+                    }
+                    .font(.custom("Marker Felt", size: 16))
+                    .foregroundColor(Color("backgroundButton"))
+                }.padding(.vertical,5)
+                
+                Spacer()
+                
+                
+            }
+            .background(Color("cellprofileBck"))
+            
+        }
+        .onTapGesture {
+            self.showSheetMode = true
+        }
+        .onAppear{
+            if !eventos.isEmpty{
+                let eventFilter = eventos.filter{$0.profileEventRelation?.nameProfile == profile.nameProfile}
+                if !eventFilter.isEmpty{
+                    upcomingEvent =  getUpcomingEvent(eventsfitrados: eventFilter)
                 }
             }
-            .onAppear{
-                if !eventos.isEmpty{
-                    let eventFilter = eventos.filter{$0.profileEventRelation?.nameProfile == profile.nameProfile}
-                    if !eventFilter.isEmpty{
-                        upcomingEvent =  getUpcomingEvent(eventsfitrados: eventFilter)
-                    }
-                }
-                
-                
-                if profile.imageProfile == nil{
-                    imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
-                }
-                else{
-                    let imgData = profile.imageProfile
-                    let data = try! JSONDecoder().decode(Data.self, from: imgData!)
-                    imgServicio = UIImage(data: data)!
-                }
+            
+            
+            if profile.imageProfile == nil{
+                imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+            }
+            else{
+                let imgData = profile.imageProfile
+                let data = try! JSONDecoder().decode(Data.self, from: imgData!)
+                imgServicio = UIImage(data: data)!
             }
         }
     }
     
-    
-    
 }
 
+struct addIdeaButton: View{
+    
+    var profile: Profile
+    @State private var showSheetMode = false
+    
+    var body: some View{
+        ZStack{
+            NavigationLink(destination: AddIdeaView(profile: profile), isActive: $showSheetMode){
+                EmptyView()
+            }
+            
+            ZStack{
+                Circle()
+                    .foregroundColor(Color("backgroundButton"))
+                Image(systemName: "person.fill.badge.plus")
+                    .resizable()
+                    .foregroundColor(.white)
+                    .background(Color("backgroundButton"))
+                    .aspectRatio(contentMode: .fit)
+                    .padding(8)
+            }
+                .onTapGesture {
+                    self.showSheetMode = true
+                }
+        }.frame(width: 50 , height: 50)
+    }
+}
 
 struct CellProfileListView_Previews: PreviewProvider {
     static var previews: some View {

@@ -43,172 +43,170 @@ struct DetailIdeaView: View {
             Color("background")
                 .edgesIgnoringSafeArea(.all)
             
-            VStack{
-                    VStack{
-                        HStack{
-                            
-                            Text("Idea For......")
-                                .foregroundColor(Color("colorTextoTitulo"))
-                                .font(.custom("marker Felt", size: 36))
-                            Spacer()
-
-                            Image(uiImage: imgServicio)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width:  70, height: 70)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(.white, lineWidth: 3))
-                        }
-                        .padding(.horizontal, 25)
-                        
+            ScrollView{
+                VStack{
                         VStack{
-                            TextField("Enter Title", text: $titleIdea)
-                                .padding(5)
-                                .background(Color.white)
-                                .font(.custom("Arial", size: 24))
-                                .cornerRadius(10)
-                                
-                                .onReceive(Just(titleIdea)){ value in
-                                    if value != "vacio" && value != idea?.ideaTitle{
-                                        updateIdea()
-                                    }
-                                    
-                                }
+    //                        HStack{
+    //                            Text("Idea For......")
+    //                                .foregroundColor(Color("colorTextoTitulo"))
+    //                                .font(.custom("marker Felt", size: 36))
+    //                            Spacer()
+    //
+    //                            Image(uiImage: imgServicio)
+    //                                .resizable()
+    //                                .aspectRatio(contentMode: .fit)
+    //                                .frame(width:  70, height: 70)
+    //                                .clipShape(Circle())
+    //                                .overlay(Circle().stroke(.white, lineWidth: 3))
+    //                        }
+    //                        .padding(.horizontal, 25)
+                            
                             VStack{
-                                HStack{
-                                    Text("Description")
-                                        .font(.custom("Arial", size: 24))
-                                        .foregroundColor(.purple)
-                                    Spacer()
+                                TextField("Enter Title", text: $titleIdea)
+                                    .padding(5)
+                                    .background(Color.white)
+                                    .font(.custom("Arial", size: 24))
+                                    .cornerRadius(10)
                                     
-                                }
-                                
-                                TextEditor(text: $descriptionIdea)
-                                    .frame(height: UIScreen.main.bounds.height / 5.5)
-                                    .cornerRadius(25)
-                                    .onReceive(Just(descriptionIdea)){ value in
-                                        if value != "vacio" && value != idea?.descriptionIdea{
+                                    .onReceive(Just(titleIdea)){ value in
+                                        if value != "vacio" && value != idea?.ideaTitle{
                                             updateIdea()
                                         }
                                         
                                     }
-                            }.padding(.vertical, 5)
-                        }.onTapGesture {
-                            //para ocultar el teclado
-                                UIApplication.shared.endEditing()
-                            }
-                        
-
-                        HStack{
-                            Image(uiImage: imgIdea1)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 70, height: 70)
-                                .onTapGesture {
-                                    mostrarImagePicker = true
-                                    imageChange = true
-                                }
-                                .sheet(isPresented: $mostrarImagePicker){
-                                    ImagePicker(selectedImage: self.$imgIdea1, selectedImageDone: $imageDone)
-                                }
-                            
-                            Spacer()
-                            
-                            Image(uiImage: imgIdea2)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 70, height: 70)
-                                .cornerRadius(20)
-                                .onTapGesture {
-                                    mostrarImagePicker2 = true
-                                    imageChange = true
-                                }
-                                .sheet(isPresented: $mostrarImagePicker2){
-                                    ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
-                                }
-                            
-                            Spacer()
-                            
-                            Image(uiImage: imgIdea3)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width:  70, height: 70)
-                                .onTapGesture {
-                                    mostrarImagePicker3 = true
-                                    imageChange = true
-                                }
-                                .sheet(isPresented: $mostrarImagePicker3){
-                                    ImagePicker(selectedImage: self.$imgIdea3, selectedImageDone: $imageDone)
-                                }
-                            
-                        }.padding(.horizontal,20)
-                            .padding(.vertical, 10)
-                            .shadow(color: .gray, radius: 3, x: 3, y: 3)
-                        .onDisappear{
-                            if imageChange{
-                                updateIdea()
-                            }
-                        }
-                        
-                    }
-
-                ZStack{
-                    
-                    if recargarLista{
-                        if let idea1 = idea{
-                            UrlsListView(idea: idea1)
-                                .cornerRadius(15)
-                        }
-                        
-                    }else{
-                        if let idea1 = idea{
-                            UrlsListView(idea: idea1)
-                                .cornerRadius(15)
-                        }
-                        
-                    }
-                    
-                    //boton de guardar url segun si se está creando una idea o editandola.
-                    VStack{
-                        HStack{
-                            Spacer()
-
-                            NavigationLink(destination: AddUrlView(idea: idea, newUrl: true), label: {
-                                ZStack{
-                                    Circle()
-                                        .foregroundColor(.blue)
-                                    Image(systemName: "safari")
-                                        .resizable()
-                                        .foregroundColor(.white)
-                                        .aspectRatio(contentMode: .fit)
-                                        .padding(8)
+                                VStack{
+                                    HStack{
+                                        Text("Description")
+                                            .font(.custom("Arial", size: 24))
+                                            .foregroundColor(.purple)
+                                        Spacer()
+                                        
+                                    }
                                     
-                                    
+                                    TextEditor(text: $descriptionIdea)
+                                        .frame(height: UIScreen.main.bounds.height / 5.5)
+                                        .cornerRadius(25)
+                                        .onReceive(Just(descriptionIdea)){ value in
+                                            if value != "vacio" && value != idea?.descriptionIdea{
+                                                updateIdea()
+                                            }
+                                            
+                                        }
+                                }.padding(.vertical, 5)
+                            }.onTapGesture {
+                                //para ocultar el teclado
+                                    UIApplication.shared.endEditing()
                                 }
-                                .frame(width: 50, height: 50)
-                                .padding()
-                            })
+                            
+
+                            HStack{
+                                Image(uiImage: imgIdea1)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 70, height: 70)
+                                    .onTapGesture {
+                                        mostrarImagePicker = true
+                                        imageChange = true
+                                    }
+                                    .sheet(isPresented: $mostrarImagePicker){
+                                        ImagePicker(selectedImage: self.$imgIdea1, selectedImageDone: $imageDone)
+                                    }
+                                
+                                Spacer()
+                                
+                                Image(uiImage: imgIdea2)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 70, height: 70)
+                                    .cornerRadius(20)
+                                    .onTapGesture {
+                                        mostrarImagePicker2 = true
+                                        imageChange = true
+                                    }
+                                    .sheet(isPresented: $mostrarImagePicker2){
+                                        ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
+                                    }
+                                
+                                Spacer()
+                                
+                                Image(uiImage: imgIdea3)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width:  70, height: 70)
+                                    .onTapGesture {
+                                        mostrarImagePicker3 = true
+                                        imageChange = true
+                                    }
+                                    .sheet(isPresented: $mostrarImagePicker3){
+                                        ImagePicker(selectedImage: self.$imgIdea3, selectedImageDone: $imageDone)
+                                    }
+                                
+                            }.padding(.horizontal,20)
+                                .padding(.vertical, 10)
+                                .shadow(color: .gray, radius: 3, x: 3, y: 3)
+                            .onDisappear{
+                                if imageChange{
+                                    updateIdea()
+                                }
+                            }
+                            
+                        }
+
+                    ZStack{
+                        
+                        if recargarLista{
+                            if let idea1 = idea{
+                                UrlsListView(idea: idea1)
+                                    .cornerRadius(15)
+                            }
+                            
+                        }else{
+                            if let idea1 = idea{
+                                UrlsListView(idea: idea1)
+                                    .cornerRadius(15)
+                            }
+                            
                         }
                         
-                        Spacer()
+                        //boton de guardar url segun si se está creando una idea o editandola.
+                        VStack{
+                            HStack{
+                                Spacer()
+
+                                NavigationLink(destination: AddUrlView(idea: idea, newUrl: true), label: {
+                                    ZStack{
+                                        Circle()
+                                            .foregroundColor(.blue)
+                                        Image(systemName: "safari")
+                                            .resizable()
+                                            .foregroundColor(.white)
+                                            .aspectRatio(contentMode: .fit)
+                                            .padding(8)
+                                        
+                                        
+                                    }
+                                    .frame(width: 50, height: 50)
+                                    .padding()
+                                })
+                            }
+                            
+                            Spacer()
+                        }.frame(height: UIScreen.main.bounds.height / 3.5)
                     }
-                }
+                        
                     
+ 
+
+
+                }.padding()
+                 .font(.custom("Marker Felt", size: 18))
+            }
+            
+            VStack{
+                
+                Spacer()
                 
                 HStack{
-                    Button(action: {
-                        print("borrar idea")
-                        deleteIdea(idea: idea!)
-                    },label:{
-                        Image(systemName: "trash")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.purple)
-                    }).padding(20)
-                    
-                    Spacer()
-                    
                     Button(action: {
                         print("guardar como regalado")
                     }, label:{
@@ -216,14 +214,35 @@ struct DetailIdeaView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 40, height: 40)
-                    })
+                    }).padding(20)
                 }
+            }
+            
 
 
-            }.padding()
-             .font(.custom("Marker Felt", size: 12))
-
-        }.navigationBarTitle("", displayMode: .inline)
+        }.navigationBarTitle("Idea for \(nameProfile)")
+         .navigationBarItems(trailing:
+                                HStack{
+                                    Spacer()
+                                    Image(uiImage: imgServicio)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width:  35, height: 35)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(.white, lineWidth: 3))
+             
+                                     Button(action: {
+                                         print("borrar idea")
+                                         deleteIdea(idea: idea!)
+                                     },label:{
+                                         Image(systemName: "trash")
+                                             .resizable()
+                                             .aspectRatio(contentMode: .fit)
+                                             .frame(width: 35, height: 35)
+                                             .foregroundColor(.purple)
+                                     })
+                                }
+            )
             .onAppear{
                 recargarLista.toggle()
 //                eventTitle = eventParent.titleEvent ?? "title event Empty"

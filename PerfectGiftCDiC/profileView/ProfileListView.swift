@@ -18,23 +18,17 @@ struct ProfileListView: View {
     @State var showAddProfileView: Bool = false
     
     var body: some View {
-            ZStack{
-                  
-                if recargarLista{
-                    profileList()
-                }
-                else{
-                    profileList()
-                }
-
-                saveProfileButton()
-                
-            }.onAppear{
-                recargarLista.toggle()
+        ZStack{
+            
+            if recargarLista{
+                profileList()
             }
-        
-
-        
+            else{
+                profileList()
+            }
+        }.onAppear{
+            recargarLista.toggle()
+        }
     }
     
 }
@@ -55,7 +49,7 @@ struct saveProfileButton: View{
                     destination: AddProfileView(),
                     label: {
                         HStack{
-                           Spacer()
+                            Spacer()
                             
                             ZStack{
                                 Circle()
@@ -66,16 +60,17 @@ struct saveProfileButton: View{
                                     .background(Color("backgroundButton"))
                                     .aspectRatio(contentMode: .fit)
                                     .padding(8)
-                                    
-                                    
+                                
+                                
                             }
                             .frame(width: 50, height: 50)
-                            .padding()
+                            .padding(.trailing, 20)
+                            .padding(.bottom, 120)
                         }
-
+                        
                     })
             }
-
+            
         }
     }
 }
@@ -83,7 +78,7 @@ struct saveProfileButton: View{
 /** struct profileList, lista de perfiles que se muestra en la vista profileListView */
 struct profileList: View{
     @Environment(\.managedObjectContext) private var viewContext
-
+    
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Profile.nameProfile, ascending: true)],
         animation: .default)
@@ -94,29 +89,25 @@ struct profileList: View{
     var body: some View{
         List{
             ForEach(profiles) { profile in
+                CellProfileListView(profile: profile, numeroEventos: profile.eventProfileRelation?.count ?? 0)
+                    .shadow(color: .gray, radius: 2, x: 2, y: 2)
+                    .background(Color("cellprofileBck"))
+                    .cornerRadius(20)
+                    .shadow(color: .gray, radius: 2, x: 3, y: 3)
+                    .padding(.vertical, 10)
                 //se muestra con el zstack para quitar la flecha de la celda.
-                ZStack{
-                    NavigationLink(destination: DetailProfileView(profile: profile) ){
-                        Text("Profile")
-                    }.opacity(0)
-                    CellProfileListView(profile: profile, numeroEventos: profile.eventProfileRelation?.count ?? 0)
-                        .shadow(color: .gray, radius: 2, x: 2, y: 2)
-                    
-                }
-                .background(Color("cellprofileBck"))
-                .cornerRadius(20)
-                .shadow(color: .gray, radius: 4, x: 3, y: 3)
-                .buttonStyle(BorderlessButtonStyle())
-
             }
             .onDelete(perform: deleteItems)
-        }.listStyle(InsetListStyle())
+        }.listStyle(.inset)
+            .padding(.top,15)
+            .padding(.bottom,25)
+        
     }
     
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets.map { profiles[$0] }.forEach(viewContext.delete)
-
+            
             do {
                 try viewContext.save()
             } catch {

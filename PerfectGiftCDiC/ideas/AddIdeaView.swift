@@ -28,10 +28,10 @@ struct AddIdeaView: View {
     @State private var showAlertUrl = false
 
     var maxUrl = 3
-    @State var idea: Ideas?
-    var profile: Profile?
-    @Binding var showSheetMode: Bool
+    @State var idea: Ideas? //solo se crea si se añpaden urls
+    var profile: Profile
     @State var showUrl = false
+    @Environment(\.presentationMode) private var presentationMode
     
    // var eventParent: Event
     
@@ -40,8 +40,8 @@ struct AddIdeaView: View {
     @State private var imgIdea1 = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var imgIdea2 = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var imgIdea3 = UIImage(imageLiteralResourceName: "logoPerfectgift")
-    @State private var titleIdea = "vacio"
-    @State private var descriptionIdea = "vacio"
+    @State private var titleIdea = ""
+    @State private var descriptionIdea = ""
     
     var body: some View {
         ZStack{
@@ -52,6 +52,8 @@ struct AddIdeaView: View {
             VStack{
                     VStack{
                         VStack{
+                            
+                            //cabecero
                             HStack{
                                 
                                 Text("Idea For......")
@@ -68,20 +70,22 @@ struct AddIdeaView: View {
                             }
                             .padding(.horizontal, 25)
                             
+                            //introducir titulo
                             TextField("Enter Title", text: $titleIdea)
                                 .padding(5)
                                 .background(Color.white)
                                 .font(.custom("Arial", size: 24))
                                 .cornerRadius(10)
                                 .onReceive(Just(titleIdea)){ value in
-                                    if value != "vacio" && value != idea?.ideaTitle{
+                                    if value != "" && value != idea?.ideaTitle{
                                         if ideaYaGuardada{
                                             updateIdea()
                                         }
                                     }
                                     
                                 }
-                                
+                              
+                            //description
                             VStack{
                                 HStack{
                                     Text("Description")
@@ -96,7 +100,7 @@ struct AddIdeaView: View {
                                     .font(.custom("Arial", size: 18))
                                     .cornerRadius(25)
                                     .onReceive(Just(descriptionIdea)){ value in
-                                        if value != "vacio" && value != idea?.descriptionIdea{
+                                        if value != "" && value != idea?.descriptionIdea{
                                             if ideaYaGuardada{
                                                 updateIdea()
                                             }
@@ -105,12 +109,14 @@ struct AddIdeaView: View {
                                     }
                                     
                             }
+                            
                         }.onTapGesture {
                             //para ocultar el teclado
                                 UIApplication.shared.endEditing()
                             }
                         
 
+                        //imagenes
                         HStack{
                             Image(uiImage: imgIdea1)
                                 .resizable()
@@ -154,10 +160,8 @@ struct AddIdeaView: View {
                                 }
                             
                         }.padding(.horizontal,20)
-                            .shadow(color: .gray, radius: 3, x: 3, y: 3)
-                        .onDisappear{
-                            print("Cerrar añadir idea")
-                        }
+                        .shadow(color: .gray, radius: 3, x: 3, y: 3)
+
                         
                     }
                 
@@ -183,11 +187,20 @@ struct AddIdeaView: View {
                     VStack{
                         HStack{
                             Spacer()
+                                NavigationLink(destination: AddUrlView(idea: idea, newUrl: true), isActive: $showUrl){
+                                    EmptyView()
+                                }
+                            
                             Button(action:{
                                 //antes de abrir la vista para crear una entrada de Url, hay que guardar la idea abierta.
                                 //sin no hay una idea creada no se puede crear la url ya que necesita estar vinculada con una idea.
+                                print("safari")
+                                if ideaYaGuardada{
+                                    showUrl = true
+                                }else{
+                                    showAlertUrl = true
+                                }
                                 
-                                showAlertUrl = true
                             }, label:{
                                 ZStack{
                                     Circle()
@@ -206,28 +219,18 @@ struct AddIdeaView: View {
                                 .alert(isPresented: $showAlertUrl, content: {
                                     Alert(title: Text("Save Idea"),
                                           message: Text("To be able to add Links you have to save the Idea first."),
-                                          primaryButton: Alert.Button.default(Text("Accept"), action: {addIdea(); showUrl = true }),
+                                          primaryButton: Alert.Button.default(Text("Accept"),
+                                                                              action: {
+                                                                                    addIdeaBeforeUrl()
+                                                                                }),
                                           secondaryButton: Alert.Button.destructive(Text("Cancel")))
                                 })
-                                .sheet(isPresented: $showUrl,
-                                                             onDismiss: {print("cerrar vista añadir idea") },
-                                                             content: {AddUrlView(idea: idea, newUrl: true)})
 
                         }
                         
                         Spacer()
                     }
                 }
-                Spacer()
-
-            }.padding()
-             .font(.custom("Marker Felt", size: 12))
-            
-            
-            //boton añadir url segun si se está creando una idea o editandola.
-            //boton guardar
-            VStack{
-                Spacer()
                 
                 HStack{
                     Spacer()
@@ -240,7 +243,6 @@ struct AddIdeaView: View {
                             addIdea()
                         }
                         
-                        showSheetMode = false
                     }, label: {
                         
                         Text(ideaYaGuardada ? "Update Idea" : "Save Idea")
@@ -251,18 +253,27 @@ struct AddIdeaView: View {
                             .cornerRadius(25)
                     })
                 }.padding()
-            }
+                Spacer()
+
+            }.padding()
+             .font(.custom("Marker Felt", size: 12))
+            
+            
+            //boton añadir url segun si se está creando una idea o editandola.
+            //boton guardar
+
 
         }
             .onAppear{
+                print("appear addidea")
                 recargarLista.toggle()
 //                eventTitle = eventParent.titleEvent ?? "title event Empty"
 //                nameProfile = eventParent.profileEventRelation?.nameProfile ?? "name profile empty"
 //                eventTitle = viewModel.currentEvent.titleEvent ?? "title event Empty"
 
                 
-                viewModel.currentProfile = profile!
-                titleIdea =  "title"
+                viewModel.currentProfile = profile
+                //titleIdea =  "title"
                 
                 eventTitle = "title event Empty"
                 nameProfile = viewModel.currentProfile.nameProfile ?? "name profile empty"
@@ -307,10 +318,7 @@ struct AddIdeaView: View {
                     let data = try! JSONDecoder().decode(Data.self, from: imgData!)
                     imgIdea3 = UIImage(data: data)!
                 }
-                
             }
-            .navigationBarTitle("", displayMode: .inline)
-        
 
     }
     
@@ -340,14 +348,16 @@ struct AddIdeaView: View {
             do {
                 try viewContext.save()
                 print("idea actualizada")
+                
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
+            presentationMode.wrappedValue.dismiss()
         }
-       // presentationMode.wrappedValue.dismiss()
+        
         
     }
     
@@ -361,7 +371,54 @@ struct AddIdeaView: View {
           //  newIdea.profileIdea = nameProfile
             newIdea.descriptionIdea = descriptionIdea
             newIdea.idIdeas = UUID()
-            newIdea.idProfileIdea =  profile!.idProfile?.uuidString //eventParent.profileEventRelation?.idProfile?.uuidString
+            newIdea.idProfileIdea =  profile.idProfile?.uuidString //eventParent.profileEventRelation?.idProfile?.uuidString
+            //newIdea.idEventIdea = eventParent.idEvent?.uuidString
+            //newIdea.idEventIdea = viewModel.currentEvent.idEvent?.uuidString
+            
+            //imagen 1
+            let imagenUIRedimensionada = resizeImage(image: imgIdea1)
+            let imageData =  imagenUIRedimensionada.jpegData(compressionQuality: 0.5)
+            let data = try! JSONEncoder().encode(imageData)
+            newIdea.image1Idea = data
+            
+            //imagen 2
+            let imagenUIRedimensionada2 = resizeImage(image: imgIdea2)
+            let imageData2 =  imagenUIRedimensionada2.jpegData(compressionQuality: 0.5)
+            let data2 = try! JSONEncoder().encode(imageData2)
+            newIdea.image2Idea = data2
+            
+            // imagen 3
+            let imagenUIRedimensionada3 = resizeImage(image: imgIdea3)
+            let imageData3 =  imagenUIRedimensionada3.jpegData(compressionQuality: 0.5)
+            let data3 = try! JSONEncoder().encode(imageData3)
+            newIdea.image3Idea = data3
+
+            
+            do {
+                try viewContext.save()
+                print("idea guardada")
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+            
+            presentationMode.wrappedValue.dismiss()
+        }
+    }
+    
+    private func addIdeaBeforeUrl(){
+        print("añadiendo idea antes de url")
+        
+        withAnimation {
+            let newIdea = Ideas(context: viewContext)
+            newIdea.ideaTitle = titleIdea
+           // newIdea.eventTitleIdea = eventTitle
+          //  newIdea.profileIdea = nameProfile
+            newIdea.descriptionIdea = descriptionIdea
+            newIdea.idIdeas = UUID()
+            newIdea.idProfileIdea =  profile.idProfile?.uuidString //eventParent.profileEventRelation?.idProfile?.uuidString
             //newIdea.idEventIdea = eventParent.idEvent?.uuidString
             //newIdea.idEventIdea = viewModel.currentEvent.idEvent?.uuidString
             
@@ -395,6 +452,7 @@ struct AddIdeaView: View {
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
+            showUrl = true
         }
     }
 

@@ -22,6 +22,7 @@ struct UpcomingListsView: View {
         }.onAppear{
             recargarLista.toggle()
         }
+        
 
         
     }
@@ -34,19 +35,20 @@ struct EventUpcomingList: View{
     private var events: FetchedResults<Event>
     
     var body: some View{
-        VStack{
-            List{
-                ForEach(events, id: \.self) { evento in
-                    ZStack{
-                        NavigationLink(destination: DetailEventView(event: evento) ){
-                            Text("event")
-                        }.opacity(0)
-                        CellEventUpcomingList(event: evento)
-                    }.background(Color("cellprofileBck"))
-                    .cornerRadius(20)
-                    }
+        List{
+            ForEach(events, id: \.self) { evento in
+                ZStack{
+                    NavigationLink(destination: DetailEventView(event: evento) ){
+                        Text("event")
+                    }.opacity(0)
+                    CellEventUpcomingList(event: evento)
+                }.background(Color("cellprofileBck"))
+                .cornerRadius(20)
+                .shadow(color: .gray, radius: 4, x: 3, y: 3)
                 }
-            }
+            }.listStyle(.inset)
+            .padding(.top,15)
+            .padding(.bottom,25)
     }
     
 }

@@ -27,7 +27,7 @@ struct AddUrlView: View {
             VStack{
                 TextField("Title url", text: $titleUrl)
                     .onReceive(Just(titleUrl)){ value in
-                        if value != "vacio" && value != urlIdea?.titleUrl{
+                        if value != "vacio"{
                             if !newUrl{
                                 updateUrl()
                             }
@@ -36,7 +36,7 @@ struct AddUrlView: View {
                     }
                 TextField("web url", text: $webUrl)
                     .onReceive(Just(webUrl)){ value in
-                        if value != "vacio" && value != urlIdea?.webUrl{
+                        if value != "vacio"{
                             if !newUrl{
                                 updateUrl()
                             }
@@ -46,6 +46,7 @@ struct AddUrlView: View {
                     }
                 Spacer()
             }.onAppear{
+                print(idea?.ideaTitle)
                 if !newUrl{
                     titleUrl = urlIdea?.titleUrl ?? "no title"
                     webUrl = urlIdea?.webUrl ?? "https://google.com"
@@ -99,7 +100,7 @@ struct AddUrlView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
-       // presentationMode.wrappedValue.dismiss()
+        presentationMode.wrappedValue.dismiss()
         
     }
     

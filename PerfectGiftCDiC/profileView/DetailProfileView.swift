@@ -22,7 +22,7 @@ struct DetailProfileView: View {
     @State private var mostrarImagePicker = false
     @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
-    
+    @State private var vistaActiva: vistaActiva = .ideas
     
     var body: some View {
         ZStack{
@@ -91,29 +91,56 @@ struct DetailProfileView: View {
                     
                 }.padding([.horizontal, .top], 10)
                 
-                TabView{
+                
+                if vistaActiva == .ideas{
                     IdeasListView(profile: profile)
                         .colorMultiply(Color("background"))
                         .edgesIgnoringSafeArea(.all)
-                        .tabItem {
-                            Image(systemName: "calendar.badge.plus")
-                        }
-                    
+                }
+                else if vistaActiva == .eventos{
                     EventsListView(filter: profile.nameProfile ?? "nadie", profile: profile)
                         .colorMultiply(Color("background"))
                         .edgesIgnoringSafeArea(.all)
-                        .tabItem {
-                            Image(systemName: "calendar.badge.plus")
-                        }
-                    
+                }
+                else if vistaActiva == .regalados{
                     ListGiftDoitView()
                         .colorMultiply(Color("background"))
                         .edgesIgnoringSafeArea(.all)
-                        .tabItem {
-                            Image(systemName: "calendar.badge.plus")
-                        }
-                    
-                }.tabViewStyle(PageTabViewStyle())
+                }
+
+                
+                VStack{
+                    HStack(alignment: .center, spacing: 50){
+                        Button(action:{
+                            withAnimation {
+                                vistaActiva = .ideas
+                            }
+                            
+                        },label:{
+                            SelecctViewListButtonStyle(vistaActiva: $vistaActiva, texto: "Ideas")
+                        })
+                        
+                        Button(action:{
+                            withAnimation {
+                                vistaActiva = .eventos
+                            }
+                        },label:{
+                            SelecctViewListButtonStyle(vistaActiva: $vistaActiva, texto: "Events")
+                        })
+                        
+                        Button(action:{
+                            withAnimation {
+                                vistaActiva = .regalados
+                            }
+                        },label:{
+                            SelecctViewListButtonStyle(vistaActiva: $vistaActiva, texto: "Gifts")
+                        })
+                        
+                        
+                    }.padding(.bottom,35)
+                        
+                }.frame( height: 25)
+                
             }
             
             
@@ -121,6 +148,7 @@ struct DetailProfileView: View {
             
             
         }.onAppear{
+            setupAppearance()
             helper.currentProfile = profile
             nameProfile = profile.nameProfile ?? "sin nombre"
             annotationsProfile = profile.annotationsProfile ?? ""
@@ -135,6 +163,12 @@ struct DetailProfileView: View {
             
         }
         .navigationTitle(nameProfile == "" ? "Name" : nameProfile )
+    }
+    
+    func setupAppearance() {
+        //setea los colores de los puntos y el fondo de los indicadores del tabview
+      UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color("colorTextoTitulo"))
+      UIPageControl.appearance().pageIndicatorTintColor = UIColor.black.withAlphaComponent(0.2)
     }
     
     //funcion que guarda el nombre, anotaciones e imagen del perfil.
@@ -162,6 +196,11 @@ struct DetailProfileView: View {
     }
 }
 
+enum vistaActiva: String{
+    case ideas = "Ideas"
+    case eventos = "Events"
+    case regalados = "Gifts"
+}
 struct TextFieldProfile: View{
     var hint: String
     @Binding var dataString: String
@@ -171,10 +210,30 @@ struct TextFieldProfile: View{
             .padding([.vertical, .leading],5)
             .lineLimit(1)
             .background(Color(.white))
-            .font(.custom("marker Felt", size: 12))
+            .font(.custom("marker Felt", size: 18))
             .cornerRadius(8)
     }
 }
+
+struct SelecctViewListButtonStyle:View{
+    @Binding var vistaActiva: vistaActiva
+    var texto: String
+    
+    var body: some View{
+        ZStack(alignment: .center){
+            Spacer()
+            RoundedRectangle(cornerRadius: 20)
+                .foregroundColor(vistaActiva.rawValue == texto ? Color("background3") : Color("backgroundButton"))
+                .shadow(color: .gray, radius: 2, x: 2, y: 2)
+            Text(texto)
+                .padding(5)
+                .foregroundColor(Color("colorTextoTitulo"))
+                .font(.custom("marker felt", size: 18))
+        }.frame(width: UIScreen.main.bounds.width / 4.5, height: 35)
+    }
+    
+}
+
 
 //struct DetailProfileView_Previews: PreviewProvider {
 //    static var previews: some View {

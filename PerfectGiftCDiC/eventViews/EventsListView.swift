@@ -30,6 +30,13 @@ struct EventsListView: View {
                 Text("EVENTS")
                     .foregroundColor(Color("colorTextoTitulo"))
                     .font(.custom("marker Felt", size: 18))
+                    .foregroundColor(.gray)
+                
+                Rectangle()
+                    .foregroundColor(.gray)
+                    .opacity(0.3)
+                    .frame(height: 5)
+                
                 List{
                     ForEach(events.wrappedValue, id: \.self) { event in
                         
@@ -45,11 +52,7 @@ struct EventsListView: View {
                         
                             
                     }
-                   // .onDelete(perform: deleteItems)
-                    
-                }
-                
-
+                }.listStyle(.inset)
             }
             
             HStack{
@@ -71,8 +74,6 @@ struct EventsListView: View {
                                 .background(Color("backgroundButton"))
                                 .aspectRatio(contentMode: .fit)
                                 .padding(8)
-                            
-                            
                         }
                         .frame(width: 50, height: 50)
                         .padding()

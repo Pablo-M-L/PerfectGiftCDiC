@@ -19,7 +19,6 @@ struct CellIdeaListView: View {
                     .padding(5)
                     .lineLimit(1)
                     .minimumScaleFactor(0.3)
-                    .background(Color("background2"))
                     .cornerRadius(8)
             }
             .frame(height: 50)

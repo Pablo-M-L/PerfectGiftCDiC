@@ -75,6 +75,7 @@ struct AddEventView: View {
                     
                     VStack{
                         RowDataEvent(textString: "Title", dataString: $titleEvent)
+                            .font(.custom("marker Felt", size: 18))
                             .padding(1)
                         
                         
@@ -83,16 +84,18 @@ struct AddEventView: View {
                             //si no es un special day, solo se puede seleccionar fechas anteriores a la actual ya que los cumpleaños y aniversiarios la fecha siempre será anterior.
                             if eventSelected != .specialDay{
                                 DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
-                                    Text(eventSelected == .birthday ? "Fecha de nacimiento" : "Fecha a conmemorar")
-                                        .font(.custom("marker Felt", size: 12))
+                                    Text(eventSelected == .birthday ? "Date of Birth" : "Date to Commemorate")
+                                        .font(.custom("marker Felt", size: 18))
+                                        .foregroundColor(.purple)
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.3)
                                 }.padding(.trailing, 20)
                             }
                             else{
                                 DatePicker(selection: $birthDate,in:  Date()... ,displayedComponents: .date) {
-                                    Text("Fecha del evento")
-                                        .font(.custom("marker Felt", size: 12))
+                                    Text("Event Date")
+                                        .font(.custom("marker Felt", size: 18))
+                                        .foregroundColor(.purple)
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.3)
                                 }.padding(.trailing, 20)
@@ -124,6 +127,8 @@ struct AddEventView: View {
                         
                         HStack{
                             Text("Observations")
+                                .font(.custom("marker Felt", size: 18))
+                                .foregroundColor(.purple)
                                 .padding(1)
                             Spacer()
                             
@@ -131,8 +136,7 @@ struct AddEventView: View {
                         
                         TextEditor(text: $observationsEvent)
                             .frame(height: UIScreen.main.bounds.height / 4)
-                            .padding()
-                            .cornerRadius(25)
+                            .cornerRadius(25)                            
                         
                         Button(action: {
                             addEvent()
@@ -227,6 +231,7 @@ struct RowDataEvent: View{
     var body: some View{
         HStack{
             Text(textString + ":")
+                .foregroundColor(.purple)
             TextFieldAddEvent(hint: textString, dataString: $dataString)
         }
         

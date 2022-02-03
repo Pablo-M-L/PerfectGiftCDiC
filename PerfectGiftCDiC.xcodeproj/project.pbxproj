@@ -121,9 +121,9 @@
 			children = (
 				6E91AB1126AE910200DF9E3B /* IdeasListView.swift */,
 				6E91AB1526AE993F00DF9E3B /* AddIdeaView.swift */,
+				6EAA764B27A4154900EAD5E4 /* DetailIdeaView.swift */,
 				6E91AB1926AE996900DF9E3B /* CellIdeaListView.swift */,
 				6E91AB2426AFEAA000DF9E3B /* ImageIdeaView.swift */,
-				6EAA764B27A4154900EAD5E4 /* DetailIdeaView.swift */,
 			);
 			path = ideas;
 			sourceTree = "<group>";
