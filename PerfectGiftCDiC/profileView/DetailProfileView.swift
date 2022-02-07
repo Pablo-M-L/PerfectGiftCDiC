@@ -103,7 +103,7 @@ struct DetailProfileView: View {
                         .edgesIgnoringSafeArea(.all)
                 }
                 else if vistaActiva == .regalados{
-                    ListGiftDoitView()
+                    ListGiftDoitView(profile: profile)
                         .colorMultiply(Color("background"))
                         .edgesIgnoringSafeArea(.all)
                 }

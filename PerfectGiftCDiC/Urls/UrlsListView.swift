@@ -23,26 +23,23 @@ struct UrlsListView: View {
 
     }
     var body: some View {
-        VStack{
-            Text("Links")
-                .foregroundColor(.purple)
-                .font(.custom("marker Felt", size: 18))
-
-            List{
-                ForEach(urls.wrappedValue, id: \.self) { url in
-                    ZStack{
-                        NavigationLink(destination: AddUrlView(idea: ideaParent, newUrl: false, urlIdea: url)){
-                            Text("url")
-                        }.opacity(0)
-                        CellUrlsListView(url: url)
-                    }.background(Color("cellprofileBck"))
-                    .cornerRadius(20)
-                    .frame(height:80)
-                    .buttonStyle(BorderlessButtonStyle())
-                     
+        List{
+            ForEach(urls.wrappedValue, id: \.self) { url in
+                ZStack{
+                    NavigationLink(destination: AddUrlView(idea: ideaParent, newUrl: false, urlIdea: url)){
+                        Text("url")
+                    }.opacity(0)
+                    CellUrlsListView(url: url)
+                        .cornerRadius(20)
                 }
+                .cornerRadius(20)
+                .listStyle(.plain)
+                .buttonStyle(BorderlessButtonStyle())
+                
+                 
             }
         }
+            .colorMultiply(Color("background"))
     }
 }
 

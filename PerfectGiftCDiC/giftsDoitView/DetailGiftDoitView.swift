@@ -1,14 +1,14 @@
 //
-//  DetailIdeaView.swift
+//  DetailGiftDoitView.swift
 //  PerfectGiftCDiC
 //
-//  Created by pablo millan lopez on 28/1/22.
+//  Created by pablo millan lopez on 6/2/22.
 //
 
 import SwiftUI
 import Combine
 
-struct DetailIdeaView: View {
+struct DetailGiftDoitView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     
@@ -28,18 +28,18 @@ struct DetailIdeaView: View {
     var profile: Profile?
     
    // var eventParent: Event
-    
+    @State private var giftDate = Date()
     @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var imgIdea1 = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var imgIdea2 = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var imgIdea3 = UIImage(imageLiteralResourceName: "logoPerfectgift")
-    @State private var titleIdea = "vacio"
-    @State private var descriptionIdea = "vacio"
+    @State private var titleIdea = ""
+    @State private var descriptionIdea = ""
     @State private var regalado = false
     @State private var showAlertDelete = false
     @State private var borrarIdea = false
-    @State private var goDetailGiftDoit = false
+    @State private var reasonGift = ""
     
     var body: some View {
         ZStack{
@@ -50,50 +50,57 @@ struct DetailIdeaView: View {
             ScrollView{
                 VStack{
                         VStack{
-                            if !regalado{
-//                                NavigationLink(destination: DetailGiftDoitView(idea: idea), isActive: $goDetailGiftDoit){
-//                                    EmptyView()
-//                                }
-                            HStack{
-                                Button(action: {
-                                    print("guardar como regalado")
-                                    //regalado = true
-                                    //updateIdea()
-                                    goDetailGiftDoit = true
-                                    //presentationMode.wrappedValue.dismiss()
-                                    
-                                }, label:{
-                                    ZStack{
-                                            
-                                        Text("Save As GIVEN!!!!!")
-                                            .font(.custom("Marker Felt", size: 24))
-                                            .foregroundColor(.blue)
-                                            .padding(.vertical,10)
-                                            .padding(.horizontal, 50)
-                                            .background(Color.orange)
-                                            .cornerRadius(25)
-                                            .shadow(color: .gray, radius: 2, x: 2, y: 2)
-
-                                    }
-                                }).padding(10)
-                                    .sheet(isPresented: $goDetailGiftDoit, onDismiss: {presentationMode.wrappedValue.dismiss()}) {
-                                        DetailGiftDoitView(idea: idea)
-                                    }
-                            }
-                            }
                             VStack{
-                                TextField("Enter Title", text: $titleIdea)
+                                HStack{
+                                Text("Gift")
+                                    .foregroundColor(.purple)
+                                    .font(.custom("marker Felt", size: 18))
+                                    Spacer()
+                                }
+                                TextField("Enter Name Gift", text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
                                     .font(.custom("Arial", size: 24))
                                     .cornerRadius(10)
                                     
                                     .onReceive(Just(titleIdea)){ value in
-                                        if value != "vacio" && value != idea?.ideaTitle{
+                                        if value != "" && value != idea?.ideaTitle{
                                             updateIdea()
                                         }
                                         
                                     }
+                                HStack{
+                                Text("Reason for the Gift")
+                                    .foregroundColor(.purple)
+                                    .font(.custom("marker Felt", size: 18))
+                                    Spacer()
+                                }
+                                TextField("Enter Reason for the Gift", text: $reasonGift)
+                                    .padding(5)
+                                    .background(Color.white)
+                                    .font(.custom("Arial", size: 24))
+                                    .cornerRadius(10)
+                                    
+                                    .onReceive(Just(reasonGift)){ value in
+                                        if value != "" && value != idea?.eventTitleIdea{
+                                            updateIdea()
+                                        }
+                                        
+                                    }
+                                
+                                HStack{
+                                    
+                                    DatePicker(selection: $giftDate, in: ...Date(), displayedComponents: .date) {
+                                        Text("Gift Date")
+                                            .font(.custom("marker Felt", size: 18))
+                                            .foregroundColor(.purple)
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.3)
+                                    }
+                                    .padding(.trailing, 80)
+                                    .accentColor(Color("backgroundButton"))
+                                }
+                                
                                 VStack{
                                     HStack{
                                         Text("Description")
@@ -108,7 +115,7 @@ struct DetailIdeaView: View {
                                         .font(.custom("Arial", size: 18))
                                         .cornerRadius(25)
                                         .onReceive(Just(descriptionIdea)){ value in
-                                            if value != "vacio" && value != idea?.descriptionIdea{
+                                            if value != "" && value != idea?.descriptionIdea{
                                                 updateIdea()
                                             }
                                             
@@ -232,6 +239,8 @@ struct DetailIdeaView: View {
                 }.onDisappear{
                     if borrarIdea{
                         deleteIdea(idea: idea!)
+                    }else{
+                        updateIdea()
                     }
                 }
                 .padding()
@@ -240,7 +249,7 @@ struct DetailIdeaView: View {
             
 
 
-        }.navigationBarTitle("Idea for \(nameProfile)")
+        }.navigationBarTitle("Gift for \(nameProfile)")
          .navigationBarItems(trailing:
                                 HStack{
                                     Spacer()
@@ -264,7 +273,7 @@ struct DetailIdeaView: View {
                                 }
             ).alert(isPresented: $showAlertDelete, content: {
              Alert(
-                 title: Text("Do you want to delete this idea?"),
+                 title: Text("Do you want to delete this Gift?"),
                  primaryButton: .default(Text("Delete"), action: {
                      print("borrar idea")
                      borrarIdea = true
@@ -279,11 +288,13 @@ struct DetailIdeaView: View {
 //                eventTitle = viewModel.currentEvent.titleEvent ?? "title event Empty"
 
                 
-                titleIdea = idea?.ideaTitle ?? "empty"
-                descriptionIdea = idea?.descriptionIdea ?? "description"
+                titleIdea = idea?.ideaTitle ?? ""
+                descriptionIdea = idea?.descriptionIdea ?? ""
+                reasonGift = idea?.eventTitleIdea ?? ""
+                giftDate = idea?.fechaQueRegalo ?? Date()
                 
-                eventTitle = "title event Empty"
-                nameProfile = viewModel.currentProfile.nameProfile ?? "name profile empty"
+                eventTitle = ""
+                nameProfile = viewModel.currentProfile.nameProfile ?? ""
                 
 //                if eventParent.profileEventRelation?.imageProfile == nil{
 //                    imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
@@ -355,7 +366,9 @@ struct DetailIdeaView: View {
         withAnimation {
             idea?.ideaTitle = titleIdea
             idea?.descriptionIdea = descriptionIdea
-            idea?.regalado = regalado
+            idea?.regalado = true
+            idea?.eventTitleIdea = reasonGift
+            idea?.fechaQueRegalo = giftDate
             
             //imagen 1
             let imagenUIRedimensionada = resizeImage(image: imgIdea1)
@@ -390,8 +403,8 @@ struct DetailIdeaView: View {
     }
 }
 
-struct DetailIdeaView_Previews: PreviewProvider {
+struct DetailGiftDoitView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailIdeaView()
+        DetailGiftDoitView()
     }
 }

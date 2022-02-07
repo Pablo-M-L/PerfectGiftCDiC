@@ -60,7 +60,7 @@ struct datosProfileCell:View{
         
         ZStack{
                 NavigationLink(destination: DetailProfileView(profile: profile), isActive: $showSheetMode){
-                    Text("link detail")
+                    Text("")
                 }
             
             HStack{
@@ -136,12 +136,12 @@ struct datosProfileCell:View{
                     }
                     .font(.custom("Marker Felt", size: 16))
                     .foregroundColor(Color("backgroundButton"))
-                }.padding(.vertical,5)
+                }
                 
                 Spacer()
                 
                 
-            }
+            }.padding(7)
             .background(Color("cellprofileBck"))
             
         }
@@ -182,19 +182,14 @@ struct addIdeaButton: View{
             }
             
             ZStack{
-                Circle()
-                    .foregroundColor(Color("backgroundButton"))
-                Image(systemName: "person.fill.badge.plus")
+                Image("addIdeaIcon")
                     .resizable()
-                    .foregroundColor(.white)
-                    .background(Color("backgroundButton"))
                     .aspectRatio(contentMode: .fit)
-                    .padding(8)
             }
                 .onTapGesture {
                     self.showSheetMode = true
                 }
-        }.frame(width: 50 , height: 50)
+        }.frame(width: 60 , height: 60)
     }
 }
 

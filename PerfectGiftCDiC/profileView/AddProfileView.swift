@@ -25,7 +25,7 @@ struct AddProfileView: View {
             Color("background")
                 .edgesIgnoringSafeArea(.all)
             
- //           ScrollView(.vertical){
+            ScrollView(.vertical){
                 
                 VStack{
                         
@@ -42,15 +42,22 @@ struct AddProfileView: View {
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 100, height: 100)
+                                        .cornerRadius(20)
+                                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 3))
                                         .padding(.bottom, 3)
+                                        .shadow(color: .gray, radius: 2, x: 2, y: 2)
                                 }
                                 else{
                                     Image(systemName: "person")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
+                                        .cornerRadius(20)
                                         .frame(width: 100, height: 100)
+                                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 3))
                                         .padding(.bottom, 3)
+                                        .shadow(color: .gray, radius: 2, x: 2, y: 2)
                                 }
+                                
                                 HStack(alignment: .center){
                                     Text("Change Image")
                                 }
@@ -67,10 +74,10 @@ struct AddProfileView: View {
                     HStack{
                         Text("NAME: ")
                         TextField("Name Profile", text: $nameProfile)
-                            .padding(.vertical, 10)
+                            .padding()
                             .background(Color(.white))
-                            .lineLimit(1)
                             .cornerRadius(8)
+                            .padding()
                             
                         
                     }.font(.custom("Marker Felt", size: 18))
@@ -80,11 +87,11 @@ struct AddProfileView: View {
                         Text("ANNOTATION: ")
                         TextField("Info", text: $annotationsProfile)
                             //.multilineTextAlignment(.leading)
-                            .padding(.vertical,10)
-                            .lineLimit(1)
-                            .cornerRadius(8)
+                            .padding()
                             .background(Color(.white))
-                            .padding(.horizontal, 10)
+                            .cornerRadius(8)
+                            .padding()
+                            
                         
                             
                     }.font(.custom("marker Felt", size: 18))
@@ -103,13 +110,14 @@ struct AddProfileView: View {
                                     .font(.custom("Marker Felt", size: 20))
                                     .cornerRadius(25)
                                     .padding()
+                                    .shadow(color: .gray, radius: 2, x: 2, y: 2)
                             }
                     }).padding()
                     
                 }
                 .navigationTitle("Add Profile")
         }
-        //}
+        }
     }
     
     

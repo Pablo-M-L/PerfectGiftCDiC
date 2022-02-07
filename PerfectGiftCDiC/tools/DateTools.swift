@@ -98,7 +98,16 @@ func calcularDiasQueFaltan(dateEvent: Date)-> Int{
     
     let dias = Set<Calendar.Component>([.day])
     let result = calendar.dateComponents(dias, from: dateEvent as   Date,  to: Date() as Date)
-    return ((result.day ?? 0) * -1) 
+    
+    let resultado = (result.day ?? 0) * -1
+    
+    if resultado < 0 {
+        return 0
+    }
+    else{
+        return resultado
+    }
+
 }
 
 func calcularAnyosCumplidos(dateEvent: Date)-> Int{

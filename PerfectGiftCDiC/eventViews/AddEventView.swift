@@ -89,7 +89,9 @@ struct AddEventView: View {
                                         .foregroundColor(.purple)
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.3)
-                                }.padding(.trailing, 20)
+                                }
+                                .padding(.trailing, 80)
+                                .accentColor(Color("backgroundButton"))
                             }
                             else{
                                 DatePicker(selection: $birthDate,in:  Date()... ,displayedComponents: .date) {
@@ -98,7 +100,8 @@ struct AddEventView: View {
                                         .foregroundColor(.purple)
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.3)
-                                }.padding(.trailing, 20)
+                                }.padding(.trailing, 80)
+                                 .accentColor(Color("backgroundButton"))
                             }
 
                             
@@ -148,7 +151,7 @@ struct AddEventView: View {
                                 .padding(20)
                                 .background(Color.orange)
                                 .cornerRadius(25)
-                        })
+                        }).shadow(color: .gray, radius: 2, x: 2, y: 2)
                     }.onTapGesture {
                         UIApplication.shared.endEditing()
                     }

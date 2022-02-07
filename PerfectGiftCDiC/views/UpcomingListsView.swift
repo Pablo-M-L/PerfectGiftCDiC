@@ -30,7 +30,7 @@ struct UpcomingListsView: View {
 
 struct EventUpcomingList: View{
     
-    @FetchRequest(entity: Event.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Event.titleEvent, ascending: true)],
+    @FetchRequest(entity: Event.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Event.dateEvent, ascending: false)],
                   animation: .default)
     private var events: FetchedResults<Event>
     

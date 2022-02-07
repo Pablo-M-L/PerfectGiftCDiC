@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20G80" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21C52" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="Event" representedClassName="Event" syncable="YES" codeGenerationType="class">
         <attribute name="annualEvent" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="dateEvent" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -12,6 +12,7 @@
     <entity name="Ideas" representedClassName="Ideas" syncable="YES" codeGenerationType="class">
         <attribute name="descriptionIdea" optional="YES" attributeType="String"/>
         <attribute name="eventTitleIdea" optional="YES" attributeType="String"/>
+        <attribute name="fechaQueRegalo" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="ideaTitle" optional="YES" attributeType="String"/>
         <attribute name="idEventIdea" optional="YES" attributeType="String"/>
         <attribute name="idIdeas" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -20,6 +21,8 @@
         <attribute name="image2Idea" optional="YES" attributeType="Binary"/>
         <attribute name="image3Idea" optional="YES" attributeType="Binary"/>
         <attribute name="profileIdea" optional="YES" attributeType="String"/>
+        <attribute name="regalado" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="profileIdeasRelation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="ideasProfileRelation" inverseEntity="Profile"/>
         <relationship name="urlIdeaRelation" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UrlIdeas" inverseName="ideaUrlRelation" inverseEntity="UrlIdeas"/>
     </entity>
     <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
@@ -28,6 +31,7 @@
         <attribute name="imageProfile" optional="YES" attributeType="Binary"/>
         <attribute name="nameProfile" optional="YES" attributeType="String" defaultValueString="Pablo"/>
         <relationship name="eventProfileRelation" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Event" inverseName="profileEventRelation" inverseEntity="Event"/>
+        <relationship name="ideasProfileRelation" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Ideas" inverseName="profileIdeasRelation" inverseEntity="Ideas"/>
         <fetchedProperty name="fetchedProperty" optional="YES">
             <fetchRequest name="fetchedPropertyFetchRequest" entity="Profile"/>
         </fetchedProperty>
@@ -35,14 +39,15 @@
     <entity name="UrlIdeas" representedClassName="UrlIdeas" syncable="YES" codeGenerationType="class">
         <attribute name="idIdeaUrl" optional="YES" attributeType="String"/>
         <attribute name="idUrl" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="thumbailUrl" optional="YES" attributeType="Binary"/>
         <attribute name="titleUrl" optional="YES" attributeType="String"/>
         <attribute name="webUrl" optional="YES" attributeType="String"/>
         <relationship name="ideaUrlRelation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Ideas" inverseName="urlIdeaRelation" inverseEntity="Ideas"/>
     </entity>
     <elements>
         <element name="Event" positionX="-63" positionY="36" width="128" height="134"/>
-        <element name="Ideas" positionX="-54" positionY="63" width="128" height="194"/>
-        <element name="Profile" positionX="-63" positionY="-9" width="128" height="125"/>
-        <element name="UrlIdeas" positionX="-45" positionY="72" width="128" height="104"/>
+        <element name="Ideas" positionX="-54" positionY="63" width="128" height="239"/>
+        <element name="Profile" positionX="-63" positionY="-9" width="128" height="140"/>
+        <element name="UrlIdeas" positionX="-45" positionY="72" width="128" height="119"/>
     </elements>
 </model>

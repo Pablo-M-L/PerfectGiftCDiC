@@ -1,17 +1,15 @@
 //
-//  AddIdeaView.swift
+//  AddGiftDoitView.swift
 //  PerfectGiftCDiC
 //
-//  Created by Pablo Millan on 26/7/21.
+//  Created by pablo millan lopez on 6/2/22.
 //
 
 import SwiftUI
 import Combine
+import AVFoundation
 
-
-/** vista para añadir o editar una idea*/
-struct AddIdeaView: View {
-    
+struct AddGiftDoitView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @EnvironmentObject var viewModel: ViewModel
@@ -26,6 +24,8 @@ struct AddIdeaView: View {
     @State private var recargarLista = false
     @State private var ideaYaGuardada = false //si se abre la vista de añadir url y se guarda la idea, hay que actualizar no guardar
     @State private var showAlertUrl = false
+    @State private var reasonGift = ""
+    @State private var giftDate = Date()
 
     var maxUrl = 3
     @State var idea: Ideas? //solo se crea si se añpaden urls
@@ -57,7 +57,7 @@ struct AddIdeaView: View {
                                 //cabecero
                                 HStack{
                                     
-                                    Text("Idea For......")
+                                    Text("New Gift")
                                         .foregroundColor(Color("colorTextoTitulo"))
                                         .font(.custom("marker Felt", size: 36))
                                     Spacer()
@@ -85,6 +85,38 @@ struct AddIdeaView: View {
                                         }
                                         
                                     }
+                                
+                                HStack{
+                                Text("Reason for the Gift")
+                                    .foregroundColor(.purple)
+                                    .font(.custom("marker Felt", size: 18))
+                                    Spacer()
+                                }
+                                TextField("Enter Reason for the Gift", text: $reasonGift)
+                                    .padding(5)
+                                    .background(Color.white)
+                                    .font(.custom("Arial", size: 24))
+                                    .cornerRadius(10)
+                                    
+                                    .onReceive(Just(reasonGift)){ value in
+                                        if value != "" && value != idea?.eventTitleIdea{
+                                            updateIdea()
+                                        }
+                                        
+                                    }
+                                
+                                HStack{
+                                    
+                                    DatePicker(selection: $giftDate, in: ...Date(), displayedComponents: .date) {
+                                        Text("Gift Date")
+                                            .font(.custom("marker Felt", size: 18))
+                                            .foregroundColor(.purple)
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.3)
+                                    }
+                                    .padding(.trailing, 80)
+                                    .accentColor(Color("backgroundButton"))
+                                }
                                   
                                 //description
                                 VStack{
@@ -263,7 +295,7 @@ struct AddIdeaView: View {
                     
                 }, label: {
                     
-                    Text(ideaYaGuardada ? "Update Idea" : "Save Idea")
+                    Text(ideaYaGuardada ? "Update Gift" : "Save Gift")
                         .font(.custom("Marker Felt", size: 18))
                         .foregroundColor(.blue)
                         .padding(20)
@@ -341,6 +373,9 @@ struct AddIdeaView: View {
         withAnimation {
             idea?.ideaTitle = titleIdea
             idea?.descriptionIdea = descriptionIdea
+            idea?.regalado = true
+            idea?.eventTitleIdea = reasonGift
+            idea?.fechaQueRegalo = giftDate
             
             //imagen 1
             let imagenUIRedimensionada = resizeImage(image: imgIdea1)
@@ -386,7 +421,9 @@ struct AddIdeaView: View {
             let newIdea = Ideas(context: viewContext)
             newIdea.ideaTitle = titleIdea
             newIdea.profileIdeasRelation = profile
-            newIdea.regalado = false
+            newIdea.regalado = true
+            newIdea.eventTitleIdea = reasonGift
+            newIdea.fechaQueRegalo = giftDate
            // newIdea.eventTitleIdea = eventTitle
           //  newIdea.profileIdea = nameProfile
             newIdea.descriptionIdea = descriptionIdea
@@ -432,10 +469,12 @@ struct AddIdeaView: View {
         print("añadiendo idea antes de url")
         
         withAnimation {
-            
             let newIdea = Ideas(context: viewContext)
             newIdea.ideaTitle = titleIdea
-            newIdea.regalado = false
+            newIdea.regalado = true
+            newIdea.eventTitleIdea = reasonGift
+            newIdea.fechaQueRegalo = giftDate
+            
            // newIdea.eventTitleIdea = eventTitle
           //  newIdea.profileIdea = nameProfile
             newIdea.descriptionIdea = descriptionIdea
@@ -477,11 +516,10 @@ struct AddIdeaView: View {
             showUrl = true
         }
     }
-
 }
 
-//struct AddIdeaView_Previews: PreviewProvider {
+//struct AddGiftDoitView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        AddIdeaView(nameProfile: "pablo", eventTitle: "cumple",newIdea: true)
+//        AddGiftDoitView()
 //    }
 //}

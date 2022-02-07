@@ -26,7 +26,7 @@ struct IdeasListView: View {
   //  }
     
     init(profile: Profile){
-        ideas = FetchRequest<Ideas>(entity: Ideas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.ideaTitle, ascending: true)], predicate: NSPredicate(format: "idProfileIdea MATCHES[dc] %@", profile.idProfile?.uuidString ?? "nadie"),animation: .default)
+        ideas = FetchRequest<Ideas>(entity: Ideas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.ideaTitle, ascending: true)], predicate: NSPredicate(format: "idProfileIdea MATCHES[dc] %@ AND regalado == %@", argumentArray: [profile.idProfile?.uuidString ?? "nadie",false] ),animation: .default)
         
         self.profile = profile
     }
@@ -78,18 +78,12 @@ struct IdeasListView: View {
                             
                         }, label:{
                             ZStack{
-                                Circle()
-                                    .foregroundColor(Color("backgroundButton"))
-                                Image(systemName: "person.fill.badge.plus")
+                                Image("addIdeaIcon")
                                     .resizable()
-                                    .foregroundColor(.white)
-                                    .background(Color("backgroundButton"))
                                     .aspectRatio(contentMode: .fit)
-                                    .padding(8)
-                                
-                                
                             }
-                            .frame(width: 50, height: 50)
+                            .frame(width: 60, height: 60)
+                            .shadow(color: .gray, radius: 2, x: 2, y: 2)
                             .padding()
                         })
 

@@ -17,9 +17,20 @@ struct ContentView: View {
     @StateObject private var viewModel = ViewModel()
     @Environment(\.managedObjectContext) private var viewContext
     //upcomingevents
+    @FetchRequest(entity: Ideas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.ideaTitle, ascending: true)],
+                  animation: .default)
+    private var ideas: FetchedResults<Ideas>
+    
+    
+    //events
     @FetchRequest(entity: Event.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Event.titleEvent, ascending: true)],
                   animation: .default)
     private var events: FetchedResults<Event>
+    
+    //url
+    @FetchRequest(entity: UrlIdeas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \UrlIdeas.titleUrl, ascending: true)],
+                  animation: .default)
+    private var url: FetchedResults<UrlIdeas>
     
     //profile list
     @FetchRequest(
@@ -46,47 +57,48 @@ struct ContentView: View {
                         ProfileListView()
                     }
                     
-                VStack{
-                    HStack(alignment: .center, spacing: 50){
-                        Button(action:{
-                            withAnimation {
-                                cambiarLista = false
-                            }
+                    VStack{
+                        HStack(alignment: .center, spacing: 50){
+                            Button(action:{
+                                withAnimation {
+                                    cambiarLista = false
+                                }
+                                
+                            },label:{
+                                SelecctListButtonStyle(cambiarLista: $cambiarLista, texto: "Profiles", color: cambiarLista ? "backgroundButton" : "background3")
+                            })
                             
-                        },label:{
-                            SelecctListButtonStyle(cambiarLista: $cambiarLista, texto: "Profiles", color: cambiarLista ? "backgroundButton" : "background3")
-                        })
+                            Button(action:{
+                                withAnimation {
+                                    cambiarLista = true
+                                }
+                            },label:{
+                                SelecctListButtonStyle(cambiarLista: $cambiarLista, texto: "Upcoming", color: cambiarLista ? "background3" : "backgroundButton")
+                            })
+                            
+                            
+                        }.padding(.bottom,35)
                         
-                        Button(action:{
-                            withAnimation {
-                                cambiarLista = true
-                            }
-                        },label:{
-                            SelecctListButtonStyle(cambiarLista: $cambiarLista, texto: "Upcoming", color: cambiarLista ? "background3" : "backgroundButton")
-                        })
-                        
-                        
-                    }.padding(.bottom,35)
-                        
-                }.frame( height: 25)
-                        
-                      
+                    }.frame( height: 25)
+                    
+                    
                 }
                 .navigationBarItems(leading: logoButtonDummy() ,trailing: saveProfileButton2())
-                .accentColor(Color("colorTextoTitulo"))
                 .navigationTitle("Perfect Gift")
                 .navigationBarTitleDisplayMode(.inline)
                 .colorMultiply(Color("background"))
-                .accentColor(Color("background"))
                 
                 .onAppear{
                     setUpApparence()
+                    print("eventos: \(events.count)")
+                    print("ideas: \(ideas.count)")
+                    print("urls: \(url.count)")
                 }
                 
                 
                 
             }
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
         
         
         
@@ -112,13 +124,29 @@ struct ContentView: View {
 struct logoButtonDummy:View{
     
     var body: some View{
-        HStack{
-
+        
+        Button(action:{
+            
+            print("ayuda")
+        },label:{
+            HStack{
+                
                 Image("logoPerfectgift")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 40, height: 40)
-        }
+                    .shadow(color: .gray, radius: 2, x: 2, y: 2)
+                
+                Image(systemName: "questionmark.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(.red)
+                
+                Spacer()
+            }
+        })
+        
     }
 }
 struct saveProfileButton2: View{

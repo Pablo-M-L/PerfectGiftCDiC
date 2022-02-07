@@ -56,13 +56,16 @@ struct DetailEventView: View {
                     
                     //titulo fecha de nacimiento.......
                     HStack{
+                        
                         Text(eventSelected == .birthday ? "Date of Birth" : "Date to Commemorate")
                             .font(.custom("marker Felt", size: 18))
                             .foregroundColor(.purple)
                             .padding(.top, 10)
                         
                         Spacer()
-                    }
+                        
+
+                    }.padding(.top,10)
                     
                     //datepicker
                     HStack{
@@ -70,8 +73,8 @@ struct DetailEventView: View {
                         //si no es un special day, solo se puede seleccionar fechas anteriores a la actual ya que los cumpleaños y aniversiarios la fecha siempre será anterior.
                         if eventSelected != .specialDay{
                             DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
-                                Text( "")
-                            }
+                               EmptyView()
+                            }.frame(width: 20, alignment: .leading)
                                 .onReceive(Just(birthDate)) { date in
                                     if birthDate != Date(timeIntervalSince1970: 100){
                                         anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
@@ -81,11 +84,9 @@ struct DetailEventView: View {
                         }
                         else{
                             DatePicker(selection: $birthDate,in: Date()... ,  displayedComponents: .date) {
-                                Text("Event Date")
-                                    .font(.custom("marker Felt", size: 12))
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.3)
-                            }.padding(.trailing, 20)
+                                EmptyView()
+                            }
+                            .frame(width: 20, alignment: .leading)
                                 .onReceive(Just(birthDate)) { date in
                                     if birthDate != Date(timeIntervalSince1970: 100){
                                         anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
@@ -94,6 +95,7 @@ struct DetailEventView: View {
                                 }
                         }
                         
+                        Spacer()
                         //muestra los años cumplidos o ha conmemorar
                         if eventSelected == .birthday || eventSelected == .anniversary{
                             HStack{
@@ -104,12 +106,12 @@ struct DetailEventView: View {
                             }
                             .padding(5)
                             .padding(.leading, 20)
+                            .padding(.trailing, 10)
                             .font(.custom("marker Felt", size: 18))
                             .background(Color("background2"))
                             .cornerRadius(8)
                         }
                         
-                        Spacer()
                     }
                     
                     HStack{
@@ -118,7 +120,7 @@ struct DetailEventView: View {
                             .foregroundColor(.purple)
                             .padding(1)
                         Spacer()
-                    }
+                    }.padding(.top, 10)
                     
                     TextEditor(text: $observationsEvent)
                         .frame(height: UIScreen.main.bounds.height / 7)
@@ -198,13 +200,13 @@ struct DetailEventView: View {
                             
         ).alert(isPresented: $showAlert, content: {
             Alert(
-                title: Text("¿Quieres borrar este evento de \(event.profileEventRelation?.nameProfile ?? "perfil")?"),
-                primaryButton: .default(Text("Borrar"), action: {
+                title: Text("¿Do you want to delete this event from \(event.profileEventRelation?.nameProfile ?? "profile")?"),
+                primaryButton: .default(Text("Delete"), action: {
                     print("borrar evento")
                     borrarEvento = true
                     presentationMode.wrappedValue.dismiss()
                 }),
-                secondaryButton: .cancel(Text("Cancelar")))
+                secondaryButton: .cancel(Text("Cancel")))
         })
     }
     

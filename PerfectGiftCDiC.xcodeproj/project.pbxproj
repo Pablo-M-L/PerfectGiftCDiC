@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E0589B127B02F71009F6E5A /* DetailGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589B027B02F71009F6E5A /* DetailGiftDoitView.swift */; };
+		6E0589B327B07E44009F6E5A /* AddGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589B227B07E44009F6E5A /* AddGiftDoitView.swift */; };
 		6E1C76F626CED5340058C6C1 /* GiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76F526CED5340058C6C1 /* GiftDoitView.swift */; };
-		6E1C76F826CED5640058C6C1 /* EditGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76F726CED5640058C6C1 /* EditGiftDoitView.swift */; };
 		6E1C76FA26CED5720058C6C1 /* CellGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76F926CED5720058C6C1 /* CellGiftDoitView.swift */; };
 		6E1C76FC26CED58A0058C6C1 /* ListGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76FB26CED58A0058C6C1 /* ListGiftDoitView.swift */; };
 		6E82000926C8285A008C2B3F /* CellEventUpcomingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E82000826C8285A008C2B3F /* CellEventUpcomingList.swift */; };
@@ -45,8 +46,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E0589B027B02F71009F6E5A /* DetailGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGiftDoitView.swift; sourceTree = "<group>"; };
+		6E0589B227B07E44009F6E5A /* AddGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGiftDoitView.swift; sourceTree = "<group>"; };
 		6E1C76F526CED5340058C6C1 /* GiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftDoitView.swift; sourceTree = "<group>"; };
-		6E1C76F726CED5640058C6C1 /* EditGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGiftDoitView.swift; sourceTree = "<group>"; };
 		6E1C76F926CED5720058C6C1 /* CellGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellGiftDoitView.swift; sourceTree = "<group>"; };
 		6E1C76FB26CED58A0058C6C1 /* ListGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGiftDoitView.swift; sourceTree = "<group>"; };
 		6E82000826C8285A008C2B3F /* CellEventUpcomingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellEventUpcomingList.swift; sourceTree = "<group>"; };
@@ -109,9 +111,10 @@
 			isa = PBXGroup;
 			children = (
 				6E1C76F526CED5340058C6C1 /* GiftDoitView.swift */,
-				6E1C76F726CED5640058C6C1 /* EditGiftDoitView.swift */,
 				6E1C76F926CED5720058C6C1 /* CellGiftDoitView.swift */,
 				6E1C76FB26CED58A0058C6C1 /* ListGiftDoitView.swift */,
+				6E0589B027B02F71009F6E5A /* DetailGiftDoitView.swift */,
+				6E0589B227B07E44009F6E5A /* AddGiftDoitView.swift */,
 			);
 			path = giftsDoitView;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E0589B327B07E44009F6E5A /* AddGiftDoitView.swift in Sources */,
 				6E89ECA126BB211A0000CF70 /* PruebaViewmodelView.swift in Sources */,
 				6E96C8FF2693684E002D25A7 /* AddProfileView.swift in Sources */,
 				6E1C76FC26CED58A0058C6C1 /* ListGiftDoitView.swift in Sources */,
@@ -302,6 +306,7 @@
 				6E96C8FB26934FB3002D25A7 /* ProfileListView.swift in Sources */,
 				6E91AB1A26AE996900DF9E3B /* CellIdeaListView.swift in Sources */,
 				6E1C76F626CED5340058C6C1 /* GiftDoitView.swift in Sources */,
+				6E0589B127B02F71009F6E5A /* DetailGiftDoitView.swift in Sources */,
 				6E91AB2326AFE5E500DF9E3B /* CellUrlsListView.swift in Sources */,
 				6E91AB2D26B3FAC800DF9E3B /* Helper.swift in Sources */,
 				6E1C76FA26CED5720058C6C1 /* CellGiftDoitView.swift in Sources */,
@@ -324,7 +329,6 @@
 				6EA6014C2697A9520051FB14 /* EventsListView.swift in Sources */,
 				6E96C90126945C4E002D25A7 /* CellProfileListView.swift in Sources */,
 				6E96C8F22693254D002D25A7 /* PerfectGiftCDiC.xcdatamodeld in Sources */,
-				6E1C76F826CED5640058C6C1 /* EditGiftDoitView.swift in Sources */,
 				6E96C8FD26934FC8002D25A7 /* UpcomingListsView.swift in Sources */,
 				6E82000926C8285A008C2B3F /* CellEventUpcomingList.swift in Sources */,
 				6E96C8E62693254A002D25A7 /* PerfectGiftCDiCApp.swift in Sources */,
