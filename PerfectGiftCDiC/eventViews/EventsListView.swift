@@ -66,22 +66,25 @@ struct EventsListView: View {
                         showAddEvent = true
                     }, label: {
                         ZStack{
-                            Circle()
-                                .foregroundColor(Color("backgroundButton"))
-                            Image(systemName: "calendar.badge.plus")
+                            Image("addEventIcon")
                                 .resizable()
-                                .foregroundColor(.white)
-                                .background(Color("backgroundButton"))
                                 .aspectRatio(contentMode: .fit)
-                                .padding(8)
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 25)
+                                .foregroundColor(Color("backgroundButton"))
+                                .offset(x: -25, y: 25)
+
                         }
-                        .frame(width: 50, height: 50)
+                        .frame(width: 60, height: 60)
                         .padding()
                     }).sheet(isPresented: $showAddEvent) {
                         AddEventView(profile: profileParent)
                     }
                 }
             }.padding(.bottom, 30)
+                .shadow(color: .gray, radius: 2, x: 2, y: 2)
         }
        
     }

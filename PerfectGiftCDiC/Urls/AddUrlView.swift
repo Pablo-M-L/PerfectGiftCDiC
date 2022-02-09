@@ -188,7 +188,7 @@ struct AddUrlView: View {
         
         withAnimation {
             urlIdea?.titleUrl = titleUrl
-            urlIdea?.webUrl =  webUrl
+            urlIdea?.webUrl =  comprobarUrlIntroducida(url: webUrl)
             
             downloadthumbail(url: (URL(string: ("https://www.google.com/s2/favicons?domain=" + webUrl)) ?? defaultUrlThumbail!)) { UIImage in
                 let imageData =  UIImage.jpegData(compressionQuality: 1)
@@ -225,7 +225,7 @@ struct AddUrlView: View {
             let newUrl = UrlIdeas(context: viewContext)
             newUrl.titleUrl = titleUrl
             newUrl.idUrl = UUID()
-            newUrl.webUrl = webUrl
+            newUrl.webUrl = comprobarUrlIntroducida(url: webUrl)
             newUrl.idIdeaUrl = idea?.idIdeas?.uuidString
             newUrl.ideaUrlRelation = idea
             
@@ -271,6 +271,16 @@ struct AddUrlView: View {
         }
         
         
+    }
+    
+    func comprobarUrlIntroducida(url: String)-> String{
+        if url.starts(with: "https://"){
+            return url
+        }
+        else if url.starts(with: "www."){
+            return "https://"+url
+        }
+        return url
     }
 }
 

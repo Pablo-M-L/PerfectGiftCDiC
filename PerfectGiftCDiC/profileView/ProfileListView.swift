@@ -19,7 +19,7 @@ struct ProfileListView: View {
     
     var body: some View {
         ZStack{
-            
+    
             if recargarLista{
                 profileList()
             }
@@ -87,20 +87,59 @@ struct profileList: View{
     
     
     var body: some View{
-        List{
-            ForEach(profiles) { profile in
+        
+        if profiles.count > 0{
+            List{
+                ForEach(profiles) { profile in
                 CellProfileListView(profile: profile, numeroEventos: profile.eventProfileRelation?.count ?? 0)
-                    .shadow(color: .gray, radius: 2, x: 2, y: 2)
                     .background(Color("cellprofileBck"))
-                    .cornerRadius(20)
-                    .shadow(color: .gray, radius: 2, x: 3, y: 3)
-                    .padding(.vertical, 10)
-                //se muestra con el zstack para quitar la flecha de la celda.
+                     .cornerRadius(20)
+                     .shadow(color: .gray, radius: 2, x: 3, y: 3)
+                     .padding(.vertical, 10)
+                    //se muestra con el zstack para quitar la flecha de la celda.
+                }
+                .onDelete(perform: deleteItems)
+            }.listStyle(.inset)
+                .padding(.top,15)
+                .padding(.bottom,25)
+        }else{
+            VStack{
+                Spacer()
+                
+                HStack{
+                    
+                    Spacer()
+                    
+                    NavigationLink(
+                        destination: AddProfileView(),
+                        label: {
+                            HStack{
+                                Spacer()
+                                
+                                ZStack{
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .foregroundColor(Color("backgroundButton"))
+                                    Text("Add a profile!!")
+                                        .font(.custom("Marker Felt", size: 32))
+                                        .foregroundColor(Color("colorTextoTitulo"))
+                                        .bold()
+                                        .minimumScaleFactor(0.3)
+                                        .padding(20)
+                                    
+                                    
+                                }
+                                .frame(width: 350, height: 100)
+                                
+                                Spacer()
+                            }
+                            
+                        })
+                }
+                Spacer()
             }
-            .onDelete(perform: deleteItems)
-        }.listStyle(.inset)
-            .padding(.top,15)
-            .padding(.bottom,25)
+        }
+
+            
         
     }
     

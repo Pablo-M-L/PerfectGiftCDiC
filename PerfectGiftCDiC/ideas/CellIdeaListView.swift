@@ -13,13 +13,13 @@ struct CellIdeaListView: View {
         @State private var title = ""
         
         var body: some View {
-            HStack{
+            HStack(alignment: .center, spacing: 2){
+                Spacer()
                 Text("\(title)")
                     .font(.custom("marker Felt", size: 22))
                     .padding(5)
-                    .lineLimit(1)
                     .minimumScaleFactor(0.3)
-                    .cornerRadius(8)
+                Spacer()
             }
             .frame(height: 50)
             .onAppear{

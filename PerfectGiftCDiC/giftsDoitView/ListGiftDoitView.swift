@@ -51,7 +51,7 @@ struct ListGiftDoitView: View {
    
                         ZStack{
                             NavigationLink(destination: DetailGiftDoitView(idea: idea) ){
-                                EmptyView()
+                                Text("gift do it")
                             }.opacity(0)
                             CellGiftDoitView(idea: idea)
                         }.background(Color("cellprofileBck"))
@@ -79,9 +79,15 @@ struct ListGiftDoitView: View {
                             
                         }, label:{
                             ZStack{
-                                Image("addIdeaIcon")
+                                Image("giftDoitIcon")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
+                                Image(systemName: "plus.circle.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                    .foregroundColor(Color("backgroundButton"))
+                                    .offset(x: -25, y: 25)
                             }
                             .frame(width: 60, height: 60)
                             .shadow(color: .gray, radius: 2, x: 2, y: 2)

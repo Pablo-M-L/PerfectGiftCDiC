@@ -23,7 +23,6 @@ struct CellGiftDoitView: View {
                 .font(.custom("marker Felt", size: 18))
                 .minimumScaleFactor(0.3)
             Text("\(giftDate, formatter: itemFormatter)")
-
                 .minimumScaleFactor(0.3)
         }
             Spacer()

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6E0589B127B02F71009F6E5A /* DetailGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589B027B02F71009F6E5A /* DetailGiftDoitView.swift */; };
 		6E0589B327B07E44009F6E5A /* AddGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589B227B07E44009F6E5A /* AddGiftDoitView.swift */; };
+		6E0589B527B24223009F6E5A /* MensajeBienvenidaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589B427B24223009F6E5A /* MensajeBienvenidaView.swift */; };
 		6E1C76F626CED5340058C6C1 /* GiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76F526CED5340058C6C1 /* GiftDoitView.swift */; };
 		6E1C76FA26CED5720058C6C1 /* CellGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76F926CED5720058C6C1 /* CellGiftDoitView.swift */; };
 		6E1C76FC26CED58A0058C6C1 /* ListGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76FB26CED58A0058C6C1 /* ListGiftDoitView.swift */; };
@@ -48,6 +49,7 @@
 /* Begin PBXFileReference section */
 		6E0589B027B02F71009F6E5A /* DetailGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGiftDoitView.swift; sourceTree = "<group>"; };
 		6E0589B227B07E44009F6E5A /* AddGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGiftDoitView.swift; sourceTree = "<group>"; };
+		6E0589B427B24223009F6E5A /* MensajeBienvenidaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MensajeBienvenidaView.swift; sourceTree = "<group>"; };
 		6E1C76F526CED5340058C6C1 /* GiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftDoitView.swift; sourceTree = "<group>"; };
 		6E1C76F926CED5720058C6C1 /* CellGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellGiftDoitView.swift; sourceTree = "<group>"; };
 		6E1C76FB26CED58A0058C6C1 /* ListGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGiftDoitView.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			children = (
 				6E96C8E72693254A002D25A7 /* ContentView.swift */,
 				6E96C8FC26934FC8002D25A7 /* UpcomingListsView.swift */,
+				6E0589B427B24223009F6E5A /* MensajeBienvenidaView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				6E89ECA126BB211A0000CF70 /* PruebaViewmodelView.swift in Sources */,
 				6E96C8FF2693684E002D25A7 /* AddProfileView.swift in Sources */,
 				6E1C76FC26CED58A0058C6C1 /* ListGiftDoitView.swift in Sources */,
+				6E0589B527B24223009F6E5A /* MensajeBienvenidaView.swift in Sources */,
 				6EA6014E2697A9D30051FB14 /* CellEventListView.swift in Sources */,
 				6E96C8FB26934FB3002D25A7 /* ProfileListView.swift in Sources */,
 				6E91AB1A26AE996900DF9E3B /* CellIdeaListView.swift in Sources */,

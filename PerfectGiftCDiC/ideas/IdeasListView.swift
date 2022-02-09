@@ -48,14 +48,13 @@ struct IdeasListView: View {
                     
                 List{
                     ForEach(ideas.wrappedValue, id: \.self) { idea in
-   
                         ZStack{
                             NavigationLink(destination: DetailIdeaView(idea: idea) ){
-                                Text("idea")
+                                Text("ideas")
                             }.opacity(0)
                             CellIdeaListView(idea: idea)
                         }.background(Color("cellprofileBck"))
-                        .cornerRadius(20)
+                         .cornerRadius(20)
 
                     }
                 }.listStyle(.inset)
@@ -81,6 +80,12 @@ struct IdeasListView: View {
                                 Image("addIdeaIcon")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
+                                Image(systemName: "plus.circle.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                    .foregroundColor(Color("backgroundButton"))
+                                    .offset(x: -25, y: 25)
                             }
                             .frame(width: 60, height: 60)
                             .shadow(color: .gray, radius: 2, x: 2, y: 2)

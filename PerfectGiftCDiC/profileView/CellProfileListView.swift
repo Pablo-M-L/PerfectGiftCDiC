@@ -105,14 +105,14 @@ struct datosProfileCell:View{
                                         RoundedRectangle(cornerRadius: 5)
                                             .foregroundColor(.red)
                                             .opacity(0.7)
-                                            .frame(width: UIScreen.main.bounds.width / 2.3, height: 25, alignment: .leading)
+                                            .frame(width: UIScreen.main.bounds.width / 2.5, height: 25, alignment: .leading)
                                         Spacer()
                                     }
                                     HStack{
                                         RoundedRectangle(cornerRadius: 5)
                                             .foregroundColor(.green)
                                             .opacity(0.8)
-                                            .frame(width: ((UIScreen.main.bounds.width / 2.3) * CGFloat(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent))) / 365,
+                                            .frame(width: ((UIScreen.main.bounds.width / 2.5) * CGFloat(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent))) / 365,
                                                    height: 25,
                                                    alignment: .leading)
                                         Spacer()
@@ -123,8 +123,6 @@ struct datosProfileCell:View{
                                         .font(.custom("marker felt", size: 16))
                                         .minimumScaleFactor(0.3)
                                         .lineLimit(1)
-                                    
-                                    
                                 }
                                 
                             }
@@ -139,9 +137,7 @@ struct datosProfileCell:View{
                 }
                 
                 Spacer()
-                
-                
-            }.padding(7)
+            }
             .background(Color("cellprofileBck"))
             
         }

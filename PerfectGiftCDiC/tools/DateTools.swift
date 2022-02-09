@@ -57,7 +57,7 @@ func getNextDayEvent(date: Date)-> Date{
         firstDateComponents.year = añoActualEnNumero + 1
     }else if mesEnNumero == mesActualEnNumero{
         //si es el mismo mes hay que comprobar si ya ha pasado el dia del evento.
-        if diaEnNumero < diaActualEnNumero{
+        if diaEnNumero <= diaActualEnNumero{
             //si el dia actual es mayor que el dia del evento, es que ya ha pasado y la fecha será para el año siguiente.
             firstDateComponents.year = añoActualEnNumero + 1
         }
@@ -66,7 +66,6 @@ func getNextDayEvent(date: Date)-> Date{
     firstDateComponents.timeZone = TimeZone(abbreviation: "UTC")
 
     let firstDate = Calendar(identifier: Calendar.Identifier.gregorian).date(from: firstDateComponents)
-
     return firstDate ?? Date()
    
 }

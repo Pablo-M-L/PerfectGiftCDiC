@@ -39,10 +39,12 @@ struct ContentView: View {
     
     private var profiles: FetchedResults<Profile>
     @State var cambiarLista = false
+    @State var mostrarAyuda = false
     
     var body: some View {
         
-        NavigationView{
+        if !mostrarAyuda{
+            NavigationView{
             
             ZStack{
                 
@@ -99,7 +101,11 @@ struct ContentView: View {
                 
             }
         }.navigationViewStyle(StackNavigationViewStyle())
-        
+        }
+        else{
+            MensajeBienvenidaView()
+                
+        }
         
         
     }
