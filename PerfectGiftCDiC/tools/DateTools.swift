@@ -93,13 +93,19 @@ func diasQueFaltan(fechaInicio: String)->Int{
 }
 
 func calcularDiasQueFaltan(dateEvent: Date)-> Int{
+    print("Fecha")
+    print(dateEvent)
     let calendar = Calendar.current
     
     let dias = Set<Calendar.Component>([.day])
+    print("dias")
+    print(dias)
     let result = calendar.dateComponents(dias, from: dateEvent as   Date,  to: Date() as Date)
-    
+    print("resul")
+    print(result)
     let resultado = (result.day ?? 0) * -1
-    
+    print("resultado")
+    print(resultado)
     if resultado < 0 {
         return 0
     }

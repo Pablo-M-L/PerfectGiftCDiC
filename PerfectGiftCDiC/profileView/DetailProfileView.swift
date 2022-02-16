@@ -17,8 +17,8 @@ struct DetailProfileView: View {
     var profile: Profile
     
     
-    @State private var nameProfile = "vacio"
-    @State private var annotationsProfile = "vacio"
+    @State private var nameProfile = ""
+    @State private var annotationsProfile = ""
     @State private var mostrarImagePicker = false
     @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
@@ -71,21 +71,45 @@ struct DetailProfileView: View {
                     //nombre y anotaciones
                     VStack(alignment: .leading){
                         
+                        ZStack{
                         TextFieldProfile(hint: "Name Profile", dataString: $nameProfile)
                             //onReceive detecta cambio en la variable nameProfile, si hay cambio llama a la funcion de guardar en BD.
                             //tambien se compara con el string "vacio" que es el valor inicial, porque detectaba el cambio en la variable
                             //al abrir la pantalla, y guardaba en la BD el valor "vacio", borrando el dato correcto.
                             .onReceive(Just(nameProfile)){ value in
-                                if value != "vacio" && value != profile.nameProfile{
+                                if value != "" && value != profile.nameProfile{
                                     saveChangesProfile()
                                 }
                             }
-                        TextFieldProfile(hint: "Info", dataString: $annotationsProfile)
+                            HStack{
+                                Spacer()
+                                Image(systemName: "pencil.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                    .foregroundColor(Color.gray)
+                                    .padding(.trailing, 10)
+                            }
+                        }
+                        
+                        ZStack{
+                        TextFieldProfile(hint: "Details", dataString: $annotationsProfile)
                             .onReceive(Just(nameProfile)){ value in
-                                if value != "vacio" && value != profile.annotationsProfile{
+                                if value != "" && value != profile.annotationsProfile{
                                     saveChangesProfile()
                                 }
                             }
+                            
+                            HStack{
+                                Spacer()
+                                Image(systemName: "pencil.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                    .foregroundColor(Color.gray)
+                                    .padding(.trailing, 10)
+                            }
+                        }
                     }
 
                     
@@ -98,7 +122,7 @@ struct DetailProfileView: View {
                         .edgesIgnoringSafeArea(.all)
                 }
                 else if vistaActiva == .eventos{
-                    EventsListView(filter: profile.nameProfile ?? "nadie", profile: profile)
+                    EventsListView(filter: profile.nameProfile ?? "", profile: profile)
                         .colorMultiply(Color("background"))
                         .edgesIgnoringSafeArea(.all)
                 }

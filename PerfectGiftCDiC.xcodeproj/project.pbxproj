@@ -10,6 +10,18 @@
 		6E0589B127B02F71009F6E5A /* DetailGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589B027B02F71009F6E5A /* DetailGiftDoitView.swift */; };
 		6E0589B327B07E44009F6E5A /* AddGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589B227B07E44009F6E5A /* AddGiftDoitView.swift */; };
 		6E0589B527B24223009F6E5A /* MensajeBienvenidaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589B427B24223009F6E5A /* MensajeBienvenidaView.swift */; };
+		6E0589BD27B3991B009F6E5A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0589BC27B3991B009F6E5A /* WidgetKit.framework */; };
+		6E0589BF27B3991B009F6E5A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0589BE27B3991B009F6E5A /* SwiftUI.framework */; };
+		6E0589C227B3991B009F6E5A /* PerfectGiftWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589C127B3991B009F6E5A /* PerfectGiftWidget.swift */; };
+		6E0589C527B3991E009F6E5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E0589C427B3991E009F6E5A /* Assets.xcassets */; };
+		6E0589C727B3991E009F6E5A /* PerfectGiftWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589C327B3991B009F6E5A /* PerfectGiftWidget.intentdefinition */; };
+		6E0589C827B3991E009F6E5A /* PerfectGiftWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589C327B3991B009F6E5A /* PerfectGiftWidget.intentdefinition */; };
+		6E0589CB27B3991E009F6E5A /* PerfectGiftWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6E0589BA27B3991B009F6E5A /* PerfectGiftWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6E0589D127B4E205009F6E5A /* HelperWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589D027B4E205009F6E5A /* HelperWidget.swift */; };
+		6E0589D227B4E71B009F6E5A /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E96C8EE2693254D002D25A7 /* Persistence.swift */; };
+		6E0589D327B4E731009F6E5A /* PerfectGiftCDiC.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6E96C8F02693254D002D25A7 /* PerfectGiftCDiC.xcdatamodeld */; };
+		6E0589D427B4F0AA009F6E5A /* DateTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB2826B2B60D00DF9E3B /* DateTools.swift */; };
+		6E0589D827B53C2F009F6E5A /* FavoritesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589D727B53C2F009F6E5A /* FavoritesListView.swift */; };
 		6E1C76F626CED5340058C6C1 /* GiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76F526CED5340058C6C1 /* GiftDoitView.swift */; };
 		6E1C76FA26CED5720058C6C1 /* CellGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76F926CED5720058C6C1 /* CellGiftDoitView.swift */; };
 		6E1C76FC26CED58A0058C6C1 /* ListGiftDoitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1C76FB26CED58A0058C6C1 /* ListGiftDoitView.swift */; };
@@ -43,13 +55,52 @@
 		6EA6014E2697A9D30051FB14 /* CellEventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA6014D2697A9D30051FB14 /* CellEventListView.swift */; };
 		6EA601502697AA340051FB14 /* DetailEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA6014F2697AA340051FB14 /* DetailEventView.swift */; };
 		6EAA764C27A4154900EAD5E4 /* DetailIdeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA764B27A4154900EAD5E4 /* DetailIdeaView.swift */; };
+		6ECA1E1427B5A37E00BC1BD9 /* CellFavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA1E1327B5A37E00BC1BD9 /* CellFavoriteView.swift */; };
+		6ECA1E1727B68CBC00BC1BD9 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB2C26B3FAC800DF9E3B /* Helper.swift */; };
+		6ECA1E1C27BA874400BC1BD9 /* SelectFavListProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECA1E1B27BA874400BC1BD9 /* SelectFavListProfileView.swift */; };
+		6ECA1E2027BB82E500BC1BD9 /* HelperWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0589D027B4E205009F6E5A /* HelperWidget.swift */; };
+		6ECA1E2127BB82F800BC1BD9 /* ModelStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB2A26B2B82F00DF9E3B /* ModelStructs.swift */; };
+		6ECA1E2227BB830800BC1BD9 /* EventsTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E91AB2626B298E600DF9E3B /* EventsTools.swift */; };
 		6EF2BF3D2696DAE200FA4494 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF2BF3C2696DAE200FA4494 /* AddEventView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6E0589C927B3991E009F6E5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E96C8DA2693254A002D25A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E0589B927B3991B009F6E5A;
+			remoteInfo = PerfectGiftWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6E0589CF27B3991E009F6E5A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6E0589CB27B3991E009F6E5A /* PerfectGiftWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6E0589B027B02F71009F6E5A /* DetailGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGiftDoitView.swift; sourceTree = "<group>"; };
 		6E0589B227B07E44009F6E5A /* AddGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGiftDoitView.swift; sourceTree = "<group>"; };
 		6E0589B427B24223009F6E5A /* MensajeBienvenidaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MensajeBienvenidaView.swift; sourceTree = "<group>"; };
+		6E0589BA27B3991B009F6E5A /* PerfectGiftWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PerfectGiftWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E0589BC27B3991B009F6E5A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		6E0589BE27B3991B009F6E5A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		6E0589C127B3991B009F6E5A /* PerfectGiftWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfectGiftWidget.swift; sourceTree = "<group>"; };
+		6E0589C327B3991B009F6E5A /* PerfectGiftWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = PerfectGiftWidget.intentdefinition; sourceTree = "<group>"; };
+		6E0589C427B3991E009F6E5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6E0589C627B3991E009F6E5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E0589D027B4E205009F6E5A /* HelperWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperWidget.swift; sourceTree = "<group>"; };
+		6E0589D727B53C2F009F6E5A /* FavoritesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesListView.swift; sourceTree = "<group>"; };
 		6E1C76F526CED5340058C6C1 /* GiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftDoitView.swift; sourceTree = "<group>"; };
 		6E1C76F926CED5720058C6C1 /* CellGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellGiftDoitView.swift; sourceTree = "<group>"; };
 		6E1C76FB26CED58A0058C6C1 /* ListGiftDoitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListGiftDoitView.swift; sourceTree = "<group>"; };
@@ -85,10 +136,23 @@
 		6EA6014D2697A9D30051FB14 /* CellEventListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellEventListView.swift; sourceTree = "<group>"; };
 		6EA6014F2697AA340051FB14 /* DetailEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailEventView.swift; sourceTree = "<group>"; };
 		6EAA764B27A4154900EAD5E4 /* DetailIdeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailIdeaView.swift; sourceTree = "<group>"; };
+		6ECA1E1327B5A37E00BC1BD9 /* CellFavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellFavoriteView.swift; sourceTree = "<group>"; };
+		6ECA1E1527B6412400BC1BD9 /* PerfectGiftCDiC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PerfectGiftCDiC.entitlements; sourceTree = "<group>"; };
+		6ECA1E1627B641CC00BC1BD9 /* PerfectGiftWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PerfectGiftWidgetExtension.entitlements; sourceTree = "<group>"; };
+		6ECA1E1B27BA874400BC1BD9 /* SelectFavListProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFavListProfileView.swift; sourceTree = "<group>"; };
 		6EF2BF3C2696DAE200FA4494 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6E0589B727B3991B009F6E5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E0589BF27B3991B009F6E5A /* SwiftUI.framework in Frameworks */,
+				6E0589BD27B3991B009F6E5A /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E96C8DF2693254A002D25A7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -99,6 +163,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6E0589BB27B3991B009F6E5A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6E0589BC27B3991B009F6E5A /* WidgetKit.framework */,
+				6E0589BE27B3991B009F6E5A /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6E0589C027B3991B009F6E5A /* PerfectGiftWidget */ = {
+			isa = PBXGroup;
+			children = (
+				6E0589C127B3991B009F6E5A /* PerfectGiftWidget.swift */,
+				6E0589C327B3991B009F6E5A /* PerfectGiftWidget.intentdefinition */,
+				6E0589C427B3991E009F6E5A /* Assets.xcassets */,
+				6E0589C627B3991E009F6E5A /* Info.plist */,
+			);
+			path = PerfectGiftWidget;
+			sourceTree = "<group>";
+		};
+		6E0589D627B53BDA009F6E5A /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				6E0589D727B53C2F009F6E5A /* FavoritesListView.swift */,
+				6ECA1E1327B5A37E00BC1BD9 /* CellFavoriteView.swift */,
+				6ECA1E1B27BA874400BC1BD9 /* SelectFavListProfileView.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
 		6E19476E26A69FAF00216B9E /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,7 +240,10 @@
 		6E96C8D92693254A002D25A7 = {
 			isa = PBXGroup;
 			children = (
+				6ECA1E1627B641CC00BC1BD9 /* PerfectGiftWidgetExtension.entitlements */,
 				6E96C8E42693254A002D25A7 /* PerfectGiftCDiC */,
+				6E0589C027B3991B009F6E5A /* PerfectGiftWidget */,
+				6E0589BB27B3991B009F6E5A /* Frameworks */,
 				6E96C8E32693254A002D25A7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -155,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				6E96C8E22693254A002D25A7 /* PerfectGiftCDiC.app */,
+				6E0589BA27B3991B009F6E5A /* PerfectGiftWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,6 +260,8 @@
 		6E96C8E42693254A002D25A7 /* PerfectGiftCDiC */ = {
 			isa = PBXGroup;
 			children = (
+				6ECA1E1527B6412400BC1BD9 /* PerfectGiftCDiC.entitlements */,
+				6E0589D627B53BDA009F6E5A /* Favorites */,
 				6E1C76F426CED50D0058C6C1 /* giftsDoitView */,
 				6EA601522697AAC00051FB14 /* profileView */,
 				6EA601512697AAAB0051FB14 /* eventViews */,
@@ -204,6 +304,7 @@
 				6E91AB2626B298E600DF9E3B /* EventsTools.swift */,
 				6E91AB2826B2B60D00DF9E3B /* DateTools.swift */,
 				6E91AB2C26B3FAC800DF9E3B /* Helper.swift */,
+				6E0589D027B4E205009F6E5A /* HelperWidget.swift */,
 			);
 			path = tools;
 			sourceTree = "<group>";
@@ -235,6 +336,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6E0589B927B3991B009F6E5A /* PerfectGiftWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E0589CC27B3991E009F6E5A /* Build configuration list for PBXNativeTarget "PerfectGiftWidgetExtension" */;
+			buildPhases = (
+				6E0589B627B3991B009F6E5A /* Sources */,
+				6E0589B727B3991B009F6E5A /* Frameworks */,
+				6E0589B827B3991B009F6E5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PerfectGiftWidgetExtension;
+			productName = PerfectGiftWidgetExtension;
+			productReference = 6E0589BA27B3991B009F6E5A /* PerfectGiftWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		6E96C8E12693254A002D25A7 /* PerfectGiftCDiC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6E96C8F62693254D002D25A7 /* Build configuration list for PBXNativeTarget "PerfectGiftCDiC" */;
@@ -242,10 +360,12 @@
 				6E96C8DE2693254A002D25A7 /* Sources */,
 				6E96C8DF2693254A002D25A7 /* Frameworks */,
 				6E96C8E02693254A002D25A7 /* Resources */,
+				6E0589CF27B3991E009F6E5A /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6E0589CA27B3991E009F6E5A /* PBXTargetDependency */,
 			);
 			name = PerfectGiftCDiC;
 			productName = PerfectGiftCDiC;
@@ -258,9 +378,12 @@
 		6E96C8DA2693254A002D25A7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
+					6E0589B927B3991B009F6E5A = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					6E96C8E12693254A002D25A7 = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
@@ -280,11 +403,20 @@
 			projectRoot = "";
 			targets = (
 				6E96C8E12693254A002D25A7 /* PerfectGiftCDiC */,
+				6E0589B927B3991B009F6E5A /* PerfectGiftWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6E0589B827B3991B009F6E5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E0589C527B3991E009F6E5A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E96C8E02693254A002D25A7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -297,6 +429,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6E0589B627B3991B009F6E5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E0589D427B4F0AA009F6E5A /* DateTools.swift in Sources */,
+				6ECA1E1727B68CBC00BC1BD9 /* Helper.swift in Sources */,
+				6ECA1E2027BB82E500BC1BD9 /* HelperWidget.swift in Sources */,
+				6E0589D227B4E71B009F6E5A /* Persistence.swift in Sources */,
+				6ECA1E2227BB830800BC1BD9 /* EventsTools.swift in Sources */,
+				6E0589C727B3991E009F6E5A /* PerfectGiftWidget.intentdefinition in Sources */,
+				6E0589D327B4E731009F6E5A /* PerfectGiftCDiC.xcdatamodeld in Sources */,
+				6ECA1E2127BB82F800BC1BD9 /* ModelStructs.swift in Sources */,
+				6E0589C227B3991B009F6E5A /* PerfectGiftWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E96C8DE2693254A002D25A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -304,6 +452,7 @@
 				6E0589B327B07E44009F6E5A /* AddGiftDoitView.swift in Sources */,
 				6E89ECA126BB211A0000CF70 /* PruebaViewmodelView.swift in Sources */,
 				6E96C8FF2693684E002D25A7 /* AddProfileView.swift in Sources */,
+				6E0589D127B4E205009F6E5A /* HelperWidget.swift in Sources */,
 				6E1C76FC26CED58A0058C6C1 /* ListGiftDoitView.swift in Sources */,
 				6E0589B527B24223009F6E5A /* MensajeBienvenidaView.swift in Sources */,
 				6EA6014E2697A9D30051FB14 /* CellEventListView.swift in Sources */,
@@ -313,10 +462,14 @@
 				6E0589B127B02F71009F6E5A /* DetailGiftDoitView.swift in Sources */,
 				6E91AB2326AFE5E500DF9E3B /* CellUrlsListView.swift in Sources */,
 				6E91AB2D26B3FAC800DF9E3B /* Helper.swift in Sources */,
+				6E0589D827B53C2F009F6E5A /* FavoritesListView.swift in Sources */,
 				6E1C76FA26CED5720058C6C1 /* CellGiftDoitView.swift in Sources */,
 				6EAA764C27A4154900EAD5E4 /* DetailIdeaView.swift in Sources */,
+				6E0589C827B3991E009F6E5A /* PerfectGiftWidget.intentdefinition in Sources */,
+				6ECA1E1C27BA874400BC1BD9 /* SelectFavListProfileView.swift in Sources */,
 				6E89EC9F26BB1C860000CF70 /* ViewModel.swift in Sources */,
 				6E91AB1626AE993F00DF9E3B /* AddIdeaView.swift in Sources */,
+				6ECA1E1427B5A37E00BC1BD9 /* CellFavoriteView.swift in Sources */,
 				6E96C8EF2693254D002D25A7 /* Persistence.swift in Sources */,
 				6E96C904269487E2002D25A7 /* ImagePicker.swift in Sources */,
 				6E96C8E82693254A002D25A7 /* ContentView.swift in Sources */,
@@ -341,7 +494,75 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6E0589CA27B3991E009F6E5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E0589B927B3991B009F6E5A /* PerfectGiftWidgetExtension */;
+			targetProxy = 6E0589C927B3991E009F6E5A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		6E0589CD27B3991E009F6E5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = PerfectGiftWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MZKL96N2NF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PerfectGiftWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PerfectGiftWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pablomillan.PerfectGiftCDiC.PerfectGiftWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6E0589CE27B3991E009F6E5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = PerfectGiftWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MZKL96N2NF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PerfectGiftWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PerfectGiftWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pablomillan.PerfectGiftCDiC.PerfectGiftWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		6E96C8F42693254D002D25A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -461,8 +682,10 @@
 		6E96C8F72693254D002D25A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PerfectGiftCDiC/PerfectGiftCDiC.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"PerfectGiftCDiC/Preview Content\"";
 				DEVELOPMENT_TEAM = MZKL96N2NF;
@@ -483,8 +706,10 @@
 		6E96C8F82693254D002D25A7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PerfectGiftCDiC/PerfectGiftCDiC.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"PerfectGiftCDiC/Preview Content\"";
 				DEVELOPMENT_TEAM = MZKL96N2NF;
@@ -505,6 +730,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6E0589CC27B3991E009F6E5A /* Build configuration list for PBXNativeTarget "PerfectGiftWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E0589CD27B3991E009F6E5A /* Debug */,
+				6E0589CE27B3991E009F6E5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6E96C8DD2693254A002D25A7 /* Build configuration list for PBXProject "PerfectGiftCDiC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

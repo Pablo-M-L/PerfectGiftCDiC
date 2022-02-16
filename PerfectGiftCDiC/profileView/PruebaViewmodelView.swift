@@ -11,7 +11,7 @@ struct PruebaViewmodelView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject private var viewModel = ViewModel()
-    private var helper = coredataHelper()
+    private var helper = CoredataHelper()
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Profile.nameProfile, ascending: true)],

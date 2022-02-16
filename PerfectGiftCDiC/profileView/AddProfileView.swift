@@ -12,7 +12,7 @@ import CoreData
 struct AddProfileView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
-
+    
     @State private var nameProfile = ""
     @State private var annotationsProfile = ""
     @State private var mostrarImagePicker = false
@@ -28,7 +28,7 @@ struct AddProfileView: View {
             ScrollView(.vertical){
                 
                 VStack{
-                        
+                    
                     //boton cambiar imagen y toggle
                     HStack{
                         Spacer()
@@ -61,87 +61,109 @@ struct AddProfileView: View {
                                 HStack(alignment: .center){
                                     Text("Change Image")
                                 }
-                        }
+                            }
                         })
-                        .sheet(isPresented: $mostrarImagePicker){
-                            ImagePicker(selectedImage: self.$imgServicio, selectedImageDone: $imageDone)
-                        }
+                            .sheet(isPresented: $mostrarImagePicker){
+                                ImagePicker(selectedImage: self.$imgServicio, selectedImageDone: $imageDone)
+                            }
                         
                         Spacer()
                         
                     }.padding(.trailing, 7)
                     
-                    HStack{
-                        Text("NAME: ")
-                        TextField("Name Profile", text: $nameProfile)
-                            .padding()
-                            .background(Color(.white))
-                            .cornerRadius(8)
-                            .padding()
+                    VStack{
+                        Text("Name: ")
+                            .foregroundColor(Color("colorTextoTitulo"))
+                        ZStack{
+                            TextField("Person Name", text: $nameProfile)
+                                .padding()
+                                .background(Color(.white))
+                                .cornerRadius(8)
                             
+                            HStack{
+                                Spacer()
+                                Image(systemName: "pencil.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                    .foregroundColor(Color.gray)
+                                    .padding(.trailing, 20)
+                            }
+                        }
                         
                     }.font(.custom("Marker Felt", size: 18))
-                    .padding()
+                        .padding()
                     
                     VStack{
-                        Text("ANNOTATION: ")
-                        TextField("Info", text: $annotationsProfile)
-                            //.multilineTextAlignment(.leading)
-                            .padding()
-                            .background(Color(.white))
-                            .cornerRadius(8)
-                            .padding()
-                            
+                        Text("Details")
+                            .foregroundColor(Color("colorTextoTitulo"))
                         
+                        ZStack{
+                            TextField("Details", text: $annotationsProfile)
+                            //.multilineTextAlignment(.leading)
+                                .padding()
+                                .background(Color(.white))
+                                .cornerRadius(8)
                             
+                            HStack{
+                                Spacer()
+                                Image(systemName: "pencil.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 25, height: 25)
+                                    .foregroundColor(Color.gray)
+                                    .padding(.trailing, 20)
+                            }
+                        }
+                        
                     }.font(.custom("marker Felt", size: 18))
-                    
+                        .padding(.horizontal, 10)
                     Spacer()
                     
                     Button(action:{
                         addProfile()
                         presentationMode.wrappedValue.dismiss()
                     },label:{
-                            ZStack{
-                                Text("ADD PROFILE")
-                                    .frame(width: UIScreen.main.bounds.width / 1.2, height: 50)
-                                    .background(Color.orange)
-                                    .foregroundColor(.white)
-                                    .font(.custom("Marker Felt", size: 20))
-                                    .cornerRadius(25)
-                                    .padding()
-                                    .shadow(color: .gray, radius: 2, x: 2, y: 2)
-                            }
+                        ZStack{
+                            Text("ADD PERSON")
+                                .frame(width: UIScreen.main.bounds.width / 1.2, height: 50)
+                                .background(Color.orange)
+                                .foregroundColor(.white)
+                                .font(.custom("Marker Felt", size: 20))
+                                .cornerRadius(25)
+                                .padding()
+                                .shadow(color: .gray, radius: 2, x: 2, y: 2)
+                        }
                     }).padding()
                     
                 }
-                .navigationTitle("Add Profile")
-        }
+                .navigationTitle("Add Person")
+            }
         }
     }
     
     
-        private func addProfile() {
-            withAnimation {
-                let newProfile = Profile(context: viewContext)
-                newProfile.idProfile = UUID()
-                newProfile.annotationsProfile = annotationsProfile
-                newProfile.nameProfile = nameProfile
-                let imagenUIRedimensionada = resizeImage(image: imgServicio)
-                let imageData =  imagenUIRedimensionada.jpegData(compressionQuality: 0.5)
-                let data = try! JSONEncoder().encode(imageData)
-                newProfile.imageProfile = data
-    
-                do {
-                    try viewContext.save()
-                } catch {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    let nsError = error as NSError
-                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                }
+    private func addProfile() {
+        withAnimation {
+            let newProfile = Profile(context: viewContext)
+            newProfile.idProfile = UUID()
+            newProfile.annotationsProfile = annotationsProfile
+            newProfile.nameProfile = nameProfile
+            let imagenUIRedimensionada = resizeImage(image: imgServicio)
+            let imageData =  imagenUIRedimensionada.jpegData(compressionQuality: 0.5)
+            let data = try! JSONEncoder().encode(imageData)
+            newProfile.imageProfile = data
+            
+            do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
+    }
 }
 
 struct AddProfileView_Previews: PreviewProvider {

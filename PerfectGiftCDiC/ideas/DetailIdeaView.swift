@@ -82,6 +82,15 @@ struct DetailIdeaView: View {
                             }
                             }
                             VStack{
+                                HStack{
+                                    Text("Title:")
+                                        .font(.custom("Arial", size: 24))
+                                        .foregroundColor(.purple)
+                                    Spacer()
+                                    
+                                }
+                                
+                                ZStack{
                                 TextField("Enter Title", text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
@@ -94,6 +103,17 @@ struct DetailIdeaView: View {
                                         }
                                         
                                     }
+                                    
+                                    HStack{
+                                        Spacer()
+                                        Image(systemName: "pencil.circle")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(Color.gray)
+                                            .padding(.trailing, 20)
+                                    }
+                                }
                                 VStack{
                                     HStack{
                                         Text("Description")
@@ -103,16 +123,41 @@ struct DetailIdeaView: View {
                                         
                                     }
                                     
-                                    TextEditor(text: $descriptionIdea)
-                                        .frame(height: UIScreen.main.bounds.height / 5.5)
-                                        .font(.custom("Arial", size: 18))
-                                        .cornerRadius(25)
-                                        .onReceive(Just(descriptionIdea)){ value in
-                                            if value != "vacio" && value != idea?.descriptionIdea{
-                                                updateIdea()
+                                    ZStack{
+                                        
+                                        TextEditor(text: $descriptionIdea)
+                                            .frame(height: UIScreen.main.bounds.height / 5.5)
+                                            .font(.custom("Arial", size: 18))
+                                            .cornerRadius(25)
+                                            .onReceive(Just(descriptionIdea)){ value in
+                                                if value != "vacio" && value != idea?.descriptionIdea{
+                                                    updateIdea()
+                                                }
+                                                
                                             }
-                                            
+                                        
+                                        VStack{
+                                            HStack{
+                                                Spacer()
+                                                ZStack{
+                                                    Image(systemName: "keyboard")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 25, height: 25)
+                                                        .foregroundColor(.purple)
+                                                        .padding()
+                                                    Image(systemName: "xmark")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 25, height: 25)
+                                                        .foregroundColor(.purple)
+                                                        .padding()
+                                                }
+                                            }
+                                            Spacer()
                                         }
+                                    }
+
                                 }
                             }.onTapGesture {
                                 //para ocultar el teclado

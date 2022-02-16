@@ -19,9 +19,9 @@ struct DetailEventView: View {
     
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var birthDate: Date = Date(timeIntervalSince1970: 100)
-    @State private var titleEvent = "vacio"
+    @State private var titleEvent = ""
     @State private var dateEvent = ""
-    @State private var observationsEvent = "vacio"
+    @State private var observationsEvent = ""
     @State private var yearsAgoEvent = "1"
     @State private var eventSelected: EventeSelected = EventeSelected.birthday
     @State private var showAlert = false
@@ -47,12 +47,25 @@ struct DetailEventView: View {
                         Spacer()
                     }
                     
+                    
+                    ZStack{
                     TextFieldProfile(hint: "title", dataString: $titleEvent)
                         .onReceive(Just(titleEvent)){ value in
-                            if value != "vacio" && value != event.titleEvent{
+                            if value != "" && value != event.titleEvent{
                                 saveChanges()
                             }
                         }
+                    
+                        HStack{
+                            Spacer()
+                            Image(systemName: "pencil.circle")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25, height: 25)
+                                .foregroundColor(Color.gray)
+                                .padding(.trailing, 20)
+                        }
+                    }
                     
                     //titulo fecha de nacimiento.......
                     HStack{
@@ -122,14 +135,38 @@ struct DetailEventView: View {
                         Spacer()
                     }.padding(.top, 10)
                     
+                    ZStack{
+                    
                     TextEditor(text: $observationsEvent)
-                        .frame(height: UIScreen.main.bounds.height / 7)
+                        
                         .cornerRadius(15)
                         .onReceive(Just(observationsEvent)){ value in
-                            if value != "vacio" && value != event.observationsEvent{
+                            if value != "" && value != event.observationsEvent{
                                 saveChanges()
                             }
                         }
+                        VStack{
+                            HStack{
+                                Spacer()
+                                ZStack{
+                                    Image(systemName: "keyboard")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25)
+                                        .foregroundColor(.purple)
+                                        .padding()
+                                    Image(systemName: "xmark")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 25, height: 25)
+                                        .foregroundColor(.purple)
+                                        .padding()
+                                }
+                            }
+                           Spacer()
+                        }
+
+                    }.frame(height: UIScreen.main.bounds.height / 7)
                 }.onTapGesture {
                     UIApplication.shared.endEditing()
                 }

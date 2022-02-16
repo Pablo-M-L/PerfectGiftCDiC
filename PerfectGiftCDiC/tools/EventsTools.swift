@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 import SwiftUI
 
-class coredataHelper {
+class CoredataHelper {
     
     
     func getProlfileList(profiles: FetchedResults<Profile>)->[profileListItem]{
@@ -30,15 +30,19 @@ class coredataHelper {
     }
 }
 
-
+func getDateUpcomingEvent(eventsfitrados: [Event])-> Date{
+    let eventUpcoming = getUpcomingEvent(eventsfitrados: eventsfitrados)
+    return eventUpcoming.dateEvent
+}
 
 //obtiene array de eventos filtrados por perfil ordenados por fecha.
 func getUpcomingEvent(eventsfitrados: [Event])-> eventUpcoming{
     var arrayEvents: [eventUpcoming] = []
-    
+
     if !eventsfitrados.isEmpty{
         if eventsfitrados.count > 1{
             eventsfitrados.forEach { event in
+
                 let eventUpcoming = eventUpcoming(id: event.idEvent!,
                                                   titleEvent: event.titleEvent!,
                                                   dateEvent: event.annualEvent ? getNextDayEvent(date: event.dateEvent!) : event.dateEvent!,
@@ -49,6 +53,7 @@ func getUpcomingEvent(eventsfitrados: [Event])-> eventUpcoming{
             arrayEvents =  arrayEvents.sorted(by: { $0.dateEvent.compare($1.dateEvent) == ComparisonResult.orderedAscending})
         }
         else{
+
             //si solo hay un evento no se puede hacer el sorted, da error, por eso se crea directamente el item si se le añade al array.
             let eventUpcoming = eventUpcoming(id: eventsfitrados[0].idEvent!,
                                               titleEvent: eventsfitrados[0].titleEvent!,

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 /**{
  Vista principal con la que abre la aplicacion.
@@ -38,7 +39,8 @@ struct ContentView: View {
         animation: .default)
     
     private var profiles: FetchedResults<Profile>
-    @State var cambiarLista = false
+    
+    @State var vistaActiva: VistaActiva = .profiles
     @State var mostrarAyuda = false
     
     var body: some View {
@@ -52,30 +54,43 @@ struct ContentView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack{
-                    if cambiarLista{
-                        UpcomingListsView()
+                    if vistaActiva == .favorites{
+                        FavoritesListView()
                     }
-                    else{
+                    else if vistaActiva == .profiles{
                         ProfileListView()
+                        
+                    }
+                    else if vistaActiva == .upcoming{
+                        UpcomingListsView()
                     }
                     
                     VStack{
                         HStack(alignment: .center, spacing: 50){
                             Button(action:{
                                 withAnimation {
-                                    cambiarLista = false
+                                    vistaActiva = .favorites
                                 }
                                 
                             },label:{
-                                SelecctListButtonStyle(cambiarLista: $cambiarLista, texto: "Profiles", color: cambiarLista ? "backgroundButton" : "background3")
+                                SelecctListButtonStyle(vistaActiva: $vistaActiva, listaAsociadaAlBoton: .favorites)
                             })
                             
                             Button(action:{
                                 withAnimation {
-                                    cambiarLista = true
+                                    vistaActiva = .profiles
+                                }
+                                
+                            },label:{
+                                SelecctListButtonStyle(vistaActiva: $vistaActiva, listaAsociadaAlBoton: .profiles)
+                            })
+                            
+                            Button(action:{
+                                withAnimation {
+                                    vistaActiva = .upcoming
                                 }
                             },label:{
-                                SelecctListButtonStyle(cambiarLista: $cambiarLista, texto: "Upcoming", color: cambiarLista ? "background3" : "backgroundButton")
+                                SelecctListButtonStyle(vistaActiva: $vistaActiva, listaAsociadaAlBoton: .upcoming)
                             })
                             
                             
@@ -95,6 +110,45 @@ struct ContentView: View {
                     print("eventos: \(events.count)")
                     print("ideas: \(ideas.count)")
                     print("urls: \(url.count)")
+                    
+                    //cargar favoritos
+                    if let usersdefault = UserDefaults(suiteName: appGroupName), let arrayFav: [FavoriteData] = usersdefault.getArray(forKey: key.arrayFavoriteData.rawValue){
+                        HelperWidget.arrayFavoriteData = arrayFav
+                        
+                    }
+                    else{
+                        for i in 1...6{
+                            HelperWidget.cargarListaFavoritosDefaultUser(sortNumber: Int(i))
+                        }
+                    }
+                    
+                    HelperWidget.leerListaFavoritos()
+                    
+                    //guardar lista de eventos en usersdefault como array de EventDateUpComing para poder acceder a ellos desde el widget
+                    
+                        if !events.isEmpty{
+                            var arrayEvents = [EventDateUpComing]()
+                            
+                            if let userDefault = UserDefaults(suiteName: appGroupName){
+                                for event in events{
+                                    print("si hay eventos")
+                                    let eventsUpcoming = EventDateUpComing(
+                                                            dateEvent: event.dateEvent ?? Date(),
+                                                            idProfileFav: event.profileEventRelation?.idProfile!.uuidString ?? "5000",
+                                                            annualEvent: event.annualEvent)
+                                    arrayEvents.append(eventsUpcoming)
+                                }
+                                
+                                userDefault.setArray(arrayEvents, forKey: key.arrayEvents.rawValue)
+                            }
+                    }
+                    
+                    let uuidFav = HelperWidget.getIdProfileFav(indFav: 1)
+                    let dateEvent = HelperWidget.getUpcomingEventDate(idProfile: uuidFav)
+                    print(dateEvent)
+                    print("dias que faltan")
+                    print(calcularDiasQueFaltan(dateEvent: dateEvent))
+                    
                 }
                 
                 
@@ -155,6 +209,7 @@ struct logoButtonDummy:View{
         
     }
 }
+
 struct saveProfileButton2: View{
     var body: some View{
         VStack{
@@ -193,22 +248,51 @@ struct saveProfileButton2: View{
     }
 }
 
+enum VistaActiva{
+    case favorites
+    case profiles
+    case upcoming
+}
+
 struct SelecctListButtonStyle:View{
-    @Binding var cambiarLista: Bool
-    var texto: String
-    var color: String
+    @Binding var vistaActiva: VistaActiva
+    var listaAsociadaAlBoton: VistaActiva
     
     var body: some View{
         ZStack(alignment: .center){
             Spacer()
-            RoundedRectangle(cornerRadius: 20)
-                .foregroundColor(Color(color))
-                .shadow(color: .gray, radius: 2, x: 2, y: 2)
-            Text(texto)
-                .padding(5)
-                .foregroundColor(Color("colorTextoTitulo"))
-                .font(.custom("marker felt", size: 18))
-        }.frame(width: UIScreen.main.bounds.width / 3, height: 35)
+//            RoundedRectangle(cornerRadius: 20)
+//                .foregroundColor(Color(vistaActiva == listaAsociadaAlBoton ? "background3" : "bacgroundButton"))
+//                .shadow(color: .gray, radius: 2, x: 2, y: 2)
+
+                switch listaAsociadaAlBoton{
+                case .favorites:
+                    Image(vistaActiva == listaAsociadaAlBoton ? "favoriteIconDark" : "favoriteIconLight")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(5)
+                        .background(Color(vistaActiva == listaAsociadaAlBoton ? "backgroundButton" : "background3"))
+                        .cornerRadius(20)
+                    
+                case .profiles:
+                    Image(vistaActiva == listaAsociadaAlBoton ? "personsIconDark" : "personsIconLight")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(5)
+                        .background(Color(vistaActiva == listaAsociadaAlBoton ? "backgroundButton" : "background3"))
+                        .cornerRadius(20)
+                    
+                case .upcoming:
+                    Image(vistaActiva == listaAsociadaAlBoton ? "upcomingIconDark" : "upcomingIconLight")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(5)
+                        .background(Color(vistaActiva == listaAsociadaAlBoton ? "backgroundButton" : "background3"))
+                        .cornerRadius(20)
+                }
+        }.frame(width: UIScreen.main.bounds.width / 4.5, height: 60)
+         .shadow(color: .gray, radius: 2, x: 2, y: 2)
+         .padding(.bottom, 15)
     }
     
 }

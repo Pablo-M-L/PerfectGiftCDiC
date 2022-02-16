@@ -33,6 +33,33 @@ struct AddEventView: View {
             VStack{
                 ScrollView(.vertical){
                     HStack{
+                        
+                        Text("Event For......")
+                            .foregroundColor(Color("colorTextoTitulo"))
+                            .font(.custom("marker Felt", size: 28))
+                            .minimumScaleFactor(0.3)
+                        
+                        Spacer()
+
+                        Image(uiImage: imgServicio)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:  70, height: 70)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(.white, lineWidth: 3))
+                    }
+                    .padding(.horizontal, 25)
+                    .background(Color.blue.opacity(0.2))
+                    HStack{
+                        Spacer()
+                        Text("Select Categoty")
+                            .foregroundColor(Color("colorTextoTitulo"))
+                            .font(.custom("marker Felt", size: 18))
+                        Spacer()
+                    }.padding(5)
+                    
+                    HStack{
+                        VStack{
                         Image("birthIcon")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -43,23 +70,33 @@ struct AddEventView: View {
                                 eventSelected = .birthday
                                 titleEvent = "Birthday"
                             }
-                        
+                            Text("Birthday")
+                                .foregroundColor(Color("colorTextoTitulo"))
+                                .font(.custom("marker Felt", size: 11))
+                        }
                         Spacer()
                         
+                        VStack{
+
                         Image("specialIcon")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: eventSelected == .specialDay ? 80 : 50, height: eventSelected == .specialDay ? 80 : 50)
                             .clipShape(Circle())
-                            .padding(.bottom, 15)
-                            .cornerRadius(20)
+                            .padding(.bottom, 3)
                             .onTapGesture {
                                 eventSelected = .specialDay
                                 titleEvent = "Special Day"
                             }
+                                
+                                Text("Special Day")
+                                    .foregroundColor(Color("colorTextoTitulo"))
+                                    .font(.custom("marker Felt", size: 11))
+                            }
                         
                         Spacer()
                         
+                        VStack{
                         Image("eventIcon")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -70,8 +107,14 @@ struct AddEventView: View {
                                 eventSelected = .anniversary
                                 titleEvent = "Anniversary"
                             }
+                            Text("Event")
+                                .foregroundColor(Color("colorTextoTitulo"))
+                                .font(.custom("marker Felt", size: 11))
+                        }
                         
-                    }.padding(.horizontal,20)
+                    }.padding(20)
+                     .shadow(color: .gray, radius: 2, x: 2, y: 2)
+                     .background(Color.blue.opacity(0.2))
                     
                     VStack{
                         RowDataEvent(textString: "Title", dataString: $titleEvent)
@@ -126,8 +169,6 @@ struct AddEventView: View {
                         }
                         
                         //Text("Date is \(birthDate, formatter: dateFormatter)")
-                        
-                        
                         HStack{
                             Text("Observations")
                                 .font(.custom("marker Felt", size: 18))
@@ -137,9 +178,33 @@ struct AddEventView: View {
                             
                         }
                         
-                        TextEditor(text: $observationsEvent)
-                            .frame(height: UIScreen.main.bounds.height / 4)
-                            .cornerRadius(25)                            
+                        ZStack{
+                            TextEditor(text: $observationsEvent)
+                                .frame(height: UIScreen.main.bounds.height / 4)
+                                .cornerRadius(25)
+                            
+                            VStack{
+                                HStack{
+                                    Spacer()
+                                    ZStack{
+                                        Image(systemName: "keyboard")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(.purple)
+                                            .padding()
+                                        Image(systemName: "xmark")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(.purple)
+                                            .padding()
+                                    }
+                                }
+                                Spacer()
+                            }
+                        }
+                           
                         
                         Button(action: {
                             addEvent()
@@ -199,6 +264,7 @@ struct AddEventView: View {
             newEvent.typeEvent = eventSelected.rawValue
             newEvent.profileEventRelation = profile
             
+            
             if eventSelected == .anniversary || eventSelected == .birthday{
                 newEvent.annualEvent = true
             }
@@ -246,12 +312,24 @@ struct TextFieldAddEvent: View{
     @Binding var dataString: String
     
     var body: some View{
+        ZStack{
         TextField(hint, text: $dataString)
             .padding([.vertical, .leading],10)
             .lineLimit(1)
             .background(Color(.white))
             .font(.custom("marker Felt", size: 12))
             .cornerRadius(8)
+            
+            HStack{
+                Spacer()
+                Image(systemName: "pencil.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25)
+                    .foregroundColor(Color.gray)
+                    .padding(.trailing, 20)
+            }
+        }
     }
 }
 

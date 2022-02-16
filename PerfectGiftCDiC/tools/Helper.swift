@@ -42,3 +42,73 @@ struct backToHomeButton: View{
         .padding()
     }
 }
+
+
+//crea un contenedor local asociado al app group.
+//devuelve la url del archivo.
+public enum AppGroup: String{
+    case favoritesData = "group.PABLOMILLANLOPEZ.perfectGift"
+    
+    public var containerURL: URL{
+        switch self{
+        case .favoritesData:
+            return FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: self.rawValue)!
+        }
+    }
+}
+
+//datos favorite
+struct FavoriteData: Identifiable, Hashable, Codable {
+    var id = UUID().uuidString
+    var nameProfileFav: String
+    var dateUpcomingEventFav: Date
+    var imgProfileFav: Data
+    var sortNumber: Int
+    var idProfileFav: String
+    var deppUrlFav: URL
+}
+
+
+struct EventDateUpComing: Identifiable, Hashable, Codable{
+    var id = UUID().uuidString
+    var dateEvent: Date
+    var idProfileFav: String
+    var annualEvent: Bool
+}
+
+
+//usersdefaults extension
+typealias key = UserDefaults.Keys
+
+extension UserDefaults {
+    static let appGroup = UserDefaults(suiteName: "group.PABLOMILLANLOPEZ.perfectGift")!
+}
+
+
+extension UserDefaults {
+    enum Keys: String {
+        case nameFavorite
+        case fechaProximoEvento
+        case arrayFavoriteData
+        case arrayEvents
+        case favorite1
+        case favorite2
+        case favorite3
+        case favorite4
+        case favorite5
+        case favorite6
+        
+    }
+}
+
+extension UserDefaults {
+    func setArray<Element>(_ array: [Element], forKey key: String) where Element: Encodable {
+        let data = try? JSONEncoder().encode(array)
+        set(data, forKey: key)
+    }
+
+    func getArray<Element>(forKey key: String) -> [Element]? where Element: Decodable {
+        guard let data = data(forKey: key) else { return nil }
+        return try? JSONDecoder().decode([Element].self, from: data)
+    }
+}

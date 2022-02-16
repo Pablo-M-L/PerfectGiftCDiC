@@ -9,6 +9,14 @@
         <attribute name="typeEvent" optional="YES" attributeType="String"/>
         <relationship name="profileEventRelation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Profile" inverseName="eventProfileRelation" inverseEntity="Profile"/>
     </entity>
+    <entity name="Favorites" representedClassName="Favorites" syncable="YES" codeGenerationType="class">
+        <attribute name="deepUrl" optional="YES" attributeType="URI"/>
+        <attribute name="fechaProxEventFav" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="idProfileFav" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="imageProfileFav" optional="YES" attributeType="Binary"/>
+        <attribute name="nameProfileFav" optional="YES" attributeType="String"/>
+        <attribute name="sortNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <entity name="Ideas" representedClassName="Ideas" syncable="YES" codeGenerationType="class">
         <attribute name="descriptionIdea" optional="YES" attributeType="String"/>
         <attribute name="eventTitleIdea" optional="YES" attributeType="String"/>
@@ -46,6 +54,7 @@
     </entity>
     <elements>
         <element name="Event" positionX="-63" positionY="36" width="128" height="134"/>
+        <element name="Favorites" positionX="-54" positionY="144" width="128" height="119"/>
         <element name="Ideas" positionX="-54" positionY="63" width="128" height="239"/>
         <element name="Profile" positionX="-63" positionY="-9" width="128" height="140"/>
         <element name="UrlIdeas" positionX="-45" positionY="72" width="128" height="119"/>

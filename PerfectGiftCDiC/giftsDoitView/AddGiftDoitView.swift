@@ -71,8 +71,15 @@ struct AddGiftDoitView: View {
                                 }
                                 .padding(.horizontal, 25)
                                 
+                                HStack{
+                                Text("Gift")
+                                    .foregroundColor(.purple)
+                                    .font(.custom("marker Felt", size: 18))
+                                    Spacer()
+                                }
                                 //introducir titulo
-                                TextField("Enter Title", text: $titleIdea)
+                                ZStack{
+                                TextField("Enter Gift", text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
                                     .font(.custom("Arial", size: 24))
@@ -85,6 +92,17 @@ struct AddGiftDoitView: View {
                                         }
                                         
                                     }
+                                    
+                                    HStack{
+                                        Spacer()
+                                        Image(systemName: "pencil.circle")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 25, height: 25)
+                                            .foregroundColor(Color.gray)
+                                            .padding(.trailing, 20)
+                                    }
+                                }
                                 
                                 HStack{
                                 Text("Reason for the Gift")
@@ -128,18 +146,43 @@ struct AddGiftDoitView: View {
                                         
                                     }
                                     
-                                    TextEditor(text: $descriptionIdea)
-                                        .frame(height: UIScreen.main.bounds.height / 5.5)
-                                        .font(.custom("Arial", size: 18))
-                                        .cornerRadius(25)
-                                        .onReceive(Just(descriptionIdea)){ value in
-                                            if value != "" && value != idea?.descriptionIdea{
-                                                if ideaYaGuardada{
-                                                    updateIdea()
+                                    
+                                    ZStack{
+                                        TextEditor(text: $descriptionIdea)
+                                            .frame(height: UIScreen.main.bounds.height / 5.5)
+                                            .font(.custom("Arial", size: 18))
+                                            .cornerRadius(25)
+                                            .onReceive(Just(descriptionIdea)){ value in
+                                                if value != "" && value != idea?.descriptionIdea{
+                                                    if ideaYaGuardada{
+                                                        updateIdea()
+                                                    }
+                                                }
+                                                
+                                            }
+                                        
+                                        VStack{
+                                            HStack{
+                                                Spacer()
+                                                ZStack{
+                                                    Image(systemName: "keyboard")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 25, height: 25)
+                                                        .foregroundColor(.purple)
+                                                        .padding()
+                                                    Image(systemName: "xmark")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 25, height: 25)
+                                                        .foregroundColor(.purple)
+                                                        .padding()
                                                 }
                                             }
-                                            
+                                            Spacer()
                                         }
+                                    }
+
                                         
                                 }
                                 
