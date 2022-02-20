@@ -12,6 +12,7 @@ struct IdeasListView: View {
 
     @State private var showSheetMode = false
     @State private var showAddEvent = false
+    @State private var ideasListEmpty = false
     var profile: Profile
     var ideas: FetchRequest<Ideas>
  //   var eventParent: Event
@@ -35,39 +36,26 @@ struct IdeasListView: View {
         
         ZStack{
             
-            VStack{
-                
-                Text("IDEAS")
-                    .foregroundColor(Color("colorTextoTitulo"))
-                    .font(.custom("marker Felt", size: 18))
-                
-                Rectangle()
-                    .foregroundColor(.gray)
-                    .opacity(0.3)
-                    .frame(height: 5)
-                    
-                List{
-                    ForEach(ideas.wrappedValue, id: \.self) { idea in
-                        ZStack{
-                            NavigationLink(destination: DetailIdeaView(idea: idea) ){
-                                Text("ideas")
-                            }.opacity(0)
-                            CellIdeaListView(idea: idea)
-                        }.background(Color("cellprofileBck"))
-                         .cornerRadius(20)
+            List{
+                ForEach(ideas.wrappedValue, id: \.self) { idea in
+                    ZStack{
+                        NavigationLink(destination: DetailIdeaView(idea: idea) ){
+                            Text("ideas")
+                        }.opacity(0)
+                        CellIdeaListView(idea: idea)
+                    }.background(Color("cellprofileBck"))
+                     .cornerRadius(20)
 
-                    }
-                }.listStyle(.inset)
-            }
+                }
+            }.listStyle(.inset)
             
-            HStack{
-                Spacer()
-                
+
                 VStack{
-                    Spacer()
+                    if ideasListEmpty{
                     
                     HStack{
                         Spacer()
+                        
                             NavigationLink(destination: AddIdeaView(profile: profile), isActive: $showSheetMode){
                                 EmptyView()
                             }
@@ -83,19 +71,29 @@ struct IdeasListView: View {
                                 Image(systemName: "plus.circle.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
+                                    .frame(width: 50, height: 50)
                                     .foregroundColor(Color("backgroundButton"))
-                                    .offset(x: -25, y: 25)
+                                    .offset(x: -65, y: 70)
                             }
-                            .frame(width: 60, height: 60)
+                            .frame(width: 150, height: 150)
                             .shadow(color: .gray, radius: 2, x: 2, y: 2)
                             .padding()
                         })
 
                     }
+                     .padding(.trailing, UIScreen.main.bounds.width / 3.6)
                     
                 }
-            }.padding(.bottom, 30)
+                 
+            }.onAppear {
+                //comprobar si el fetchrequest está vacio
+                if ideas.wrappedValue.isEmpty{
+                    ideasListEmpty = true
+                }else{
+                    ideasListEmpty = false
+                }
+            
+            }
             
 
         }

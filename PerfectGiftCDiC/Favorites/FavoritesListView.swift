@@ -15,38 +15,51 @@ struct FavoritesListView: View {
     @State private var imgFav = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State var arrayFavorites = [FavoriteData]()
     var body: some View {
-        List{
-            ForEach(arrayFavorites){ favorite in
-                ZStack{
-                    NavigationLink(destination: SelectFavListProfileView(sortNumer: favorite.sortNumber)) {
-                        Text("favorites")
-                    }.opacity(0)
-                    CellFavoriteView(favorite: favorite)
-                }.background(Color("cellprofileBck"))
-                    .cornerRadius(20)
-                    .shadow(color: .gray, radius: 4, x: 3, y: 3)
-            }
-        }.listStyle(.inset)
-         .padding(.top,15)
-         .padding(.bottom,25)
-         .onAppear {
-            print("Appear")
-
-            if let usersdefault = UserDefaults(suiteName: appGroupName), let arrayFav: [FavoriteData] = usersdefault.getArray(forKey: key.arrayFavoriteData.rawValue){
-                print("hay grupo")
-                HelperWidget.arrayFavoriteData = arrayFav
-                arrayFavorites = arrayFav //para actualizar la lista
-                
-            }
-            else{
-                for i in 1...6{
-                    print("cargar lista array")
-                    HelperWidget.cargarListaFavoritosDefaultUser(sortNumber: Int(i))
-                }
-            }
+        VStack{
+            Text("FAVORITES")
+                .foregroundColor(Color("colorTextoTitulo"))
+                .font(.custom("marker Felt", size: 24))
+                .padding(.top,10)
             
-            HelperWidget.leerListaFavoritos()
+            Rectangle()
+                .foregroundColor(.gray)
+                .opacity(0.3)
+                .frame(height: 5)
+            
+            List{
+                ForEach(arrayFavorites){ favorite in
+                    ZStack{
+                        NavigationLink(destination: SelectFavListProfileView(sortNumer: favorite.sortNumber)) {
+                            Text("favorites")
+                        }.opacity(0)
+                        CellFavoriteView(favorite: favorite)
+                    }.background(Color("cellprofileBck"))
+                        .cornerRadius(20)
+                        .shadow(color: .gray, radius: 4, x: 3, y: 3)
+                }
+            }.listStyle(.inset)
+             .padding(.top,15)
+             .padding(.bottom,25)
+             .onAppear {
+                print("Appear")
+
+                if let usersdefault = UserDefaults(suiteName: appGroupName), let arrayFav: [FavoriteData] = usersdefault.getArray(forKey: key.arrayFavoriteData.rawValue){
+                    print("hay grupo")
+                    HelperWidget.arrayFavoriteData = arrayFav
+                    arrayFavorites = arrayFav //para actualizar la lista
+                    
+                }
+                else{
+                    for i in 1...6{
+                        print("cargar lista array")
+                        HelperWidget.cargarListaFavoritosDefaultUser(sortNumber: Int(i))
+                    }
+                }
+                
+                HelperWidget.leerListaFavoritos()
+            }
         }
+        
     }
     
     

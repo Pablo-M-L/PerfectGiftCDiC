@@ -77,7 +77,7 @@ struct DetailIdeaView: View {
                                     }
                                 }).padding(10)
                                     .sheet(isPresented: $goDetailGiftDoit, onDismiss: {presentationMode.wrappedValue.dismiss()}) {
-                                        DetailGiftDoitView(idea: idea)
+                                        DetailGiftDoitView(idea: idea,isNewIdea: true)
                                     }
                             }
                             }
@@ -175,8 +175,8 @@ struct DetailIdeaView: View {
                                         mostrarImagePicker = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker){
-                                        ImagePicker(selectedImage: self.$imgIdea1, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker) {
+                                        FullScreenImage(image: $imgIdea1)
                                     }
                                 
                                 Spacer()
@@ -191,8 +191,8 @@ struct DetailIdeaView: View {
                                         mostrarImagePicker2 = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker2){
-                                        ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker2) {
+                                        FullScreenImage(image: $imgIdea2)
                                     }
                                 
                                 Spacer()
@@ -206,8 +206,8 @@ struct DetailIdeaView: View {
                                         mostrarImagePicker3 = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker3){
-                                        ImagePicker(selectedImage: self.$imgIdea3, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker3) {
+                                        FullScreenImage(image: $imgIdea3)
                                     }
                                 
                             }.padding(.horizontal,20)

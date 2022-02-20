@@ -26,6 +26,7 @@ struct DetailGiftDoitView: View {
     var maxUrl = 3
     var idea: Ideas?
     var profile: Profile?
+    var isNewIdea: Bool
     
    // var eventParent: Event
     @State private var giftDate = Date()
@@ -40,6 +41,8 @@ struct DetailGiftDoitView: View {
     @State private var showAlertDelete = false
     @State private var borrarIdea = false
     @State private var reasonGift = ""
+    @State private var showDatePicker = false
+    @State private var showAlertSaveAsGift = false
     
     var body: some View {
         ZStack{
@@ -51,6 +54,19 @@ struct DetailGiftDoitView: View {
                 VStack{
                         VStack{
                             VStack{
+                                
+                                if isNewIdea{
+                                HStack{
+                                    Spacer()
+                                    
+                                    Button(action:{
+                                        showAlertSaveAsGift = true
+                                    },label:{
+                                        Text("save")
+                                    })
+                                    Spacer()
+                                }
+                                }
                                 HStack{
                                 Text("Gift")
                                     .foregroundColor(.purple)
@@ -116,23 +132,64 @@ struct DetailGiftDoitView: View {
                                     }
                                 }
                                 
-                                HStack{
-                                    
-                                    DatePicker(selection: $giftDate, in: ...Date(), displayedComponents: .date) {
-                                        Text("Gift Date")
-                                            .font(.custom("marker Felt", size: 18))
+                                //añadir fecha
+                                    HStack{
+                                        Text("Gift Date:")
                                             .foregroundColor(.purple)
-                                            .lineLimit(1)
+                                            .font(.custom("marker Felt", size: 18))
+                                            .padding(1)
+                                        
+                                        Spacer()
+                                        
+                                        Text(getStringFromDate(date:giftDate))
+                                            .foregroundColor(Color("colorTextoTitulo"))
+                                            .font(.custom("marker Felt", size: 18))
                                             .minimumScaleFactor(0.3)
+                                            .padding(1)
+                                            .padding(.trailing, 10)
+                                        
+                                        Button(action:{
+                                            showDatePicker.toggle()
+                                        }, label: {
+                                            ZStack{
+                                            Image(systemName: "calendar")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 30, height: 30)
+                                                
+                                                if showDatePicker {
+                                                    
+                                                    Image(systemName: "xmark")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 30, height: 30)
+                                                }
+                                            }
+                                        }).padding(.horizontal,10)
+                                        
+                                    }.padding(.top,10)
+                                
+                                if showDatePicker{
+                                    HStack{
+                                        
+                                        DatePicker(selection: $giftDate, in: ...Date(), displayedComponents: .date) {
+                                            Text("Gift Date")
+                                                .font(.custom("marker Felt", size: 18))
+                                                .foregroundColor(.purple)
+                                                .lineLimit(1)
+                                                .minimumScaleFactor(0.3)
+                                        }
+                                        .accentColor(Color("backgroundButton"))
+                                        .datePickerStyle(GraphicalDatePickerStyle())
                                     }
-                                    .padding(.trailing, 80)
-                                    .accentColor(Color("backgroundButton"))
                                 }
+                                
+                                
                                 
                                 VStack{
                                     HStack{
                                         Text("Description")
-                                            .font(.custom("Arial", size: 24))
+                                            .font(.custom("Arial", size: 18))
                                             .foregroundColor(.purple)
                                         Spacer()
                                         
@@ -190,8 +247,8 @@ struct DetailGiftDoitView: View {
                                         mostrarImagePicker = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker){
-                                        ImagePicker(selectedImage: self.$imgIdea1, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker) {
+                                        FullScreenImage(image: $imgIdea1)
                                     }
                                 
                                 Spacer()
@@ -206,8 +263,8 @@ struct DetailGiftDoitView: View {
                                         mostrarImagePicker2 = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker2){
-                                        ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker2) {
+                                        FullScreenImage(image: $imgIdea2)
                                     }
                                 
                                 Spacer()
@@ -221,8 +278,8 @@ struct DetailGiftDoitView: View {
                                         mostrarImagePicker3 = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker3){
-                                        ImagePicker(selectedImage: self.$imgIdea3, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker3) {
+                                        FullScreenImage(image: $imgIdea3)
                                     }
                                 
                             }.padding(.horizontal,20)
@@ -289,11 +346,10 @@ struct DetailGiftDoitView: View {
  
 
 
-                }.onDisappear{
+                }
+                .onDisappear{
                     if borrarIdea{
                         deleteIdea(idea: idea!)
-                    }else{
-                        updateIdea()
                     }
                 }
                 .padding()
@@ -330,6 +386,16 @@ struct DetailGiftDoitView: View {
                  primaryButton: .default(Text("Delete"), action: {
                      print("borrar idea")
                      borrarIdea = true
+                     presentationMode.wrappedValue.dismiss()
+                 }),
+                 secondaryButton: .cancel(Text("Cancel")))
+         })
+            .alert(isPresented: $showAlertSaveAsGift, content: {
+             Alert(
+                 title: Text("Do you want to save this ideas as Gift?"),
+                 primaryButton: .default(Text("Save"), action: {
+                     print("borrar idea")
+                     updateIdea()
                      presentationMode.wrappedValue.dismiss()
                  }),
                  secondaryButton: .cancel(Text("Cancel")))
@@ -456,8 +522,8 @@ struct DetailGiftDoitView: View {
     }
 }
 
-struct DetailGiftDoitView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailGiftDoitView()
-    }
-}
+//struct DetailGiftDoitView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetailGiftDoitView()
+//    }
+//}

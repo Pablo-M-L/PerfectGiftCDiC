@@ -52,6 +52,7 @@ struct AddUrlView: View {
                 TextEditor(text: $webUrl)
                     .frame(height: UIScreen.main.bounds.height / 5.5)
                     .font(.custom("Arial", size: 18))
+                    .autocapitalization(.none)
                     .cornerRadius(25)
                     .onReceive(Just(webUrl)){ value in
                         if value != ""{
@@ -214,8 +215,8 @@ struct AddUrlView: View {
     
     private func addUrl() {
         
-        let queue = DispatchQueue.global(qos: .userInteractive)
-        let group = DispatchGroup()
+        //let queue = DispatchQueue.global(qos: .userInteractive)
+        //let group = DispatchGroup()
         
         withAnimation {
             
@@ -229,24 +230,25 @@ struct AddUrlView: View {
             newUrl.idIdeaUrl = idea?.idIdeas?.uuidString
             newUrl.ideaUrlRelation = idea
             
-            queue.async(group: group) {
-                downloadthumbail(url: (URL(string: ("https://www.google.com/s2/favicons?domain=" + webUrl)) ?? defaultUrlThumbail!)) { UIImage in
-                    group.enter()
-                    let imageData =  UIImage.jpegData(compressionQuality: 1)
-                    let data = try! JSONEncoder().encode(imageData)
-                    thumbailImageData = data
-                    group.leave()
-                    print("save data")
-                
-                }
-                
-                group.wait(timeout: .now() + .seconds(2))
+//            queue.async(group: group) {
+//                downloadthumbail(url: (URL(string: ("https://www.google.com/s2/favicons?domain=" + webUrl)) ?? defaultUrlThumbail!)) { UIImage in
+//                    group.enter()
+//                    let imageData =  UIImage.jpegData(compressionQuality: 1)
+//                    let data = try! JSONEncoder().encode(imageData)
+//                    thumbailImageData = data
+//                    group.leave()
+//                    print("save data")
+//
+//                }
+//
+//                group.wait(timeout: .now() + .seconds(2))
                 
                 newUrl.thumbailUrl = thumbailImageData
                 
                 do {
                     try viewContext.save()
                     print("url guardada")
+                    presentationMode.wrappedValue.dismiss()
                 } catch {
                     // Replace this implementation with code to handle the error appropriately.
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -254,20 +256,15 @@ struct AddUrlView: View {
                     fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                 }
 
-                print("guardar")
-                
-                DispatchQueue.main.async {
-                    presentationMode.wrappedValue.dismiss()
-                }
-                
-                
-            }
+//                print("guardar")
+//                print(newUrl.webUrl)
+//                DispatchQueue.main.async {
+//                    presentationMode.wrappedValue.dismiss()
+//                }
+//
+//
+//            }
             
-            
-
-            
-
-
         }
         
         
@@ -275,12 +272,14 @@ struct AddUrlView: View {
     
     func comprobarUrlIntroducida(url: String)-> String{
         if url.starts(with: "https://"){
-            return url
+            print(url)
+            return url.trimmingCharacters(in: .whitespaces)
         }
         else if url.starts(with: "www."){
-            return "https://"+url
+            print("https://"+url)
+            return ("https://"+url).trimmingCharacters(in: .whitespaces)
         }
-        return url
+        return url.trimmingCharacters(in: .whitespaces)
     }
 }
 

@@ -146,6 +146,7 @@ static func cargarListaFavoritosDefaultUser(sortNumber: Int){
                         arrayEventProfile.forEach { event in
                             
                             let eventDateUpcoming = EventDateUpComing(dateEvent: event.annualEvent ? getNextDayEvent(date: event.dateEvent) : event.dateEvent,
+                                                                      titleEvent: event.titleEvent,
                                                                      idProfileFav: event.idProfileFav,
                                                                      annualEvent: event.annualEvent)
                             
@@ -174,21 +175,60 @@ static func cargarListaFavoritosDefaultUser(sortNumber: Int){
         //event.annualEvent ? getNextDayEvent(date: event.dateEvent!) 
     }
     
+    static func getUpcomingEventTitle(idProfile: String)-> String{
+        
+        var arrayEvents: [EventDateUpComing] = []
+        
+        if let usersdefault = UserDefaults(suiteName: appGroupName), var arrayEventsFav: [EventDateUpComing] = usersdefault.getArray(forKey: key.arrayEvents.rawValue){
+            
+            if arrayEventsFav.count > 0{
+                
+                if arrayEventsFav.count > 1{
+                    
+                    let arrayEventProfile = arrayEventsFav.filter{$0.idProfileFav == idProfile}
+                    
+                    if !arrayEventProfile.isEmpty{
+                        
+                        arrayEventProfile.forEach { event in
+                            
+                            let eventDateUpcoming = EventDateUpComing(dateEvent: event.annualEvent ? getNextDayEvent(date: event.dateEvent) : event.dateEvent,
+                                                                      titleEvent: event.titleEvent,
+                                                                      idProfileFav: event.idProfileFav,
+                                                                      annualEvent: event.annualEvent)
+                            
+                            arrayEvents.append(eventDateUpcoming)
+
+                        }
+                        
+                        var arrayEventsSorted = arrayEvents.sorted(by: { $0.dateEvent.compare($1.dateEvent) == ComparisonResult.orderedAscending})
+                        
+
+                        return arrayEventsSorted.first?.titleEvent ?? "no title"
+                    }
+                }else{
+                    if let firstEvent = arrayEventsFav.first{
+                        let upcomingDate = firstEvent.annualEvent ? getNextDayEvent(date: firstEvent.dateEvent) : firstEvent.dateEvent
+                        arrayEventsFav[0].dateEvent = upcomingDate
+                    }
+                    
+                    return arrayEventsFav.first?.titleEvent ?? "no title"
+                }
+            }
+
+            
+        }
+        return "no title"
+        //event.annualEvent ? getNextDayEvent(date: event.dateEvent!)
+    }
+    
     
     static func calcularDiasQueFaltanWidget(dateEvent: Date)-> Int{
-        print("Fecha")
-        print(dateEvent)
+
         let calendar = Calendar.current
-        
         let dias = Set<Calendar.Component>([.day])
-        print("dias")
-        print(dias)
         let result = calendar.dateComponents(dias, from: dateEvent as   Date,  to: Date() as Date)
-        print("resul")
-        print(result)
         let resultado = (result.day ?? 0) * -1
-        print("resultado")
-        print(resultado)
+
         if resultado < 0 {
             return 0
         }

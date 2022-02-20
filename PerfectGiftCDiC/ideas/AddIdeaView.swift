@@ -26,6 +26,7 @@ struct AddIdeaView: View {
     @State private var recargarLista = false
     @State private var ideaYaGuardada = false //si se abre la vista de añadir url y se guarda la idea, hay que actualizar no guardar
     @State private var showAlertUrl = false
+   
 
     var maxUrl = 3
     @State var idea: Ideas? //solo se crea si se añpaden urls
@@ -56,18 +57,20 @@ struct AddIdeaView: View {
                                 
                                 //cabecero
                                 HStack{
+                                    Spacer()
                                     
-                                    Text("Idea For......")
+                                    Text("New Idea")
                                         .foregroundColor(Color("colorTextoTitulo"))
                                         .font(.custom("marker Felt", size: 36))
+                                    
                                     Spacer()
-
-                                    Image(uiImage: imgServicio)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:  70, height: 70)
-                                        .clipShape(Circle())
-                                        .overlay(Circle().stroke(.white, lineWidth: 3))
+//
+//                                    Image(uiImage: imgServicio)
+//                                        .resizable()
+//                                        .aspectRatio(contentMode: .fit)
+//                                        .frame(width:  70, height: 70)
+//                                        .clipShape(Circle())
+//                                        .overlay(Circle().stroke(.white, lineWidth: 3))
                                 }
                                 .padding(.horizontal, 25)
                                 
@@ -170,8 +173,8 @@ struct AddIdeaView: View {
                                         mostrarImagePicker = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker){
-                                        ImagePicker(selectedImage: self.$imgIdea1, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker) {
+                                        FullScreenImage(image: $imgIdea1)
                                     }
                                 
                                 Spacer()
@@ -184,10 +187,12 @@ struct AddIdeaView: View {
                                     .onTapGesture {
                                         mostrarImagePicker2 = true
                                         imageChange = true
+                                    }.sheet(isPresented: $mostrarImagePicker2) {
+                                        FullScreenImage(image: $imgIdea2)
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker2){
-                                        ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
-                                    }
+//                                    .sheet(isPresented: $mostrarImagePicker2){
+//                                        ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
+//                                    }
                                 
                                 Spacer()
                                 
@@ -200,8 +205,8 @@ struct AddIdeaView: View {
                                         mostrarImagePicker3 = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker3){
-                                        ImagePicker(selectedImage: self.$imgIdea3, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker3) {
+                                        FullScreenImage(image: $imgIdea3)
                                     }
                                 
                             }.padding(.horizontal,20)
@@ -376,6 +381,13 @@ struct AddIdeaView: View {
                     imgIdea3 = UIImage(data: data)!
                 }
             }
+            .navigationBarItems(trailing:
+                                    Image(uiImage: imgServicio)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(Circle())
+                                    .frame(width: 35, height: 35)
+            )
 
     }
     

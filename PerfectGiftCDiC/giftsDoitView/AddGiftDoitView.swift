@@ -43,6 +43,7 @@ struct AddGiftDoitView: View {
     @State private var titleIdea = ""
     @State private var descriptionIdea = ""
     @State private var closeWithUpdate = false
+    @State private var showDatePicker = false
     
     var body: some View {
         ZStack{
@@ -56,18 +57,19 @@ struct AddGiftDoitView: View {
                                 
                                 //cabecero
                                 HStack{
+                                    Spacer()
                                     
                                     Text("New Gift")
                                         .foregroundColor(Color("colorTextoTitulo"))
                                         .font(.custom("marker Felt", size: 36))
                                     Spacer()
 
-                                    Image(uiImage: imgServicio)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:  70, height: 70)
-                                        .clipShape(Circle())
-                                        .overlay(Circle().stroke(.white, lineWidth: 3))
+//                                    Image(uiImage: imgServicio)
+//                                        .resizable()
+//                                        .aspectRatio(contentMode: .fit)
+//                                        .frame(width:  70, height: 70)
+//                                        .clipShape(Circle())
+//                                        .overlay(Circle().stroke(.white, lineWidth: 3))
                                 }
                                 .padding(.horizontal, 25)
                                 
@@ -123,24 +125,66 @@ struct AddGiftDoitView: View {
                                         
                                     }
                                 
-                                HStack{
-                                    
-                                    DatePicker(selection: $giftDate, in: ...Date(), displayedComponents: .date) {
-                                        Text("Gift Date")
-                                            .font(.custom("marker Felt", size: 18))
+                                //añadir fecha
+                                    HStack{
+                                        Text("Gift Date:")
                                             .foregroundColor(.purple)
-                                            .lineLimit(1)
+                                            .font(.custom("marker Felt", size: 18))
+                                            .padding(1)
+                                        
+                                        Spacer()
+                                        
+                                        Text(getStringFromDate(date:giftDate))
+                                            .foregroundColor(Color("colorTextoTitulo"))
+                                            .font(.custom("marker Felt", size: 18))
                                             .minimumScaleFactor(0.3)
+                                            .padding(1)
+                                            .padding(.trailing, 10)
+                                        
+                                        Button(action:{
+                                            showDatePicker.toggle()
+                                        }, label: {
+                                            ZStack{
+                                            Image(systemName: "calendar")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 30, height: 30)
+                                                
+                                                if showDatePicker {
+                                                    
+                                                    Image(systemName: "xmark")
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .frame(width: 30, height: 30)
+                                                }
+                                            }
+                                        }).padding(.horizontal,10)
+                                        
+                                    }.padding(.top,10)
+                                
+                                if showDatePicker{
+                                    HStack{
+                                        
+                                        
+                                        DatePicker(selection: $giftDate, in: ...Date(), displayedComponents: .date) {
+                                            Text("")
+                                                .font(.custom("marker Felt", size: 18))
+                                                .foregroundColor(.purple)
+                                                .lineLimit(1)
+                                                .minimumScaleFactor(0.3)
+                                        }
+                                        .accentColor(Color("backgroundButton"))
+                                        .datePickerStyle(WheelDatePickerStyle())
                                     }
-                                    .padding(.trailing, 80)
-                                    .accentColor(Color("backgroundButton"))
                                 }
+                                
+                                
                                   
                                 //description
                                 VStack{
                                     HStack{
                                         Text("Description")
-                                            .font(.custom("marker Felt", size: 24))
+                                            .font(.custom("marker Felt", size: 18))
                                             .foregroundColor(.purple)
                                         Spacer()
                                         
@@ -203,8 +247,8 @@ struct AddGiftDoitView: View {
                                         mostrarImagePicker = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker){
-                                        ImagePicker(selectedImage: self.$imgIdea1, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker) {
+                                        FullScreenImage(image: $imgIdea1)
                                     }
                                 
                                 Spacer()
@@ -218,8 +262,8 @@ struct AddGiftDoitView: View {
                                         mostrarImagePicker2 = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker2){
-                                        ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker2) {
+                                        FullScreenImage(image: $imgIdea2)
                                     }
                                 
                                 Spacer()
@@ -233,8 +277,8 @@ struct AddGiftDoitView: View {
                                         mostrarImagePicker3 = true
                                         imageChange = true
                                     }
-                                    .sheet(isPresented: $mostrarImagePicker3){
-                                        ImagePicker(selectedImage: self.$imgIdea3, selectedImageDone: $imageDone)
+                                    .sheet(isPresented: $mostrarImagePicker3) {
+                                        FullScreenImage(image: $imgIdea3)
                                     }
                                 
                             }.padding(.horizontal,20)
@@ -409,6 +453,13 @@ struct AddGiftDoitView: View {
                     imgIdea3 = UIImage(data: data)!
                 }
             }
+            .navigationBarItems(trailing:
+                                    Image(uiImage: imgServicio)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .clipShape(Circle())
+                                    .frame(width: 35, height: 35)
+            )
 
     }
     

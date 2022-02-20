@@ -20,6 +20,7 @@ struct DetailEventView: View {
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var birthDate: Date = Date(timeIntervalSince1970: 100)
     @State private var titleEvent = ""
+    @State private var titleDate = "Date of Birth"
     @State private var dateEvent = ""
     @State private var observationsEvent = ""
     @State private var yearsAgoEvent = "1"
@@ -28,7 +29,7 @@ struct DetailEventView: View {
     @State private var borrarEvento = false
     @State private var anyosCumplidos = 0
     @State private var showSheetMode = false
-    
+    @State private var showDatePicker = false
     var body: some View {
         ZStack{
             Color("background")
@@ -67,65 +68,95 @@ struct DetailEventView: View {
                         }
                     }
                     
-                    //titulo fecha de nacimiento.......
-                    HStack{
-                        
-                        Text(eventSelected == .birthday ? "Date of Birth" : "Date to Commemorate")
-                            .font(.custom("marker Felt", size: 18))
-                            .foregroundColor(.purple)
-                            .padding(.top, 10)
-                        
-                        Spacer()
-                        
 
-                    }.padding(.top,10)
+                    
+                    //añadir fecha
+                        HStack{
+                            //titulo fecha de nacimiento.......
+                            Text(eventSelected == .birthday ? "Date of Birth" : "Date to Commemorate")
+                                .font(.custom("marker Felt", size: 18))
+                                .foregroundColor(.purple)
+                                .padding(.top, 10)
+                            
+                            Spacer()
+                            
+                            Text(getStringFromDate(date:birthDate))
+                                .foregroundColor(Color("colorTextoTitulo"))
+                                .font(.custom("marker Felt", size: 18))
+                                .padding(1)
+                            
+                            Button(action:{
+                                showDatePicker.toggle()
+                            }, label: {
+                                ZStack{
+                                Image(systemName: "calendar")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 30, height: 30)
+                                    
+                                    if showDatePicker {
+                                        
+                                        Image(systemName: "xmark")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 30, height: 30)
+                                    }
+                                }
+                            }).padding(.horizontal,10)
+                            
+                        }.padding(.top,10)
                     
                     //datepicker
-                    HStack{
-                
-                        //si no es un special day, solo se puede seleccionar fechas anteriores a la actual ya que los cumpleaños y aniversiarios la fecha siempre será anterior.
-                        if eventSelected != .specialDay{
-                            DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
-                               EmptyView()
-                            }.frame(width: 20, alignment: .leading)
-                                .onReceive(Just(birthDate)) { date in
-                                    if birthDate != Date(timeIntervalSince1970: 100){
-                                        anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
-                                        saveChanges()
-                                    }
+                    
+                    if showDatePicker{
+                        HStack{
+                    
+                            //si no es un special day, solo se puede seleccionar fechas anteriores a la actual ya que los cumpleaños y aniversiarios la fecha siempre será anterior.
+                            if eventSelected != .specialDay{
+                                DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
+                                   EmptyView()
                                 }
-                        }
-                        else{
-                            DatePicker(selection: $birthDate,in: Date()... ,  displayedComponents: .date) {
-                                EmptyView()
-                            }
-                            .frame(width: 20, alignment: .leading)
-                                .onReceive(Just(birthDate)) { date in
-                                    if birthDate != Date(timeIntervalSince1970: 100){
-                                        anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
-                                        saveChanges()
+                                .datePickerStyle(WheelDatePickerStyle())
+                               // .frame(width: 20, alignment: .leading)
+                                    .onReceive(Just(birthDate)) { date in
+                                        if birthDate != Date(timeIntervalSince1970: 100){
+                                            anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
+                                            saveChanges()
+                                        }
                                     }
-                                }
-                        }
-                        
-                        Spacer()
-                        //muestra los años cumplidos o ha conmemorar
-                        if eventSelected == .birthday || eventSelected == .anniversary{
-                            HStack{
-                                Text(String(anyosCumplidos) + "º")
-                                    .font(.custom("marker Felt", size: 20))
-                                Text(" \(eventSelected.rawValue)")
-                                    .font(.custom("marker Felt", size: 9))
                             }
-                            .padding(5)
-                            .padding(.leading, 20)
-                            .padding(.trailing, 10)
-                            .font(.custom("marker Felt", size: 18))
-                            .background(Color("background2"))
-                            .cornerRadius(8)
+                            else{
+                                DatePicker(selection: $birthDate,in: Date()... ,  displayedComponents: .date) {
+                                    EmptyView()
+                                }
+                                .frame(width: 20, alignment: .leading)
+                                    .onReceive(Just(birthDate)) { date in
+                                        if birthDate != Date(timeIntervalSince1970: 100){
+                                            anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
+                                            saveChanges()
+                                        }
+                                    }
+                            }
+                            
                         }
-                        
                     }
+                    
+                    //muestra los años cumplidos o ha conmemorar
+                    if eventSelected == .birthday || eventSelected == .anniversary{
+                        HStack{
+                            Text(String(anyosCumplidos) + "º")
+                                .font(.custom("marker Felt", size: 20))
+                            Text(" \(eventSelected.rawValue)")
+                                .font(.custom("marker Felt", size: 9))
+                        }
+                        .padding(5)
+                        .padding(.leading, 20)
+                        .padding(.trailing, 10)
+                        .font(.custom("marker Felt", size: 18))
+                        .background(Color("background2"))
+                        .cornerRadius(8)
+                    }
+                    
                     
                     HStack{
                         Text("Observations")
@@ -138,7 +169,6 @@ struct DetailEventView: View {
                     ZStack{
                     
                     TextEditor(text: $observationsEvent)
-                        
                         .cornerRadius(15)
                         .onReceive(Just(observationsEvent)){ value in
                             if value != "" && value != event.observationsEvent{
@@ -166,7 +196,7 @@ struct DetailEventView: View {
                            Spacer()
                         }
 
-                    }.frame(height: UIScreen.main.bounds.height / 7)
+                    }.frame(height: UIScreen.main.bounds.height / 4)
                 }.onTapGesture {
                     UIApplication.shared.endEditing()
                 }

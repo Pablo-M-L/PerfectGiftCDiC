@@ -14,6 +14,8 @@ struct ListGiftDoitView: View {
     @State private var showAddEvent = false
     var profile: Profile
     var ideas: FetchRequest<Ideas>
+    @State private var ideasListEmpty = false
+    
  //   var eventParent: Event
     
 //    init(filterProfile: String,  filterEvent: String, event: Event){
@@ -35,39 +37,23 @@ struct ListGiftDoitView: View {
         
         ZStack{
             
-            VStack{
-                
-                Text("GIFTS")
-                    .foregroundColor(Color("colorTextoTitulo"))
-                    .font(.custom("marker Felt", size: 18))
-                
-                Rectangle()
-                    .foregroundColor(.gray)
-                    .opacity(0.3)
-                    .frame(height: 5)
-                    
-                List{
-                    ForEach(ideas.wrappedValue, id: \.self) { idea in
-   
-                        ZStack{
-                            NavigationLink(destination: DetailGiftDoitView(idea: idea) ){
-                                Text("gift do it")
-                            }.opacity(0)
-                            CellGiftDoitView(idea: idea)
-                        }.background(Color("cellprofileBck"))
-                        .cornerRadius(20)
-                        
+            List{
+                ForEach(ideas.wrappedValue, id: \.self) { idea in
 
-                    }
-                }.listStyle(.inset)
-            }
-            
-            HStack{
-                Spacer()
-                
-                VStack{
-                    Spacer()
+                    ZStack{
+                        NavigationLink(destination: DetailGiftDoitView(idea: idea, isNewIdea: false) ){
+                            Text("gift do it")
+                        }.opacity(0)
+                        CellGiftDoitView(idea: idea)
+                    }.background(Color("cellprofileBck"))
+                    .cornerRadius(20)
                     
+
+                }
+            }.listStyle(.inset)
+            
+                VStack{
+                        if ideasListEmpty{
                     HStack{
                         Spacer()
                             NavigationLink(destination: AddGiftDoitView(profile: profile), isActive: $showSheetMode){
@@ -79,25 +65,35 @@ struct ListGiftDoitView: View {
                             
                         }, label:{
                             ZStack{
-                                Image("giftDoitIcon")
+                                Image("addGiftDoitIcon")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                 Image(systemName: "plus.circle.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
+                                    .frame(width: 50, height: 50)
                                     .foregroundColor(Color("backgroundButton"))
-                                    .offset(x: -25, y: 25)
+                                    .offset(x: -65, y: 70)
                             }
-                            .frame(width: 60, height: 60)
+                            .frame(width: 150, height: 150)
                             .shadow(color: .gray, radius: 2, x: 2, y: 2)
                             .padding()
                         })
 
                     }
-                    
+                        }
                 }
-            }.padding(.bottom, 30)
+            
+                .padding(.trailing, ideasListEmpty ? UIScreen.main.bounds.width / 3.6 : 0)
+             .onAppear {
+                 //comprobar si el fetchrequest está vacio
+                 if ideas.wrappedValue.isEmpty{
+                     ideasListEmpty = true
+                 }else{
+                     ideasListEmpty = false
+                 }
+                 
+             }
             
 
         }

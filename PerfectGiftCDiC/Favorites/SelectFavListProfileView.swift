@@ -20,20 +20,48 @@ struct SelectFavListProfileView: View {
     var sortNumer: Int
     
     var body: some View {
-        VStack{
-            Text("select")
-            List{
-                ForEach(profiles){ profile in
-                    Text(profile.nameProfile ?? "no name")
-                        .onTapGesture {
-                            print(String("fav num \(sortNumer)"))
-                            cambiarArrayFav(sortNumber: sortNumer, profile: profile)
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                }
-            }.listStyle(.inset)
+        
+        ZStack{
+            Color("background")
+                .edgesIgnoringSafeArea(.all)
             
+            VStack{
+                
+                Text("Select a Person as a Favorite")
+                    .foregroundColor(Color("colorTextoTitulo"))
+                    .font(.custom("marker Felt", size: 24))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.3)
+                
+                Rectangle()
+                    .foregroundColor(.gray)
+                    .opacity(0.3)
+                    .frame(height: 3)
+                
+                List{
+                    ForEach(profiles){ profile in
+                        HStack{
+                            Spacer()
+                        Text(profile.nameProfile ?? "no name")
+                            .onTapGesture {
+                                print(String("fav num \(sortNumer)"))
+                                cambiarArrayFav(sortNumber: sortNumer, profile: profile)
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                            .font(.custom("marker Felt", size: 20))
+                            .padding(.vertical, 5)
+                            .foregroundColor(.purple)
+                            Spacer()
+                        }.background(Color("background3"))
+                         .cornerRadius(10)
+                    }
+                }.listStyle(.inset)
+                 .colorMultiply(Color("background"))
+                    
+                
+            }
         }
+        
     }
     
     func cambiarArrayFav(sortNumber: Int, profile: Profile){

@@ -23,6 +23,8 @@ extension UIApplication {
      */
 }
 
+
+
 struct backToHomeButton: View{
     
     var body: some View{
@@ -72,6 +74,7 @@ struct FavoriteData: Identifiable, Hashable, Codable {
 struct EventDateUpComing: Identifiable, Hashable, Codable{
     var id = UUID().uuidString
     var dateEvent: Date
+    var titleEvent: String
     var idProfileFav: String
     var annualEvent: Bool
 }

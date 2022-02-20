@@ -14,6 +14,16 @@ struct UpcomingListsView: View {
     
     var body: some View {
         VStack{
+            Text("UPCOMING EVENTS")
+                .foregroundColor(Color("colorTextoTitulo"))
+                .font(.custom("marker Felt", size: 24))
+                .padding(.top,10)
+            
+            Rectangle()
+                .foregroundColor(.gray)
+                .opacity(0.3)
+                .frame(height: 5)
+            
             if recargarLista{
                 EventUpcomingList()
             }else{

@@ -134,6 +134,7 @@ struct ContentView: View {
                                     print("si hay eventos")
                                     let eventsUpcoming = EventDateUpComing(
                                                             dateEvent: event.dateEvent ?? Date(),
+                                                            titleEvent: event.titleEvent ?? "no title",
                                                             idProfileFav: event.profileEventRelation?.idProfile!.uuidString ?? "5000",
                                                             annualEvent: event.annualEvent)
                                     arrayEvents.append(eventsUpcoming)

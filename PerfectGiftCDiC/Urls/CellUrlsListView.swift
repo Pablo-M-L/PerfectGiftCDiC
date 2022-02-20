@@ -15,17 +15,19 @@ struct CellUrlsListView: View {
         
         HStack{
             HStack{
-                Image(uiImage: thumbailUrl)
-                    .resizable()
-                    .clipShape(Circle())
-                    .frame(width: 25, height: 25)
-                    .padding(10)
+//                Image(uiImage: thumbailUrl)
+//                    .resizable()
+//                    .clipShape(Circle())
+//                    .frame(width: 25, height: 25)
+//                    .padding(10)
                 Text(url.titleUrl ?? "no title")
+                Spacer()
             }
             
             Spacer()
             
             Button(action:{
+                print(url.webUrl)
                 if let link = URL(string: url.webUrl ?? "https://.google.com") {
                     UIApplication.shared.open(link)
                 }

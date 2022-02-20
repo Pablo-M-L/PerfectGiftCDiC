@@ -14,6 +14,12 @@ let itemFormatter: DateFormatter = {
     return formatter
 }()
 
+func getStringFromDate(date: Date)-> String{
+    
+    let formatter3 = DateFormatter()
+    formatter3.dateStyle = .short
+    return formatter3.string(from: date)
+}
 
 func addYearToData(initDate: Date)-> Date{
     let nextDate = Calendar.current.date(byAdding: .year, value: 1, to: initDate)

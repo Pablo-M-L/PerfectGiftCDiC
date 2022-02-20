@@ -18,8 +18,17 @@ struct ProfileListView: View {
     @State var showAddProfileView: Bool = false
     
     var body: some View {
-        ZStack{
-    
+        VStack{
+            Text("PERSONS")
+                .foregroundColor(Color("colorTextoTitulo"))
+                .font(.custom("marker Felt", size: 24))
+                .padding(.top,10)
+            
+            Rectangle()
+                .foregroundColor(.gray)
+                .opacity(0.3)
+                .frame(height: 5)
+            
             if recargarLista{
                 profileList()
             }
@@ -117,20 +126,21 @@ struct profileList: View{
                                 Spacer()
                                 
                                 ZStack{
-                                    RoundedRectangle(cornerRadius: 20)
+                                    Circle()
                                         .foregroundColor(Color("backgroundButton"))
-                                    Text("Add a profile!!")
-                                        .font(.custom("Marker Felt", size: 32))
-                                        .foregroundColor(Color("colorTextoTitulo"))
-                                        .bold()
-                                        .minimumScaleFactor(0.3)
-                                        .padding(20)
-                                    
+                                        .frame(width: 250, height: 250)
+                                    Image(systemName: "person.fill.badge.plus")
+                                        .resizable()
+                                        .foregroundColor(.white)
+                                        //.background(Color("backgroundButton"))
+                                        .aspectRatio(contentMode: .fit)
+                                        .padding(8)
+                                        .frame(width: 200, height: 200)
                                     
                                 }
-                                .frame(width: 350, height: 100)
                                 
-                                Spacer()
+                                .padding(.trailing, UIScreen.main.bounds.width / 5)
+                                .padding(.bottom, UIScreen.main.bounds.height / 6)
                             }
                             
                         })
