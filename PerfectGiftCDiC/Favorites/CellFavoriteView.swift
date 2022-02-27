@@ -106,7 +106,6 @@ struct CellFavoriteView: View {
             .padding(.vertical, 10)
             .background(Color("cellprofileBck"))
             .onAppear{
-            print("añadir celda")
                 if !eventos.isEmpty{
                     let eventFilter = eventos.filter{$0.profileEventRelation?.idProfile == UUID(uuidString:favorite.idProfileFav)}
                     if !eventFilter.isEmpty{

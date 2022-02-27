@@ -79,9 +79,8 @@ struct IdeasListView: View {
                             .shadow(color: .gray, radius: 2, x: 2, y: 2)
                             .padding()
                         })
-
+                        Spacer()
                     }
-                     .padding(.trailing, UIScreen.main.bounds.width / 3.6)
                     
                 }
                  

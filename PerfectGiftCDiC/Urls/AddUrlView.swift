@@ -31,11 +31,15 @@ struct AddUrlView: View {
             
             VStack{
                 
-                Text("Title")
-                    .font(.custom("marker Felt", size: 18))
+                Text("Web Title:")
+                    .font(.custom("marker Felt", size: 24))
                     .foregroundColor(Color.purple)
+                
                 TextField("Title url", text: $titleUrl)
+                    .padding(5)
                     .background(Color.white)
+                    .font(.custom("Arial", size: 22))
+                    .cornerRadius(5)
                     .onReceive(Just(titleUrl)){ value in
                         if value != ""{
                             if !newUrl{
@@ -44,15 +48,17 @@ struct AddUrlView: View {
                         }
                         
                     }
+                    .padding(.bottom, 15)
                 
-                Text("Web")
-                    .font(.custom("marker Felt", size: 18))
+                Text("LINK")
+                    .font(.custom("marker Felt", size: 24))
                     .foregroundColor(Color.purple)
 
                 TextEditor(text: $webUrl)
                     .frame(height: UIScreen.main.bounds.height / 5.5)
                     .font(.custom("Arial", size: 18))
                     .autocapitalization(.none)
+                    .disableAutocorrection(true)
                     .cornerRadius(25)
                     .onReceive(Just(webUrl)){ value in
                         if value != ""{
@@ -88,6 +94,8 @@ struct AddUrlView: View {
                                         })
                                    })
             .onAppear{
+                print(newUrl)
+                print(urlIdea?.titleUrl ?? "no url")
                 if !newUrl{
                     titleUrl = urlIdea?.titleUrl ?? "no title"
                     webUrl = urlIdea?.webUrl ?? "https://google.com"
@@ -139,17 +147,12 @@ struct AddUrlView: View {
     }
     
     private func deleteIdea(url: UrlIdeas){
-        presentationMode.wrappedValue.dismiss()
-        @FetchRequest(
-            sortDescriptors: [NSSortDescriptor(keyPath: \UrlIdeas.idUrl, ascending: true)],
-            animation: .default)
-        
-        var profiles: FetchedResults<Ideas>
         
         viewContext.delete(url)
         
         do {
             try viewContext.save()
+            presentationMode.wrappedValue.dismiss()
         } catch {
             // Replace this implementation with code to handle the error appropriately.
             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -160,30 +163,7 @@ struct AddUrlView: View {
         
     }
     
-    func downloadthumbail(url: URL, completionImage: @escaping (UIImage)-> Void){
-        
-        URLSession.shared.dataTask(with: url){data, response, error in
-            guard let data = data, let response = response as? HTTPURLResponse, error == nil else{
-                if let error = error {
-                    print("error en la descarga de thumbail \(error)")
-                }
-                return
-            }
-            
-            if response.statusCode == 200{
-                if let image = UIImage(data: data){
-                    completionImage(image)
-                }else{
-                    print("no es una imagen")
-                }
-            }
-            else{
-                print("error \(response.statusCode)")
-            }
-            
-        }.resume()
-        
-    }
+
     
     private func updateUrl(){
         
@@ -215,9 +195,6 @@ struct AddUrlView: View {
     
     private func addUrl() {
         
-        //let queue = DispatchQueue.global(qos: .userInteractive)
-        //let group = DispatchGroup()
-        
         withAnimation {
             
             let thumbailImage = UIImage(imageLiteralResourceName: "logoPerfectgift").jpegData(compressionQuality: 0.5)
@@ -229,22 +206,13 @@ struct AddUrlView: View {
             newUrl.webUrl = comprobarUrlIntroducida(url: webUrl)
             newUrl.idIdeaUrl = idea?.idIdeas?.uuidString
             newUrl.ideaUrlRelation = idea
+            //newUrl.thumbailUrl = thumbailImageData
             
-//            queue.async(group: group) {
-//                downloadthumbail(url: (URL(string: ("https://www.google.com/s2/favicons?domain=" + webUrl)) ?? defaultUrlThumbail!)) { UIImage in
-//                    group.enter()
-//                    let imageData =  UIImage.jpegData(compressionQuality: 1)
-//                    let data = try! JSONEncoder().encode(imageData)
-//                    thumbailImageData = data
-//                    group.leave()
-//                    print("save data")
-//
-//                }
-//
-//                group.wait(timeout: .now() + .seconds(2))
-                
-                newUrl.thumbailUrl = thumbailImageData
-                
+            downloadthumbail(url: (URL(string: ("https://www.google.com/s2/favicons?domain=" + webUrl)) ?? defaultUrlThumbail!)) { UIImage in
+                let imageData =  UIImage.jpegData(compressionQuality: 1)
+                let data = try! JSONEncoder().encode(imageData)
+                newUrl.thumbailUrl = data
+            }
                 do {
                     try viewContext.save()
                     print("url guardada")
@@ -255,32 +223,12 @@ struct AddUrlView: View {
                     let nsError = error as NSError
                     fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                 }
-
-//                print("guardar")
-//                print(newUrl.webUrl)
-//                DispatchQueue.main.async {
-//                    presentationMode.wrappedValue.dismiss()
-//                }
-//
-//
-//            }
-            
         }
         
         
     }
     
-    func comprobarUrlIntroducida(url: String)-> String{
-        if url.starts(with: "https://"){
-            print(url)
-            return url.trimmingCharacters(in: .whitespaces)
-        }
-        else if url.starts(with: "www."){
-            print("https://"+url)
-            return ("https://"+url).trimmingCharacters(in: .whitespaces)
-        }
-        return url.trimmingCharacters(in: .whitespaces)
-    }
+
 }
 
 //struct AddUrlView_Previews: PreviewProvider {

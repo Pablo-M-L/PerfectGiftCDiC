@@ -13,7 +13,7 @@ class ViewModel: ObservableObject{
     @Published var profileList: [profileListItem] = []
     @Published var currentProfile: Profile = Profile()
     @Published var currentEvent: Event = Event()
+    @Published var currentIdea: Ideas = Ideas()
     @Published var backToHome: Bool = false
-    
-    
+   
 }

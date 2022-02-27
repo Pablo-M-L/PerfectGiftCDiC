@@ -72,24 +72,16 @@ struct AddProfileView: View {
                     }.padding(.trailing, 7)
                     
                     VStack{
-                        Text("Name: ")
+                        Text("Person's Name: ")
                             .foregroundColor(Color("colorTextoTitulo"))
-                        ZStack{
-                            TextField("Person Name", text: $nameProfile)
+                            .font(.custom("marker Felt", size: 22))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.3)
+
+                        TextField("Enter Person Name", text: $nameProfile)
                                 .padding()
                                 .background(Color(.white))
                                 .cornerRadius(8)
-                            
-                            HStack{
-                                Spacer()
-                                Image(systemName: "pencil.circle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(Color.gray)
-                                    .padding(.trailing, 20)
-                            }
-                        }
                         
                     }.font(.custom("Marker Felt", size: 18))
                         .padding()
@@ -97,24 +89,15 @@ struct AddProfileView: View {
                     VStack{
                         Text("Details")
                             .foregroundColor(Color("colorTextoTitulo"))
+                            .font(.custom("marker Felt", size: 22))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.3)
                         
-                        ZStack{
                             TextField("Details", text: $annotationsProfile)
                             //.multilineTextAlignment(.leading)
                                 .padding()
                                 .background(Color(.white))
                                 .cornerRadius(8)
-                            
-                            HStack{
-                                Spacer()
-                                Image(systemName: "pencil.circle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(Color.gray)
-                                    .padding(.trailing, 20)
-                            }
-                        }
                         
                     }.font(.custom("marker Felt", size: 18))
                         .padding(.horizontal, 10)
@@ -137,7 +120,7 @@ struct AddProfileView: View {
                     }).padding()
                     
                 }
-                .navigationTitle("Add Person")
+                .navigationTitle("Add New Person")
             }
         }
     }

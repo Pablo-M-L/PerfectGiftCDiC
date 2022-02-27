@@ -28,6 +28,7 @@ struct CellEventUpcomingList: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width:60, height: 60)
                             .clipShape(Circle())
+                            .overlay(Circle().stroke(.white, lineWidth: 3))
                             .shadow(color: .gray, radius: 2, x: 1, y: 2)
                        // Text("\(nameProfile)")
                        //     .font(.custom("marker Felt", size: 14))
@@ -39,7 +40,15 @@ struct CellEventUpcomingList: View {
                     VStack{
 
                         Text("\(title)")
+                            .foregroundColor(.purple)
+                            .font(.custom("marker Felt", size: 22))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.3)
                         Text("\(date, formatter: itemFormatter)")
+                            .foregroundColor(.purple)
+                            .font(.custom("marker Felt", size: 18))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.3)
                     }
                     .font(.custom("marker Felt", size: 18))
                     .lineLimit(1)
@@ -55,6 +64,7 @@ struct CellEventUpcomingList: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width:60, height: 60)
                                 .clipShape(Circle())
+                                .overlay(Circle().stroke(.white, lineWidth: 3))
                                 .shadow(color: .gray, radius: 2, x: 1, y: 2)
                         }
                         

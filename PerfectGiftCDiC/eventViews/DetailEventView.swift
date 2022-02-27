@@ -43,13 +43,14 @@ struct DetailEventView: View {
                     //titulo fecha de nacimiento.......
                     HStack{
                         Text("Event Title")
-                            .font(.custom("marker Felt", size: 18))
+                            .font(.custom("marker Felt", size: 22))
                             .foregroundColor(.purple)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.3)
                         Spacer()
                     }
                     
                     
-                    ZStack{
                     TextFieldProfile(hint: "title", dataString: $titleEvent)
                         .onReceive(Just(titleEvent)){ value in
                             if value != "" && value != event.titleEvent{
@@ -57,32 +58,25 @@ struct DetailEventView: View {
                             }
                         }
                     
-                        HStack{
-                            Spacer()
-                            Image(systemName: "pencil.circle")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 25, height: 25)
-                                .foregroundColor(Color.gray)
-                                .padding(.trailing, 20)
-                        }
-                    }
-                    
 
                     
                     //añadir fecha
                         HStack{
                             //titulo fecha de nacimiento.......
                             Text(eventSelected == .birthday ? "Date of Birth" : "Date to Commemorate")
-                                .font(.custom("marker Felt", size: 18))
+                                .font(.custom("marker Felt", size: 22))
                                 .foregroundColor(.purple)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.3)
                                 .padding(.top, 10)
                             
                             Spacer()
                             
                             Text(getStringFromDate(date:birthDate))
                                 .foregroundColor(Color("colorTextoTitulo"))
-                                .font(.custom("marker Felt", size: 18))
+                                .font(.custom("marker Felt", size: 22))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.3)
                                 .padding(1)
                             
                             Button(action:{
@@ -129,7 +123,8 @@ struct DetailEventView: View {
                                 DatePicker(selection: $birthDate,in: Date()... ,  displayedComponents: .date) {
                                     EmptyView()
                                 }
-                                .frame(width: 20, alignment: .leading)
+                                .datePickerStyle(WheelDatePickerStyle())
+                               // .frame(width: 20, alignment: .leading)
                                     .onReceive(Just(birthDate)) { date in
                                         if birthDate != Date(timeIntervalSince1970: 100){
                                             anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
@@ -145,23 +140,27 @@ struct DetailEventView: View {
                     if eventSelected == .birthday || eventSelected == .anniversary{
                         HStack{
                             Text(String(anyosCumplidos) + "º")
-                                .font(.custom("marker Felt", size: 20))
+                                .font(.custom("marker Felt", size: 24))
+                                .foregroundColor(Color("colorTextoTitulo"))
                             Text(" \(eventSelected.rawValue)")
-                                .font(.custom("marker Felt", size: 9))
+                                .font(.custom("marker Felt", size: 16))
+                                .foregroundColor(Color("colorTextoTitulo"))
+                                
                         }
-                        .padding(5)
-                        .padding(.leading, 20)
-                        .padding(.trailing, 10)
-                        .font(.custom("marker Felt", size: 18))
+                        .padding(20)
                         .background(Color("background2"))
-                        .cornerRadius(8)
+                        .cornerRadius(20)
+                        
+                        
                     }
                     
                     
                     HStack{
                         Text("Observations")
-                            .font(.custom("marker Felt", size: 18))
+                            .font(.custom("marker Felt", size: 22))
                             .foregroundColor(.purple)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.3)
                             .padding(1)
                         Spacer()
                     }.padding(.top, 10)
@@ -207,8 +206,8 @@ struct DetailEventView: View {
                 
                 Spacer()
                 
-            }        .padding(.horizontal,5)
-                .padding(.top,10)
+            }.padding(.horizontal,10)
+             .padding(.top,10)
             
         }
         .onDisappear{

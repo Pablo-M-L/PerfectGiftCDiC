@@ -43,7 +43,7 @@ struct AddEventView: View {
                             
                             Text("New Event")
                                 .foregroundColor(Color("colorTextoTitulo"))
-                                .font(.custom("marker Felt", size: 28))
+                                .font(.custom("marker Felt", size: 30))
                                 .minimumScaleFactor(0.3)
                             
                             Spacer()
@@ -56,7 +56,7 @@ struct AddEventView: View {
                             Spacer()
                             Text("Select Categoty")
                                 .foregroundColor(Color("colorTextoTitulo"))
-                                .font(.custom("marker Felt", size: 18))
+                                .font(.custom("marker Felt", size: 22))
                             Spacer()
                         }.padding(5)
                         
@@ -76,7 +76,7 @@ struct AddEventView: View {
                                     }
                                 Text("Birthday")
                                     .foregroundColor(Color("colorTextoTitulo"))
-                                    .font(.custom("marker Felt", size: 11))
+                                    .font(.custom("marker Felt", size: 14))
                             }
                             Spacer()
                             
@@ -96,7 +96,7 @@ struct AddEventView: View {
                                 
                                 Text("Special Day")
                                     .foregroundColor(Color("colorTextoTitulo"))
-                                    .font(.custom("marker Felt", size: 11))
+                                    .font(.custom("marker Felt", size: 14))
                             }
                             
                             Spacer()
@@ -115,7 +115,7 @@ struct AddEventView: View {
                                     }
                                 Text("Anniversary")
                                     .foregroundColor(Color("colorTextoTitulo"))
-                                    .font(.custom("marker Felt", size: 11))
+                                    .font(.custom("marker Felt", size: 14))
                             }
                             
                         }.padding()
@@ -127,15 +127,17 @@ struct AddEventView: View {
                         
                         VStack{
                             //añadir titulo del evento
-                            RowDataEvent(textString: "Title", dataString: $titleEvent)
-                                .font(.custom("marker Felt", size: 18))
+                            RowDataEvent(textString: "Event Title", dataString: $titleEvent)
+                                .font(.custom("marker Felt", size: 22))
                                 .padding(1)
                             
                             //añadir fecha
                                 HStack{
                                     Text("\(titleDate):")
                                         .foregroundColor(.purple)
-                                        .font(.custom("marker Felt", size: 18))
+                                        .font(.custom("marker Felt", size: 22))
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.3)
                                         .padding(1)
                                     
                                     Spacer()
@@ -219,10 +221,14 @@ struct AddEventView: View {
                             
                             
                             //Text("Date is \(birthDate, formatter: dateFormatter)")
+                            
+                            VStack{
                             HStack{
                                 Text("Observations")
-                                    .font(.custom("marker Felt", size: 18))
+                                    .font(.custom("marker Felt", size: 22))
                                     .foregroundColor(.purple)
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.3)
                                     .padding(1)
                                 Spacer()
                                 
@@ -254,6 +260,7 @@ struct AddEventView: View {
                                     Spacer()
                                 }
                             }
+                            }.padding(.vertical,15)
                             
                         }.onTapGesture {
                             UIApplication.shared.endEditing()

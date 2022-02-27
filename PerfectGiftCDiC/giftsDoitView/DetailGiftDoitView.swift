@@ -60,22 +60,34 @@ struct DetailGiftDoitView: View {
                                     Spacer()
                                     
                                     Button(action:{
-                                        showAlertSaveAsGift = true
+                                        updateIdea()
                                     },label:{
-                                        Text("save")
+                                        Text("Save & Close")
+                                            .font(.custom("Marker Felt", size: 24))
+                                            .foregroundColor(.blue)
+                                            .padding(.vertical,10)
+                                            .padding(.horizontal, 50)
+                                            .background(Color.orange)
+                                            .cornerRadius(25)
+                                            .shadow(color: .gray, radius: 2, x: 2, y: 2)
                                     })
                                     Spacer()
                                 }
                                 }
+                                else{
+                                    
+                                    Text("Given!!!")
+                                        .font(.custom("Arial", size: 32))
+                                        .foregroundColor(.purple)
+                                }
                                 HStack{
-                                Text("Gift")
+                                Text("Gift Title:")
                                     .foregroundColor(.purple)
-                                    .font(.custom("marker Felt", size: 18))
+                                    .font(.custom("marker Felt", size: 22))
                                     Spacer()
                                 }
                                 
-                                ZStack{
-                                TextField("Enter Gift", text: $titleIdea)
+                                TextField("Enter Gift Title", text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
                                     .font(.custom("Arial", size: 24))
@@ -83,31 +95,22 @@ struct DetailGiftDoitView: View {
                                     
                                     .onReceive(Just(titleIdea)){ value in
                                         if value != "" && value != idea?.ideaTitle{
-                                            updateIdea()
+                                            //updateIdea()
                                         }
                                         
-                                    }
-                                  
-                                    HStack{
-                                        Spacer()
-                                        Image(systemName: "pencil.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 25, height: 25)
-                                            .foregroundColor(Color.gray)
-                                            .padding(.trailing, 20)
-                                    }
+                                    
                                 }
                                 
                                 
                                 HStack{
                                 Text("Reason for the Gift")
                                     .foregroundColor(.purple)
-                                    .font(.custom("marker Felt", size: 18))
+                                    .font(.custom("marker Felt", size: 22))
+                                    .lineLimit(1)
+                                    .minimumScaleFactor(0.3)
                                     Spacer()
                                 }
                                 
-                                ZStack{
                                 TextField("Reason for the Gift", text: $reasonGift)
                                     .padding(5)
                                     .background(Color.white)
@@ -116,27 +119,19 @@ struct DetailGiftDoitView: View {
                                     
                                     .onReceive(Just(reasonGift)){ value in
                                         if value != "" && value != idea?.eventTitleIdea{
-                                            updateIdea()
+                                            //updateIdea()
                                         }
                                         
-                                    }
-                                 
-                                    HStack{
-                                        Spacer()
-                                        Image(systemName: "pencil.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 25, height: 25)
-                                            .foregroundColor(Color.gray)
-                                            .padding(.trailing, 20)
-                                    }
+                                    
                                 }
                                 
                                 //añadir fecha
                                     HStack{
                                         Text("Gift Date:")
                                             .foregroundColor(.purple)
-                                            .font(.custom("marker Felt", size: 18))
+                                            .font(.custom("marker Felt", size: 22))
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.3)
                                             .padding(1)
                                         
                                         Spacer()
@@ -144,6 +139,7 @@ struct DetailGiftDoitView: View {
                                         Text(getStringFromDate(date:giftDate))
                                             .foregroundColor(Color("colorTextoTitulo"))
                                             .font(.custom("marker Felt", size: 18))
+                                            .lineLimit(1)
                                             .minimumScaleFactor(0.3)
                                             .padding(1)
                                             .padding(.trailing, 10)
@@ -189,8 +185,10 @@ struct DetailGiftDoitView: View {
                                 VStack{
                                     HStack{
                                         Text("Description")
-                                            .font(.custom("Arial", size: 18))
                                             .foregroundColor(.purple)
+                                            .font(.custom("marker Felt", size: 22))
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.3)
                                         Spacer()
                                         
                                     }
@@ -203,7 +201,7 @@ struct DetailGiftDoitView: View {
                                             .cornerRadius(25)
                                             .onReceive(Just(descriptionIdea)){ value in
                                                 if value != "" && value != idea?.descriptionIdea{
-                                                    updateIdea()
+                                                   // updateIdea()
                                                 }
                                                 
                                             }
@@ -230,12 +228,12 @@ struct DetailGiftDoitView: View {
                                         }
                                     }
 
-                                }
+                                }.padding(.vertical, 15)
                             }.onTapGesture {
                                 //para ocultar el teclado
                                     UIApplication.shared.endEditing()
                                 }
-                            
+
 
                             HStack{
                                 Image(uiImage: imgIdea1)
@@ -287,7 +285,7 @@ struct DetailGiftDoitView: View {
                                 .shadow(color: .gray, radius: 3, x: 3, y: 3)
                             .onDisappear{
                                 if imageChange{
-                                    updateIdea()
+                                    //updateIdea()
                                 }
                             }
                             
@@ -297,59 +295,19 @@ struct DetailGiftDoitView: View {
                         .foregroundColor(.purple)
                         .font(.custom("marker Felt", size: 18))
 
-                    ZStack{
-                        
-                        VStack{
-                            if let idea1 = idea{
-                                if recargarLista{
-                                    UrlsListView(idea: idea1)
-                                        .cornerRadius(15)
-                                }
-                                else{
-                                    UrlsListView(idea: idea1)
-                                        .cornerRadius(15)
-                                }
-                                
+                    VStack{
+                        if let idea1 = idea{
+                            if recargarLista{
+                                UrlsListView(idea: idea1)
+                                    .cornerRadius(15)
                             }
-
-                        }
-                        
-                        //boton de guardar url segun si se está creando una idea o editandola.
-                        VStack{
-                            HStack{
-                                Spacer()
-
-                                NavigationLink(destination: AddUrlView(idea: idea, newUrl: true), label: {
-                                    ZStack{
-                                        Circle()
-                                            .foregroundColor(Color("backgroundButton"))
-                                        Image(systemName: "plus.circle")
-                                            .resizable()
-                                            .foregroundColor(.white)
-                                            .aspectRatio(contentMode: .fit)
-                                            .padding(8)
-                                        
-                                        
-                                    }
-                                    .frame(width: 40, height: 40)
-                                    .padding(.trailing, 5)
-                                    .padding(.top,5)
-                                })
+                            else{
+                                UrlsListView(idea: idea1)
+                                    .cornerRadius(15)
                             }
                             
-                            Spacer()
-                        }.frame(height: UIScreen.main.bounds.height / 3)
-                    }
-                    
-                        
-                    
- 
+                        }
 
-
-                }
-                .onDisappear{
-                    if borrarIdea{
-                        deleteIdea(idea: idea!)
                     }
                 }
                 .padding()
@@ -358,48 +316,7 @@ struct DetailGiftDoitView: View {
             
 
 
-        }.navigationBarTitle("Gift for \(nameProfile)")
-         .navigationBarItems(trailing:
-                                HStack{
-                                    Spacer()
-                                    Image(uiImage: imgServicio)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:  35, height: 35)
-                                        .clipShape(Circle())
-                                        .overlay(Circle().stroke(.white, lineWidth: 3))
-             
-                                     Button(action: {
-                                         print("borrar idea")
-                                         showAlertDelete = true
-                                     },label:{
-                                         Image(systemName: "trash")
-                                             .resizable()
-                                             .aspectRatio(contentMode: .fit)
-                                             .frame(width: 35, height: 35)
-                                             .foregroundColor(.purple)
-                                     })
-                                }
-            ).alert(isPresented: $showAlertDelete, content: {
-             Alert(
-                 title: Text("Do you want to delete this Gift?"),
-                 primaryButton: .default(Text("Delete"), action: {
-                     print("borrar idea")
-                     borrarIdea = true
-                     presentationMode.wrappedValue.dismiss()
-                 }),
-                 secondaryButton: .cancel(Text("Cancel")))
-         })
-            .alert(isPresented: $showAlertSaveAsGift, content: {
-             Alert(
-                 title: Text("Do you want to save this ideas as Gift?"),
-                 primaryButton: .default(Text("Save"), action: {
-                     print("borrar idea")
-                     updateIdea()
-                     presentationMode.wrappedValue.dismiss()
-                 }),
-                 secondaryButton: .cancel(Text("Cancel")))
-         })
+        }
             .onAppear{
                 recargarLista.toggle()
 //                eventTitle = eventParent.titleEvent ?? "title event Empty"
@@ -517,7 +434,7 @@ struct DetailGiftDoitView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
-       // presentationMode.wrappedValue.dismiss()
+       presentationMode.wrappedValue.dismiss()
         
     }
 }

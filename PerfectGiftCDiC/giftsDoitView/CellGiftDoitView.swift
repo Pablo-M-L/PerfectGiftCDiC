@@ -18,11 +18,15 @@ struct CellGiftDoitView: View {
         VStack(alignment: .leading,spacing: 2){
             Text("\(title)")
                 .font(.custom("marker Felt", size: 18))
+                .lineLimit(1)
                 .minimumScaleFactor(0.3)
             Text("\(reasonGift)")
                 .font(.custom("marker Felt", size: 18))
+                .lineLimit(1)
                 .minimumScaleFactor(0.3)
             Text("\(giftDate, formatter: itemFormatter)")
+                .font(.custom("marker Felt", size: 18))
+                .lineLimit(1)
                 .minimumScaleFactor(0.3)
         }
             Spacer()

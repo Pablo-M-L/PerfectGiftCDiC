@@ -63,24 +63,18 @@ struct AddGiftDoitView: View {
                                         .foregroundColor(Color("colorTextoTitulo"))
                                         .font(.custom("marker Felt", size: 36))
                                     Spacer()
-
-//                                    Image(uiImage: imgServicio)
-//                                        .resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .frame(width:  70, height: 70)
-//                                        .clipShape(Circle())
-//                                        .overlay(Circle().stroke(.white, lineWidth: 3))
                                 }
                                 .padding(.horizontal, 25)
                                 
                                 HStack{
-                                Text("Gift")
-                                    .foregroundColor(.purple)
-                                    .font(.custom("marker Felt", size: 18))
+                                Text("Gift Title:")
+                                        .foregroundColor(.purple)
+                                        .font(.custom("marker Felt", size: 22))
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.3)
                                     Spacer()
                                 }
                                 //introducir titulo
-                                ZStack{
                                 TextField("Enter Gift", text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
@@ -94,22 +88,14 @@ struct AddGiftDoitView: View {
                                         }
                                         
                                     }
-                                    
-                                    HStack{
-                                        Spacer()
-                                        Image(systemName: "pencil.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 25, height: 25)
-                                            .foregroundColor(Color.gray)
-                                            .padding(.trailing, 20)
-                                    }
-                                }
+                                
                                 
                                 HStack{
                                 Text("Reason for the Gift")
-                                    .foregroundColor(.purple)
-                                    .font(.custom("marker Felt", size: 18))
+                                        .foregroundColor(.purple)
+                                        .font(.custom("marker Felt", size: 22))
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.3)
                                     Spacer()
                                 }
                                 TextField("Enter Reason for the Gift", text: $reasonGift)
@@ -129,7 +115,9 @@ struct AddGiftDoitView: View {
                                     HStack{
                                         Text("Gift Date:")
                                             .foregroundColor(.purple)
-                                            .font(.custom("marker Felt", size: 18))
+                                            .font(.custom("marker Felt", size: 22))
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.3)
                                             .padding(1)
                                         
                                         Spacer()
@@ -184,8 +172,10 @@ struct AddGiftDoitView: View {
                                 VStack{
                                     HStack{
                                         Text("Description")
-                                            .font(.custom("marker Felt", size: 18))
                                             .foregroundColor(.purple)
+                                            .font(.custom("marker Felt", size: 22))
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.3)
                                         Spacer()
                                         
                                     }
@@ -228,7 +218,7 @@ struct AddGiftDoitView: View {
                                     }
 
                                         
-                                }
+                                }.padding(.vertical,15)
                                 
                             }.onTapGesture {
                                 //para ocultar el teclado
@@ -371,7 +361,6 @@ struct AddGiftDoitView: View {
             HStack{
                 Spacer()
                 Button(action: {
-                    print("guardar idea")
                     if ideaYaGuardada{
                         closeWithUpdate = true
                         updateIdea()
@@ -399,7 +388,6 @@ struct AddGiftDoitView: View {
 
         }
             .onAppear{
-                print("appear addidea")
                 recargarLista.toggle()
 //                eventTitle = eventParent.titleEvent ?? "title event Empty"
 //                nameProfile = eventParent.profileEventRelation?.nameProfile ?? "name profile empty"
@@ -459,6 +447,7 @@ struct AddGiftDoitView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .clipShape(Circle())
                                     .frame(width: 35, height: 35)
+                                    .overlay(Circle().stroke(.white, lineWidth: 3))
             )
 
     }
@@ -509,8 +498,6 @@ struct AddGiftDoitView: View {
     }
     
     private func addIdea(){
-        print("añadiendo idea")
-        
         withAnimation {
             let newIdea = Ideas(context: viewContext)
             newIdea.ideaTitle = titleIdea
@@ -547,7 +534,6 @@ struct AddGiftDoitView: View {
             
             do {
                 try viewContext.save()
-                print("idea guardada")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -560,8 +546,6 @@ struct AddGiftDoitView: View {
     }
     
     private func addIdeaBeforeUrl(){
-        print("añadiendo idea antes de url")
-        
         withAnimation {
             let newIdea = Ideas(context: viewContext)
             newIdea.ideaTitle = titleIdea

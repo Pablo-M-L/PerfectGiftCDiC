@@ -78,52 +78,27 @@ struct DetailProfileView: View {
                     //nombre y anotaciones
                     VStack(alignment: .leading){
                         
-                        ZStack{
                             TextFieldProfile(hint: "Enter Person's Name", dataString: $nameProfile)
                             //onReceive detecta cambio en la variable nameProfile, si hay cambio llama a la funcion de guardar en BD.
                             //tambien se compara con el string "vacio" que es el valor inicial, porque detectaba el cambio en la variable
                             //al abrir la pantalla, y guardaba en la BD el valor "vacio", borrando el dato correcto.
                                 .onReceive(Just(nameProfile)){ value in
-                                    if value != "" && value != profile.nameProfile{
+                                    if value != profile.nameProfile{
                                         saveChangesProfile()
                                     }
-                                }
-                            HStack{
-                                Spacer()
-                                Image(systemName: "pencil.circle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(Color.gray)
-                                    .padding(.trailing, 10)
-                            }
                         }
                         
-                        ZStack{
                             TextFieldProfile(hint: "Details", dataString: $annotationsProfile)
                                 .onReceive(Just(nameProfile)){ value in
-                                    if value != "" && value != profile.annotationsProfile{
+                                    if value != profile.annotationsProfile{
                                         saveChangesProfile()
                                     }
                                 }
-                            
-                            HStack{
-                                Spacer()
-                                Image(systemName: "pencil.circle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(Color.gray)
-                                    .padding(.trailing, 10)
-                            }
-                        }
-                        
-                        
                     }
                     
                     
                 }.padding([.horizontal, .top], 10)
-                
+               
                 VStack{
                     
                     HStack{
@@ -133,7 +108,7 @@ struct DetailProfileView: View {
                             .font(.custom("marker Felt", size: 18))
                         
                         Spacer()
-                        
+                        //boton y navigationlink de añadir elemento a lista activa.
                         if vistaActiva == .ideas{
                             NavigationLink(destination: AddIdeaView(profile: profile), isActive: $showAddIdea){
                                 EmptyView()
@@ -186,7 +161,7 @@ struct DetailProfileView: View {
                         .frame(height: 5)
                 }
                 
-                
+                //lista de los elementos de la vista activa.
                 if vistaActiva == .ideas{
                     IdeasListView(profile: profile)
                         .colorMultiply(Color("background"))
@@ -203,7 +178,8 @@ struct DetailProfileView: View {
                         .edgesIgnoringSafeArea(.all)
                 }
                 
-                
+                //botones inferiorespara cambiar entre las listas de ideas, eventos y regalos.
+                //simula un tab bar.
                 VStack{
                     HStack(alignment: .center, spacing: 50){
                         Button(action:{
@@ -265,7 +241,7 @@ struct DetailProfileView: View {
             }
             
         }
-        .navigationTitle(nameProfile == "" ? "Name" : nameProfile )
+        .navigationTitle(nameProfile == "" ? "Name" : nameProfile )        
         .navigationBarItems(trailing:
                                 HStack{
             Spacer()
@@ -304,6 +280,7 @@ struct DetailProfileView: View {
             
             do {
                 try viewContext.save()
+                
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -332,13 +309,14 @@ struct DetailProfileView: View {
             profile.imageProfile = data
             
             //comprueba si la persona esta en la lista de favoritos,y si es asi, actualiza los datos del listado en el usersdefault.
-            if isFavoriteProfile(profile: profile) != 10{
-                let sortNumber = isFavoriteProfile(profile: profile)
-                changeFavoriteProfileData(sortNumber: sortNumber, profile: profile)
-            }
+//            if isFavoriteProfile(profile: profile) != 10{
+//                let sortNumber = isFavoriteProfile(profile: profile)
+//                changeFavoriteProfileData(sortNumber: sortNumber, profile: profile)
+//            }
             
             do {
                 try viewContext.save()
+               // presentationMode.wrappedValue.dismiss()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

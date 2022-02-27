@@ -13,6 +13,7 @@ struct DetailIdeaView: View {
     @Environment(\.presentationMode) private var presentationMode
     
     @EnvironmentObject var viewModel: ViewModel
+    
         
     
     @State private var nameProfile = ""
@@ -40,6 +41,8 @@ struct DetailIdeaView: View {
     @State private var showAlertDelete = false
     @State private var borrarIdea = false
     @State private var goDetailGiftDoit = false
+    @State private var showSafariWeb = false
+    
     
     var body: some View {
         ZStack{
@@ -56,9 +59,6 @@ struct DetailIdeaView: View {
 //                                }
                             HStack{
                                 Button(action: {
-                                    print("guardar como regalado")
-                                    //regalado = true
-                                    //updateIdea()
                                     goDetailGiftDoit = true
                                     //presentationMode.wrappedValue.dismiss()
                                     
@@ -83,14 +83,13 @@ struct DetailIdeaView: View {
                             }
                             VStack{
                                 HStack{
-                                    Text("Title:")
+                                    Text("Idea Title:")
                                         .font(.custom("Arial", size: 24))
                                         .foregroundColor(.purple)
                                     Spacer()
                                     
                                 }
                                 
-                                ZStack{
                                 TextField("Enter Title", text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
@@ -103,18 +102,11 @@ struct DetailIdeaView: View {
                                         }
                                         
                                     }
+                                
+
                                     
-                                    HStack{
-                                        Spacer()
-                                        Image(systemName: "pencil.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 25, height: 25)
-                                            .foregroundColor(Color.gray)
-                                            .padding(.trailing, 20)
-                                    }
-                                }
                                 VStack{
+                                    
                                     HStack{
                                         Text("Description")
                                             .font(.custom("Arial", size: 24))
@@ -158,7 +150,7 @@ struct DetailIdeaView: View {
                                         }
                                     }
 
-                                }
+                                }.padding(.vertical, 15)
                             }.onTapGesture {
                                 //para ocultar el teclado
                                     UIApplication.shared.endEditing()
@@ -221,59 +213,28 @@ struct DetailIdeaView: View {
                             
                         }
                     
-                    Text("Links")
-                        .foregroundColor(.purple)
-                        .font(.custom("marker Felt", size: 18))
-
-                    ZStack{
+                    HStack(alignment: .center){
                         
-                        VStack{
-                            if let idea1 = idea{
-                                if recargarLista{
-                                    UrlsListView(idea: idea1)
-                                        .cornerRadius(15)
-                                }
-                                else{
-                                    UrlsListView(idea: idea1)
-                                        .cornerRadius(15)
-                                }
-                                
-                            }
-
-                        }
+                        Spacer()
                         
-                        //boton de guardar url segun si se está creando una idea o editandola.
-                        VStack{
-                            HStack{
-                                Spacer()
-
-                                NavigationLink(destination: AddUrlView(idea: idea, newUrl: true), label: {
-                                    ZStack{
-                                        Circle()
-                                            .foregroundColor(Color("backgroundButton"))
-                                        Image(systemName: "plus.circle")
-                                            .resizable()
-                                            .foregroundColor(.white)
-                                            .aspectRatio(contentMode: .fit)
-                                            .padding(8)
-                                        
-                                        
-                                    }
-                                    .frame(width: 40, height: 40)
-                                    .padding(.trailing, 5)
-                                    .padding(.top,5)
-                                })
-                            }
-                            
-                            Spacer()
-                        }.frame(height: UIScreen.main.bounds.height / 3)
-                    }
+                        NavigationLink(destination: WebContainer(idea: idea!, urlRecived: "https://google.com"), label: {
+                            Text("Open Browser")
+                                .font(.custom("Marker Felt", size: 24))
+                                .foregroundColor(.white)
+                                .padding(.vertical,20)
+                                .padding(.horizontal, 50)
+                                .background(Color("backgroundButton"))
+                                .cornerRadius(25)
+                                .shadow(color: .gray, radius: 2, x: 2, y: 2)
+                        })
+                        
+                        Spacer()
+                                    
+                                                
+                                                    
+                        
+                    }.padding(30)
                     
-                        
-                    
- 
-
-
                 }.onDisappear{
                     if borrarIdea{
                         deleteIdea(idea: idea!)
@@ -306,6 +267,7 @@ struct DetailIdeaView: View {
                                              .frame(width: 35, height: 35)
                                              .foregroundColor(.purple)
                                      })
+
                                 }
             ).alert(isPresented: $showAlertDelete, content: {
              Alert(
@@ -326,7 +288,7 @@ struct DetailIdeaView: View {
                 
                 titleIdea = idea?.ideaTitle ?? "empty"
                 descriptionIdea = idea?.descriptionIdea ?? "description"
-                
+                viewModel.currentIdea = idea!
                 eventTitle = "title event Empty"
                 nameProfile = viewModel.currentProfile.nameProfile ?? "name profile empty"
                 

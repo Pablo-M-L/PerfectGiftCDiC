@@ -52,5 +52,8 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        
+        self.container.viewContext.automaticallyMergesChangesFromParent = true
+        self.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
 }

@@ -79,12 +79,11 @@ struct ListGiftDoitView: View {
                             .shadow(color: .gray, radius: 2, x: 2, y: 2)
                             .padding()
                         })
+                        Spacer()
 
                     }
                         }
                 }
-            
-                .padding(.trailing, ideasListEmpty ? UIScreen.main.bounds.width / 3.6 : 0)
              .onAppear {
                  //comprobar si el fetchrequest está vacio
                  if ideas.wrappedValue.isEmpty{

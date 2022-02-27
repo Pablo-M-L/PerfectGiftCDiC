@@ -15,7 +15,7 @@ struct AddIdeaView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @EnvironmentObject var viewModel: ViewModel
-        
+    
     
     @State private var nameProfile = ""
     @State private var eventTitle = ""
@@ -26,15 +26,16 @@ struct AddIdeaView: View {
     @State private var recargarLista = false
     @State private var ideaYaGuardada = false //si se abre la vista de añadir url y se guarda la idea, hay que actualizar no guardar
     @State private var showAlertUrl = false
-   
-
+    
+    
     var maxUrl = 3
-    @State var idea: Ideas? //solo se crea si se añpaden urls
+    @State var idea: Ideas? //solo se crea si se añaden urls
     var profile: Profile
     @State var showUrl = false
+    @State var showWebContainer = false
     @Environment(\.presentationMode) private var presentationMode
     
-   // var eventParent: Event
+    // var eventParent: Event
     
     @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
@@ -52,30 +53,39 @@ struct AddIdeaView: View {
                 .edgesIgnoringSafeArea(.all)
             ScrollView{
                 VStack{
+                    VStack{
                         VStack{
-                            VStack{
+                            
+                            //cabecero
+                            HStack{
+                                Spacer()
                                 
-                                //cabecero
+                                Text("New Idea")
+                                    .foregroundColor(Color("colorTextoTitulo"))
+                                    .font(.custom("marker Felt", size: 36))
+                                
+                                Spacer()
+                                //
+                                //                                    Image(uiImage: imgServicio)
+                                //                                        .resizable()
+                                //                                        .aspectRatio(contentMode: .fit)
+                                //                                        .frame(width:  70, height: 70)
+                                //                                        .clipShape(Circle())
+                                //                                        .overlay(Circle().stroke(.white, lineWidth: 3))
+                            }
+                            .padding(.horizontal, 25)
+                            
+                            
+                            VStack{
                                 HStack{
+                                    Text("Idea Title:")
+                                        .font(.custom("marker Felt", size: 24))
+                                        .foregroundColor(.purple)
                                     Spacer()
                                     
-                                    Text("New Idea")
-                                        .foregroundColor(Color("colorTextoTitulo"))
-                                        .font(.custom("marker Felt", size: 36))
-                                    
-                                    Spacer()
-//
-//                                    Image(uiImage: imgServicio)
-//                                        .resizable()
-//                                        .aspectRatio(contentMode: .fit)
-//                                        .frame(width:  70, height: 70)
-//                                        .clipShape(Circle())
-//                                        .overlay(Circle().stroke(.white, lineWidth: 3))
                                 }
-                                .padding(.horizontal, 25)
                                 
                                 //introducir titulo
-                                ZStack{
                                 TextField("Enter Title", text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
@@ -89,306 +99,269 @@ struct AddIdeaView: View {
                                         }
                                         
                                     }
-                                    
-                                    HStack{
-                                        Spacer()
-                                        Image(systemName: "pencil.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 25, height: 25)
-                                            .foregroundColor(Color.gray)
-                                            .padding(.trailing, 20)
-                                    }
+                            }
+                            
+                            
+                            //description
+                            VStack{
+                                HStack{
+                                    Text("Description")
+                                        .font(.custom("marker Felt", size: 24))
+                                        .foregroundColor(.purple)
+                                        .lineLimit(1)
+                                        .minimumScaleFactor(0.3)
+                                    Spacer()
                                     
                                 }
-                                  
-                                //description
-                                VStack{
-                                    HStack{
-                                        Text("Description")
-                                            .font(.custom("marker Felt", size: 24))
-                                            .foregroundColor(.purple)
-                                        Spacer()
-
-                                    }
+                                
+                                ZStack{
                                     
-                                    ZStack{
-                                        
-                                        TextEditor(text: $descriptionIdea)
-                                            .frame(height: UIScreen.main.bounds.height / 5.5)
-                                            .font(.custom("Arial", size: 18))
-                                            .cornerRadius(20)
-                                            .onReceive(Just(descriptionIdea)){ value in
-                                                if value != "" && value != idea?.descriptionIdea{
-                                                    if ideaYaGuardada{
-                                                        updateIdea()
-                                                    }
-                                                }
-                                                
-                                            }
-                                        VStack{
-                                            HStack{
-                                                Spacer()
-                                                
-                                                ZStack{
-                                                    Image(systemName: "keyboard")
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width: 25, height: 25)
-                                                        .foregroundColor(.purple)
-                                                        .padding()
-                                                    Image(systemName: "xmark")
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width: 25, height: 25)
-                                                        .foregroundColor(.purple)
-                                                        .padding()
+                                    TextEditor(text: $descriptionIdea)
+                                        .frame(height: UIScreen.main.bounds.height / 5.5)
+                                        .font(.custom("Arial", size: 18))
+                                        .cornerRadius(20)
+                                        .onReceive(Just(descriptionIdea)){ value in
+                                            if value != "" && value != idea?.descriptionIdea{
+                                                if ideaYaGuardada{
+                                                    updateIdea()
                                                 }
                                             }
-
-
                                             
-                                            Spacer()
                                         }
-
-                                    }
-
+                                    VStack{
+                                        HStack{
+                                            Spacer()
+                                            
+                                            ZStack{
+                                                Image(systemName: "keyboard")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 25, height: 25)
+                                                    .foregroundColor(.purple)
+                                                    .padding()
+                                                Image(systemName: "xmark")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 25, height: 25)
+                                                    .foregroundColor(.purple)
+                                                    .padding()
+                                            }
+                                        }
                                         
+                                        
+                                        
+                                        Spacer()
+                                    }
+                                    
                                 }
                                 
-                            }.onTapGesture {
-                                //para ocultar el teclado
-                                    UIApplication.shared.endEditing()
+                                
+                            }.padding(.vertical, 15)
+                            
+                        }.onTapGesture {
+                            //para ocultar el teclado
+                            UIApplication.shared.endEditing()
+                        }
+                        
+                        
+                        //imagenes
+                        HStack{
+                            Image(uiImage: imgIdea1)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 70, height: 70)
+                                .cornerRadius(20)
+                                .onTapGesture {
+                                    mostrarImagePicker = true
+                                    imageChange = true
+                                }
+                                .sheet(isPresented: $mostrarImagePicker) {
+                                    FullScreenImage(image: $imgIdea1)
                                 }
                             
-
-                            //imagenes
-                            HStack{
-                                Image(uiImage: imgIdea1)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 70, height: 70)
-                                    .cornerRadius(20)
-                                    .onTapGesture {
-                                        mostrarImagePicker = true
-                                        imageChange = true
-                                    }
-                                    .sheet(isPresented: $mostrarImagePicker) {
-                                        FullScreenImage(image: $imgIdea1)
-                                    }
-                                
-                                Spacer()
-                                
-                                Image(uiImage: imgIdea2)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 70, height: 70)
-                                    .cornerRadius(20)
-                                    .onTapGesture {
-                                        mostrarImagePicker2 = true
-                                        imageChange = true
-                                    }.sheet(isPresented: $mostrarImagePicker2) {
-                                        FullScreenImage(image: $imgIdea2)
-                                    }
-//                                    .sheet(isPresented: $mostrarImagePicker2){
-//                                        ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
-//                                    }
-                                
-                                Spacer()
-                                
-                                Image(uiImage: imgIdea3)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:  70, height: 70)
-                                    .cornerRadius(20)
-                                    .onTapGesture {
-                                        mostrarImagePicker3 = true
-                                        imageChange = true
-                                    }
-                                    .sheet(isPresented: $mostrarImagePicker3) {
-                                        FullScreenImage(image: $imgIdea3)
-                                    }
-                                
-                            }.padding(.horizontal,20)
-                                .padding(.vertical, 10)
+                            Spacer()
+                            
+                            Image(uiImage: imgIdea2)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 70, height: 70)
+                                .cornerRadius(20)
+                                .onTapGesture {
+                                    mostrarImagePicker2 = true
+                                    imageChange = true
+                                }.sheet(isPresented: $mostrarImagePicker2) {
+                                    FullScreenImage(image: $imgIdea2)
+                                }
+                            //                                    .sheet(isPresented: $mostrarImagePicker2){
+                            //                                        ImagePicker(selectedImage: self.$imgIdea2, selectedImageDone: $imageDone)
+                            //                                    }
+                            
+                            Spacer()
+                            
+                            Image(uiImage: imgIdea3)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width:  70, height: 70)
+                                .cornerRadius(20)
+                                .onTapGesture {
+                                    mostrarImagePicker3 = true
+                                    imageChange = true
+                                }
+                                .sheet(isPresented: $mostrarImagePicker3) {
+                                    FullScreenImage(image: $imgIdea3)
+                                }
+                            
+                        }.padding(.horizontal,20)
+                            .padding(.vertical, 10)
                             .shadow(color: .gray, radius: 3, x: 3, y: 3)
-
+                        
+                        HStack(alignment: .center){
                             
-                        }
-                    
-                    Text("Links")
-                        .foregroundColor(.purple)
-                        .font(.custom("marker Felt", size: 18))
-                    
-                    ZStack{
-                        
-                        if recargarLista{
-                            if let idea1 = idea{
-                                UrlsListView(idea: idea1)
-                                    //.colorMultiply(Color("background"))
-                                    .cornerRadius(15)
-                            }
-                        }else{
-                            if let idea1 = idea{
-                                UrlsListView(idea: idea1)
-                                    //.colorMultiply(Color("background"))
-                                    .cornerRadius(15)
-                            }
+                            Spacer()
                             
-                        }
-                        
-
-                        
-                        //boton de guardar url segun si se está creando una idea o editandola.
-                        VStack{
-                            HStack{
-                                Spacer()
-                                    NavigationLink(destination: AddUrlView(idea: idea, newUrl: true), isActive: $showUrl){
+                            ZStack{
+                                
+                                //antes de abrir la vista para crear una entrada de Url, hay que guardar la idea abierta.
+                                //sin no hay una idea creada no se puede crear la url ya que necesita estar vinculada con una idea.
+                                if ideaYaGuardada{
+                                    NavigationLink(destination: WebContainer(idea: idea!, urlRecived: "https://google.com"), isActive: $showWebContainer){
                                         EmptyView()
                                     }
+                                }
                                 
-                                Button(action:{
-                                    //antes de abrir la vista para crear una entrada de Url, hay que guardar la idea abierta.
-                                    //sin no hay una idea creada no se puede crear la url ya que necesita estar vinculada con una idea.
-                                    if ideaYaGuardada{
-                                        showUrl = true
-                                    }else{
+                                Button(action: {
+                                    if !ideaYaGuardada{
                                         showAlertUrl = true
+                                    }else{
+                                        showWebContainer = true
                                     }
-                                    
-                                }, label:{
-                                    ZStack{
-                                        Circle()
-                                            .foregroundColor(Color("backgroundButton"))
-                                        Image(systemName: idea == nil ? "safari" : "plus.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .foregroundColor(.white)
-                                            .padding(8)
-                                            
-                                        
-                                    }
-                                    .frame(width: 50, height: 50)
-                                    .padding()
+                                }, label: {
+                                    Text("Open Browser")
+                                        .font(.custom("Marker Felt", size: 24))
+                                        .foregroundColor(.white)
+                                        .padding(.vertical,20)
+                                        .padding(.horizontal, 50)
+                                        .background(Color("backgroundButton"))
+                                        .cornerRadius(25)
+                                        .shadow(color: .gray, radius: 2, x: 2, y: 2)
                                 })
-                                    .alert(isPresented: $showAlertUrl, content: {
-                                        Alert(title: Text("Save Idea"),
-                                              message: Text("To be able to add Links you have to save the Idea first."),
-                                              primaryButton: Alert.Button.default(Text("Accept"),
-                                                                                  action: {
-                                                                                        addIdeaBeforeUrl()
-                                                                                    }),
-                                              secondaryButton: Alert.Button.destructive(Text("Cancel")))
-                                    })
 
                             }
                             
                             Spacer()
-                        }
-                    }.frame(height: 500)
-                    
-                    
-
-
+                            
+                            
+                            
+                            
+                        }.padding(30)
+                            .alert(isPresented: $showAlertUrl, content: {
+                                Alert(title: Text("Save Idea"),
+                                      message: Text("To be able to open browser, you have to save the Idea first."),
+                                      primaryButton: Alert.Button.default(Text("Accept"),
+                                                                          action: {
+                                    addIdeaBeforeUrl()
+                                }),
+                                      secondaryButton: Alert.Button.destructive(Text("Cancel")))
+                            })
+                    }
                 }.padding()
-                 .font(.custom("Marker Felt", size: 12))
+                    .font(.custom("Marker Felt", size: 12))
             }
             
             VStack{
                 Spacer()
-            HStack{
-                Spacer()
-                Button(action: {
-                    print("guardar idea")
-                    if ideaYaGuardada{
-                        closeWithUpdate = true
-                        updateIdea()
-                    }
-                    else{
-                        addIdea()
-                    }
-                    
-                }, label: {
-                    
-                    Text(ideaYaGuardada ? "Update Idea" : "Save Idea")
-                        .font(.custom("Marker Felt", size: 18))
-                        .foregroundColor(.blue)
-                        .padding(20)
-                        .background(Color.orange)
-                        .cornerRadius(25)
-                        .shadow(color: .gray, radius: 2, x: 2, y: 2)
-                })
-            }.padding()
-            
+                HStack{
+                    Spacer()
+                    Button(action: {
+                        if ideaYaGuardada{
+                            closeWithUpdate = true
+                            updateIdea()
+                        }
+                        else{
+                            addIdea()
+                        }
+                        
+                    }, label: {
+                        
+                        Text(ideaYaGuardada ? "Update Idea" : "Save Idea")
+                            .font(.custom("Marker Felt", size: 18))
+                            .foregroundColor(.blue)
+                            .padding(20)
+                            .background(Color.orange)
+                            .cornerRadius(25)
+                            .shadow(color: .gray, radius: 2, x: 2, y: 2)
+                    })
+                }.padding()
+                
             }
             //boton añadir url segun si se está creando una idea o editandola.
             //boton guardar
-
-
+            
+            
         }
-            .onAppear{
-                print("appear addidea")
-                recargarLista.toggle()
-//                eventTitle = eventParent.titleEvent ?? "title event Empty"
-//                nameProfile = eventParent.profileEventRelation?.nameProfile ?? "name profile empty"
-//                eventTitle = viewModel.currentEvent.titleEvent ?? "title event Empty"
-
-                
-                viewModel.currentProfile = profile
-                //titleIdea =  "title"
-                
-                eventTitle = "title event Empty"
-                nameProfile = viewModel.currentProfile.nameProfile ?? "name profile empty"
-                
-//                if eventParent.profileEventRelation?.imageProfile == nil{
-//                    imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
-//                }
-                if viewModel.currentProfile.imageProfile == nil{
-                    imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
-                }
-                else{
-                    //let imgData = eventParent.profileEventRelation?.imageProfile
-                    let imgData = viewModel.currentProfile.imageProfile
-                    let data = try! JSONDecoder().decode(Data.self, from: imgData!)
-                    imgServicio = UIImage(data: data)!
-                }
-                
-                
-                if idea?.image1Idea == nil{
-                    imgIdea1 = UIImage(imageLiteralResourceName: "logoPerfectgift")
-                }
-                else{
-                    let imgData = idea?.image1Idea
-                    let data = try! JSONDecoder().decode(Data.self, from: imgData!)
-                    imgIdea1 = UIImage(data: data)!
-                }
-                
-                if idea?.image2Idea == nil{
-                    imgIdea2 = UIImage(imageLiteralResourceName: "logoPerfectgift")
-                }
-                else{
-                    let imgData = idea?.image2Idea
-                    let data = try! JSONDecoder().decode(Data.self, from: imgData!)
-                    imgIdea2 = UIImage(data: data)!
-                }
-                
-                if idea?.image3Idea == nil{
-                    imgIdea3 = UIImage(imageLiteralResourceName: "logoPerfectgift")
-                }
-                else{
-                    let imgData = idea?.image3Idea
-                    let data = try! JSONDecoder().decode(Data.self, from: imgData!)
-                    imgIdea3 = UIImage(data: data)!
-                }
+        .onAppear{
+            print("appear addidea")
+            recargarLista.toggle()
+            //                eventTitle = eventParent.titleEvent ?? "title event Empty"
+            //                nameProfile = eventParent.profileEventRelation?.nameProfile ?? "name profile empty"
+            //                eventTitle = viewModel.currentEvent.titleEvent ?? "title event Empty"
+            
+            
+            viewModel.currentProfile = profile
+            //titleIdea =  "title"
+            
+            eventTitle = "title event Empty"
+            nameProfile = viewModel.currentProfile.nameProfile ?? "name profile empty"
+            
+            //                if eventParent.profileEventRelation?.imageProfile == nil{
+            //                    imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
+            //                }
+            if viewModel.currentProfile.imageProfile == nil{
+                imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
             }
-            .navigationBarItems(trailing:
-                                    Image(uiImage: imgServicio)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(Circle())
-                                    .frame(width: 35, height: 35)
-            )
-
+            else{
+                //let imgData = eventParent.profileEventRelation?.imageProfile
+                let imgData = viewModel.currentProfile.imageProfile
+                let data = try! JSONDecoder().decode(Data.self, from: imgData!)
+                imgServicio = UIImage(data: data)!
+            }
+            
+            
+            if idea?.image1Idea == nil{
+                imgIdea1 = UIImage(imageLiteralResourceName: "logoPerfectgift")
+            }
+            else{
+                let imgData = idea?.image1Idea
+                let data = try! JSONDecoder().decode(Data.self, from: imgData!)
+                imgIdea1 = UIImage(data: data)!
+            }
+            
+            if idea?.image2Idea == nil{
+                imgIdea2 = UIImage(imageLiteralResourceName: "logoPerfectgift")
+            }
+            else{
+                let imgData = idea?.image2Idea
+                let data = try! JSONDecoder().decode(Data.self, from: imgData!)
+                imgIdea2 = UIImage(data: data)!
+            }
+            
+            if idea?.image3Idea == nil{
+                imgIdea3 = UIImage(imageLiteralResourceName: "logoPerfectgift")
+            }
+            else{
+                let imgData = idea?.image3Idea
+                let data = try! JSONDecoder().decode(Data.self, from: imgData!)
+                imgIdea3 = UIImage(data: data)!
+            }
+        }
+        .navigationBarItems(trailing:
+                                Image(uiImage: imgServicio)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(Circle())
+                                .frame(width: 35, height: 35)
+        )
+        
     }
     
     private func updateIdea(){
@@ -441,8 +414,8 @@ struct AddIdeaView: View {
             newIdea.ideaTitle = titleIdea
             newIdea.profileIdeasRelation = profile
             newIdea.regalado = false
-           // newIdea.eventTitleIdea = eventTitle
-          //  newIdea.profileIdea = nameProfile
+            // newIdea.eventTitleIdea = eventTitle
+            //  newIdea.profileIdea = nameProfile
             newIdea.descriptionIdea = descriptionIdea
             newIdea.idIdeas = UUID()
             newIdea.idProfileIdea =  profile.idProfile?.uuidString //eventParent.profileEventRelation?.idProfile?.uuidString
@@ -466,7 +439,7 @@ struct AddIdeaView: View {
             let imageData3 =  imagenUIRedimensionada3.jpegData(compressionQuality: 0.5)
             let data3 = try! JSONEncoder().encode(imageData3)
             newIdea.image3Idea = data3
-
+            
             
             do {
                 try viewContext.save()
@@ -490,8 +463,8 @@ struct AddIdeaView: View {
             let newIdea = Ideas(context: viewContext)
             newIdea.ideaTitle = titleIdea
             newIdea.regalado = false
-           // newIdea.eventTitleIdea = eventTitle
-          //  newIdea.profileIdea = nameProfile
+            // newIdea.eventTitleIdea = eventTitle
+            //  newIdea.profileIdea = nameProfile
             newIdea.descriptionIdea = descriptionIdea
             newIdea.idIdeas = UUID()
             newIdea.idProfileIdea =  profile.idProfile?.uuidString //eventParent.profileEventRelation?.idProfile?.uuidString
@@ -515,12 +488,14 @@ struct AddIdeaView: View {
             let imageData3 =  imagenUIRedimensionada3.jpegData(compressionQuality: 0.5)
             let data3 = try! JSONEncoder().encode(imageData3)
             newIdea.image3Idea = data3
-
+            
             
             do {
                 try viewContext.save()
                 idea = newIdea
+                viewModel.currentIdea = newIdea
                 ideaYaGuardada = true
+                showWebContainer = true
                 print("idea guardada")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
@@ -528,10 +503,10 @@ struct AddIdeaView: View {
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
-            showUrl = true
+            
         }
     }
-
+    
 }
 
 //struct AddIdeaView_Previews: PreviewProvider {

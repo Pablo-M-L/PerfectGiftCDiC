@@ -8,14 +8,16 @@
 import Foundation
 import UIKit
 import SwiftUI
+import SafariServices
 
 //para ocultar teclado
 extension UIApplication {
+    //para cerrar al pulsar fuera del textview
     func endEditing() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
-    //para cerrar al pulsar fuera del textview
+    //ejemplo en codigo
     /*
      .onTapGesture {
          UIApplication.shared.endEditing()
@@ -24,26 +26,6 @@ extension UIApplication {
 }
 
 
-
-struct backToHomeButton: View{
-    
-    var body: some View{
-        ZStack{
-            Circle()
-                .foregroundColor(Color("backgroundButton"))
-            Image(systemName: "home")
-                .resizable()
-                .foregroundColor(.white)
-                .background(Color("backgroundButton"))
-                .aspectRatio(contentMode: .fit)
-                .padding(8)
-            
-            
-        }
-        .frame(width: 50, height: 50)
-        .padding()
-    }
-}
 
 
 //crea un contenedor local asociado al app group.
@@ -59,59 +41,85 @@ public enum AppGroup: String{
     }
 }
 
-//datos favorite
-struct FavoriteData: Identifiable, Hashable, Codable {
-    var id = UUID().uuidString
-    var nameProfileFav: String
-    var dateUpcomingEventFav: Date
-    var imgProfileFav: Data
-    var sortNumber: Int
-    var idProfileFav: String
-    var deppUrlFav: URL
-}
 
 
-struct EventDateUpComing: Identifiable, Hashable, Codable{
-    var id = UUID().uuidString
-    var dateEvent: Date
-    var titleEvent: String
-    var idProfileFav: String
-    var annualEvent: Bool
-}
+struct SafariView: UIViewControllerRepresentable {
 
+    let url: URL
 
-//usersdefaults extension
-typealias key = UserDefaults.Keys
-
-extension UserDefaults {
-    static let appGroup = UserDefaults(suiteName: "group.PABLOMILLANLOPEZ.perfectGift")!
-}
-
-
-extension UserDefaults {
-    enum Keys: String {
-        case nameFavorite
-        case fechaProximoEvento
-        case arrayFavoriteData
-        case arrayEvents
-        case favorite1
-        case favorite2
-        case favorite3
-        case favorite4
-        case favorite5
-        case favorite6
+    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
+        if let usersDefault = UserDefaults(suiteName: appGroupName){
+            usersDefault.setValue(url.absoluteString, forKey: key.urlActive.rawValue)
+        }
+        
+        return SFSafariViewController(url: url)
         
     }
-}
 
-extension UserDefaults {
-    func setArray<Element>(_ array: [Element], forKey key: String) where Element: Encodable {
-        let data = try? JSONEncoder().encode(array)
-        set(data, forKey: key)
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
+        
+    
     }
 
-    func getArray<Element>(forKey key: String) -> [Element]? where Element: Decodable {
-        guard let data = data(forKey: key) else { return nil }
-        return try? JSONDecoder().decode([Element].self, from: data)
-    }
 }
+
+func comprobarUrlIntroducida(url: String)-> String{
+    if url.starts(with: "https://"){
+        print(url)
+        return url.trimmingCharacters(in: .whitespaces)
+    }
+    else if url.starts(with: "www."){
+        return ("https://"+url).trimmingCharacters(in: .whitespaces)
+    }
+    return url.trimmingCharacters(in: .whitespaces)
+}
+
+func getTitleWeb(url: String)-> String{
+    guard let url = URL(string:url) else { return "no title"}
+    var webTitle = "no title web"
+    DispatchQueue.global().async {
+        if let content = try? String(contentsOf: url, encoding: .utf8) {
+            print("content")
+            DispatchQueue.main.async {
+                print("asys")
+                if let range = content.range(of: "<title>.*?</title>", options: .regularExpression, range: nil, locale: nil) {
+                    let title = content[range].replacingOccurrences(of: "</?title>", with: "", options: .regularExpression, range: nil)
+                    print("title")
+                    print(title) // prints "ios - Get Title when input URL on UITextField on swift 4 - Stack Overflow"
+                    webTitle = title
+                }
+            }
+        }else{
+            print("bnotry")
+        }
+    }
+    
+    return webTitle
+}
+
+func downloadthumbail(url: URL, completionImage: @escaping (UIImage)-> Void){
+    
+    URLSession.shared.dataTask(with: url){data, response, error in
+        guard let data = data, let response = response as? HTTPURLResponse, error == nil else{
+            if let error = error {
+                print("error en la descarga de thumbail \(error)")
+            }
+            return
+        }
+        
+        if response.statusCode == 200{
+            if let image = UIImage(data: data){
+                completionImage(image)
+            }else{
+                print("no es una imagen")
+            }
+        }
+        else{
+            print("error \(response.statusCode)")
+        }
+        
+    }.resume()
+    
+}
+
+

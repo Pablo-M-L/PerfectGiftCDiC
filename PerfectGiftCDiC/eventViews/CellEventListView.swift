@@ -25,6 +25,7 @@ struct CellEventListView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width:70, height: 70)
                         .clipShape(Circle())
+                        .overlay(Circle().stroke(.white, lineWidth: 3))
                     
                     Spacer()
                     

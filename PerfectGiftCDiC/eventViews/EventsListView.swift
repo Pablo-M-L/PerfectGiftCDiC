@@ -74,9 +74,8 @@ struct EventsListView: View {
                             .padding()
                         })
                         
-                        
+                        Spacer()
                     }
-                    .padding(.trailing, UIScreen.main.bounds.width / 3.6)
                     
                 }
             }                    .onAppear {
