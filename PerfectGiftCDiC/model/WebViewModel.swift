@@ -17,7 +17,7 @@ class WebViewModel: ObservableObject{
     
     init(){
         webView = WKWebView(frame: .zero)
-        url = URL(string: "https://google.com")!
+        url = URL(string: UserDefaults.standard.value(forKey: key.homeWebAddres.rawValue) as? String ?? "https://google.com")!
         loadUrl()
     }
     
@@ -38,7 +38,7 @@ class WebViewModel: ObservableObject{
     }
     
     // inputs
-    @Published var urlString: String = "https://www.google.es"
+    @Published var urlString: String = UserDefaults.standard.value(forKey: key.homeWebAddres.rawValue) as? String ?? "https://google.com"
 
     // actions
     func loadUrl() {

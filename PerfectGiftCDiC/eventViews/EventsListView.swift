@@ -28,7 +28,7 @@ struct EventsListView: View {
     var body: some View {
         ZStack{
             List{
-                ForEach(events.wrappedValue, id: \.self) { event in
+                ForEach(sortEventsProfile(eventos: events), id: \.self) { event in
                     
                     ZStack{
                         NavigationLink(destination: DetailEventView(event: event) ){

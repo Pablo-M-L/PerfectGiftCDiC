@@ -40,25 +40,26 @@ struct UpcomingListsView: View {
 
 struct EventUpcomingList: View{
     
-    @FetchRequest(entity: Event.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Event.dateEvent, ascending: false)],
-                  animation: .default)
+    @FetchRequest(entity: Event.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Event.dateEvent, ascending: true)],animation: .default)
     private var events: FetchedResults<Event>
     
     var body: some View{
         List{
-            ForEach(events, id: \.self) { evento in
+            ForEach(getUpcomingEventSorted(eventsfitrados: events.filter{$0 == $0}), id: \.self) { evento in
                 ZStack{
-                    NavigationLink(destination: DetailEventView(event: evento) ){
+                    NavigationLink(destination: DetailEventView(event: getEventFromEventUpcoming(evento: evento, eventos: events)) ){
                         Text("event")
                     }.opacity(0)
                     CellEventUpcomingList(event: evento)
-                }.background(Color("cellprofileBck"))
-                .cornerRadius(20)
-                .shadow(color: .gray, radius: 4, x: 3, y: 3)
+                        .background(Color("cellprofileBck"))
+                        .cornerRadius(20)
+                        .shadow(color: .gray, radius: 4, x: 3, y: 3)
                 }
+            }
             }.listStyle(.inset)
             .padding(.top,15)
             .padding(.bottom,25)
+
     }
     
 }

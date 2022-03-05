@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CellEventUpcomingList: View {
     
-    var event: Event
+    var event: eventUpcoming
     @State private var title = ""
     @State private var date = Date()
     @State private var nameProfile = ""
@@ -92,15 +92,15 @@ struct CellEventUpcomingList: View {
             }.padding(.horizontal, 10)
         }.frame(height: 100)
         .onAppear{
-            title = event.titleEvent ?? "No event title"
-            date = getNextDayEvent(date: event.dateEvent ?? Date())
-            nameProfile = event.profileEventRelation?.nameProfile ?? "no name"
+            title = event.titleEvent
+            date = event.dateEvent
+            nameProfile = event.profileParent.nameProfile ?? "no name"
             
-            if event.profileEventRelation?.imageProfile == nil{
+            if event.profileParent.imageProfile == nil{
                 imgProfile = UIImage(imageLiteralResourceName: "logoPerfectgift")
             }
             else{
-                let imgData = event.profileEventRelation?.imageProfile
+                let imgData = event.profileParent.imageProfile
                 let data = try! JSONDecoder().decode(Data.self, from: imgData!)
                 imgProfile = UIImage(data: data)!
             }
@@ -131,8 +131,8 @@ struct CellEventUpcomingList: View {
     }()
 }
 
-struct CellEventUpcomingList_Previews: PreviewProvider {
-    static var previews: some View {
-        CellEventUpcomingList(event: Event())
-    }
-}
+//struct CellEventUpcomingList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CellEventUpcomingList(event: Event())
+//    }
+//}

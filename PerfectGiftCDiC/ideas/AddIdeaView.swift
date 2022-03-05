@@ -65,13 +65,6 @@ struct AddIdeaView: View {
                                     .font(.custom("marker Felt", size: 36))
                                 
                                 Spacer()
-                                //
-                                //                                    Image(uiImage: imgServicio)
-                                //                                        .resizable()
-                                //                                        .aspectRatio(contentMode: .fit)
-                                //                                        .frame(width:  70, height: 70)
-                                //                                        .clipShape(Circle())
-                                //                                        .overlay(Circle().stroke(.white, lineWidth: 3))
                             }
                             .padding(.horizontal, 25)
                             
@@ -224,7 +217,7 @@ struct AddIdeaView: View {
                                 //antes de abrir la vista para crear una entrada de Url, hay que guardar la idea abierta.
                                 //sin no hay una idea creada no se puede crear la url ya que necesita estar vinculada con una idea.
                                 if ideaYaGuardada{
-                                    NavigationLink(destination: WebContainer(idea: idea!, urlRecived: "https://google.com"), isActive: $showWebContainer){
+                                    NavigationLink(destination: WebContainer(idea: idea!, urlRecived: UserDefaults.standard.value(forKey: key.homeWebAddres.rawValue) as? String ?? "https://google.com"), isActive: $showWebContainer){
                                         EmptyView()
                                     }
                                 }

@@ -155,14 +155,12 @@ struct AddGiftDoitView: View {
                                         
                                         
                                         DatePicker(selection: $giftDate, in: ...Date(), displayedComponents: .date) {
-                                            Text("")
-                                                .font(.custom("marker Felt", size: 18))
-                                                .foregroundColor(.purple)
-                                                .lineLimit(1)
-                                                .minimumScaleFactor(0.3)
-                                        }
+                                            EmptyView()}
                                         .accentColor(Color("backgroundButton"))
                                         .datePickerStyle(WheelDatePickerStyle())
+                                        .onChange(of: giftDate) { newValue in
+                                                updateIdea()
+                                        }
                                     }
                                 }
                                 

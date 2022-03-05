@@ -26,7 +26,9 @@ struct WebContainer: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var viewModel: ViewModel
     @State private var titleString = ""
+    @State private var homeWebAddres = "https://google.com"
     @State private var showBookmarkList = false
+    @State private var showAlertHomeAdrres = false
     @State private var openEditView = false
     @State private var openAddView = false
     @State private var urlSeleccionada: UrlIdeas?
@@ -38,7 +40,7 @@ struct WebContainer: View {
         ZStack{
             
             HStack{
-                
+                //muestra la lista de direcciones guardadas
                 if showBookmarkList{
                     withAnimation {
                         VStack{
@@ -94,7 +96,7 @@ struct WebContainer: View {
                                         }
                                 }
                             }.listStyle(.inset)
-                        }
+                        }.frame(width: UIDevice.current.localizedModel == "iPhone" ? UIScreen.main.bounds.width / 2 : UIScreen.main.bounds.width / 4)
                     }
 
                     Divider()
@@ -136,11 +138,15 @@ struct WebContainer: View {
                                 //.disabled(!model.canGoBack)
                             
                                 Button(action: {
-                                    model.urlString = "https://google.com"
+                                    model.urlString = UserDefaults.standard.value(forKey: key.homeWebAddres.rawValue) as? String ?? "https://google.com"
                                     model.loadUrl()
                                 }, label: {
                                     Image(systemName: "house")
-                                })
+                                }).contextMenu{
+                                    Button(action:{
+                                        showAlertHomeAdrres = true
+                                    },label: {Text("Change Home Web Addres")})
+                                }
                                 
                                 Button(action: {
                                     withAnimation {
@@ -179,6 +185,7 @@ struct WebContainer: View {
                     }
             }
             
+            //ventana que aparece al pulsar en el boton de añadir marcador.
             if showAlertBookmark{
                 VStack{
                     Text("Enter bookmark title")
@@ -232,7 +239,74 @@ struct WebContainer: View {
                                 .shadow(color: .gray, radius: 2, x: 2, y: 2)
                         })
                     }
-                }
+                }.onAppear(perform: {
+                    titleString = "Web-\(urls.wrappedValue.count)"
+                })
+                .frame(width: 250, height: 150)
+                .padding()
+                .background(Color("background2"))
+                .cornerRadius(20)
+                .overlay(RoundedRectangle(cornerRadius: 20).stroke(.purple, lineWidth: 3))
+                
+                
+            }
+            
+            //ventana que aparece cuando se da una pulsacion larga en el boton de home, para cambiar direccion web.
+            if showAlertHomeAdrres{
+                VStack{
+                    Text("Enter the new web address")
+                        .foregroundColor(Color("colorTextoTitulo"))
+                        .font(.custom("marker Felt", size: 28))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.3)
+                    TextField("Enter title",text: $homeWebAddres)
+                        .foregroundColor(.black)
+                        .font(.custom("Marker Felt", size: 18))
+                        .autocapitalization(UITextAutocapitalizationType.none)
+                        .lineLimit(1)
+                        .padding(.top,10)
+                        .padding(.bottom, 20)
+
+                    HStack(alignment: .center){
+                        
+                        Button(action:{
+                            showAlertHomeAdrres = false
+                        },label:{
+                            Text("Cancel")
+                                .font(.custom("Marker Felt", size: 18))
+                                .foregroundColor(.blue)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.3)
+                                .padding(.vertical,5)
+                                .padding(.horizontal, 10)
+                                .background(Color.orange)
+                                .cornerRadius(25)
+                                .shadow(color: .gray, radius: 2, x: 2, y: 2)
+                        })
+                        
+                        Spacer()
+                        
+                        Button(action:{
+                            let addresChecked = comprobarUrlIntroducida(url: homeWebAddres)
+                            UserDefaults.standard.setValue(addresChecked, forKey: key.homeWebAddres.rawValue)
+                            UserDefaults.standard.synchronize()
+                            showAlertHomeAdrres = false
+                        },label:{
+                            Text("Accept")
+                                .font(.custom("Marker Felt", size: 18))
+                                .foregroundColor(.blue)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.3)
+                                .padding(.vertical,5)
+                                .padding(.horizontal, 10)
+                                .background(Color.orange)
+                                .cornerRadius(25)
+                                .shadow(color: .gray, radius: 2, x: 2, y: 2)
+                        })
+                    }
+                }.onAppear(perform: {
+                    titleString = "Web-\(urls.wrappedValue.count)"
+                })
                 .frame(width: 250, height: 150)
                 .padding()
                 .background(Color("background2"))
@@ -245,6 +319,9 @@ struct WebContainer: View {
         }.onAppear {
             model.urlString = urlRecived
             model.loadUrl()
+            if let homeWeb = UserDefaults.standard.value(forKey: key.homeWebAddres.rawValue) as? String {
+                homeWebAddres =  homeWeb }
+            else{ homeWebAddres = "https://google.com"}
         }
     }
     

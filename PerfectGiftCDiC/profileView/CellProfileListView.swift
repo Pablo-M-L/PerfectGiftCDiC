@@ -44,7 +44,7 @@ struct datosProfileCell:View{
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     
     
-    @State var upcomingEvent: eventUpcoming = eventUpcoming(id: UUID(), titleEvent: "no title", dateEvent: Date(), annualEvent: false, observationEvent: "no observation")
+    @State var upcomingEvent: eventUpcoming = eventUpcoming(id: UUID(), profileParent: Profile(), titleEvent: "no title", dateEvent: Date(), annualEvent: false, typeEvent: "BirthDay", observationEvent: "no observation")
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Event.titleEvent, ascending: true)],
@@ -149,7 +149,11 @@ struct datosProfileCell:View{
             if !eventos.isEmpty{
                 let eventFilter = eventos.filter{$0.profileEventRelation?.idProfile == profile.idProfile}
                 if !eventFilter.isEmpty{
+                    print("celda profile")
+                    print(eventFilter[0].dateEvent)
+                    
                     upcomingEvent =  getUpcomingEvent(eventsfitrados: eventFilter)
+
                 }
             }
             

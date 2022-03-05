@@ -15,10 +15,17 @@ let itemFormatter: DateFormatter = {
 }()
 
 func getStringFromDate(date: Date)-> String{
-    
+    print("string from date \(date)")
     let formatter3 = DateFormatter()
+    //formatter3.timeZone = TimeZone(abbreviation: "GMT")
     formatter3.dateStyle = .short
+    print("string from date en string \(formatter3.string(from: date))")
     return formatter3.string(from: date)
+}
+
+func addDayDatePicker(datePicker: Date)->Date{
+    let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: datePicker)
+    return nextDate ?? Date()
 }
 
 func addYearToData(initDate: Date)-> Date{
@@ -35,7 +42,10 @@ func ObtenerMesActual()->Int{
     return mesEnNumero
 }
 
+
 func getNextDayEvent(date: Date)-> Date{
+    print("get next day date")
+    print(date)
     let calendar = Calendar.current
     var firstDateComponents = DateComponents()
     
@@ -53,6 +63,11 @@ func getNextDayEvent(date: Date)-> Date{
     firstDateComponents.day = diaEnNumero
     firstDateComponents.month = mesEnNumero
     
+    print(mesEnNumero)
+    print(diaEnNumero)
+    print(mesActualEnNumero)
+    print(diaActualEnNumero)
+    print(añoActualEnNumero)
     if mesEnNumero > mesActualEnNumero{
         //si el mes actual es menor que el mes de la fecha a celebrar es que aun no ha cumplido la fecha.
         firstDateComponents.year = añoActualEnNumero
@@ -66,17 +81,21 @@ func getNextDayEvent(date: Date)-> Date{
         if diaEnNumero <= diaActualEnNumero{
             //si el dia actual es mayor que el dia del evento, es que ya ha pasado y la fecha será para el año siguiente.
             firstDateComponents.year = añoActualEnNumero + 1
+        }else{
+            firstDateComponents.year = añoActualEnNumero
         }
     }
 
-    firstDateComponents.timeZone = TimeZone(abbreviation: "UTC")
+    //firstDateComponents.timeZone = TimeZone(abbreviation: "GMT")
 
     let firstDate = Calendar(identifier: Calendar.Identifier.gregorian).date(from: firstDateComponents)
+    print("get nex day returned \(firstDate)")
     return firstDate ?? Date()
    
 }
 
 func diasQueFaltan(fechaInicio: String)->Int{
+    print("dias que faltan")
     var diasQueFaltan = 0
     let dateStringFormatter = DateFormatter()
     dateStringFormatter.dateFormat = "yyyy-MM-dd"
@@ -99,6 +118,7 @@ func diasQueFaltan(fechaInicio: String)->Int{
 }
 
 func calcularDiasQueFaltan(dateEvent: Date)-> Int{
+    print("calcular dias que faltan")
     print("Fecha")
     print(dateEvent)
     let calendar = Calendar.current

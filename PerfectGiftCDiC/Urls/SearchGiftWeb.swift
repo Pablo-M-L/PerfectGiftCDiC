@@ -15,7 +15,7 @@ struct SearchGiftWeb: UIViewRepresentable {
     
     let webView: WKWebView
     let urlRecived: String
-    let request = URLRequest(url: URL(string: "https://apple.com")!)
+    let request = URLRequest(url: URL(string: UserDefaults.standard.value(forKey: key.homeWebAddres.rawValue) as? String ?? "https://google.com")!)
     
     func makeUIView(context: Context) -> WKWebView {
         

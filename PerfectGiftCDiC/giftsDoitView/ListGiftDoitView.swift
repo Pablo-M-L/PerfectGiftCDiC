@@ -28,7 +28,7 @@ struct ListGiftDoitView: View {
   //  }
     
     init(profile: Profile){
-        ideas = FetchRequest<Ideas>(entity: Ideas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.ideaTitle, ascending: true)], predicate: NSPredicate(format: "idProfileIdea MATCHES[dc] %@ AND regalado == %@", argumentArray: [profile.idProfile?.uuidString ?? "nadie",true]),animation: .default)
+        ideas = FetchRequest<Ideas>(entity: Ideas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.fechaQueRegalo, ascending: true)], predicate: NSPredicate(format: "idProfileIdea MATCHES[dc] %@ AND regalado == %@", argumentArray: [profile.idProfile?.uuidString ?? "nadie",true]),animation: .default)
         
         self.profile = profile
     }

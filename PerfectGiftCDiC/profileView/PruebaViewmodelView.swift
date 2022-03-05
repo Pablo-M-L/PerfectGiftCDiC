@@ -45,7 +45,7 @@ struct cellPrueba: View{
     var numeroEventos: Int
     
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
-    @State var upcomingEvent: eventUpcoming = eventUpcoming(id: UUID(), titleEvent: "no title", dateEvent: Date(), annualEvent: false, observationEvent: "no observation")
+    @State var upcomingEvent: eventUpcoming = eventUpcoming(id: UUID(), profileParent: Profile(), titleEvent: "no title", dateEvent: Date(), annualEvent: false, typeEvent: "BirthDay", observationEvent: "no observation")
     
     var body: some View {
         ZStack{
@@ -114,13 +114,6 @@ struct cellPrueba: View{
             }
             .frame(height: 100)
             .onAppear{
-//                if !eventos.isEmpty{
-//                    let eventFilter = eventos.filter{$0.profileEventRelation?.nameProfile == profile.nameProfile}
-//                    if !eventFilter.isEmpty{
-//                        upcomingEvent =  getUpcomingEvent(eventsfitrados: eventFilter)
-//                    }
-//                }
-                
                 
                 if profile.imageProfile.pngData() == nil{
                     imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")

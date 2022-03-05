@@ -65,13 +65,15 @@ struct SafariView: UIViewControllerRepresentable {
 
 func comprobarUrlIntroducida(url: String)-> String{
     if url.starts(with: "https://"){
-        print(url)
         return url.trimmingCharacters(in: .whitespaces)
     }
     else if url.starts(with: "www."){
         return ("https://"+url).trimmingCharacters(in: .whitespaces)
     }
-    return url.trimmingCharacters(in: .whitespaces)
+    else{
+        //si no empieza por https o www, se le añade.
+        return ("https://"+url).trimmingCharacters(in: .whitespaces)
+    }
 }
 
 func getTitleWeb(url: String)-> String{
@@ -121,5 +123,9 @@ func downloadthumbail(url: URL, completionImage: @escaping (UIImage)-> Void){
     }.resume()
     
 }
+
+
+
+
 
 

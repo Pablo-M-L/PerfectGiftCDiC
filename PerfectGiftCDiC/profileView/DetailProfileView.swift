@@ -265,7 +265,7 @@ struct DetailProfileView: View {
                             
         ).alert(isPresented: $showAlert, content: {
             Alert(
-                title: Text("¿Do you want to delete this person from \(profile.nameProfile ?? "profile")?"),
+                title: Text("¿Do you want to delete this person:  \(profile.nameProfile ?? "profile")?"),
                 primaryButton: .default(Text("Delete"), action: {
                     print("borrar evento")
                     borrarEvento = true

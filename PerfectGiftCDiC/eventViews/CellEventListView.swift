@@ -57,6 +57,7 @@ struct CellEventListView: View {
         }.frame(height: 100)
         .onAppear{
             title = event.titleEvent ?? "No event title"
+            print("appear cell event \(event.dateEvent)")
             date = getNextDayEvent(date: event.dateEvent ?? Date()) 
             switch event.typeEvent{
             case "BirthDay":

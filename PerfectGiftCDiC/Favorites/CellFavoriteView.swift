@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CellFavoriteView: View {
     
-    @State var upcomingEvent: eventUpcoming = eventUpcoming(id: UUID(), titleEvent: "no title", dateEvent: Date(), annualEvent: false, observationEvent: "no observation")
+    @State var upcomingEvent: eventUpcoming = eventUpcoming(id: UUID(), profileParent: Profile(), titleEvent: "no title", dateEvent: Date(), annualEvent: false, typeEvent: "BirthDay", observationEvent: "no observation")
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Event.titleEvent, ascending: true)],
@@ -92,7 +92,7 @@ struct CellFavoriteView: View {
                             }
                         }
                         else{
-                            Text("No hay eventos")
+                            Text("No Events")
                                 .bold()
                         }
                     }

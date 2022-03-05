@@ -217,7 +217,7 @@ struct DetailIdeaView: View {
                         
                         Spacer()
                         
-                        NavigationLink(destination: WebContainer(idea: idea!, urlRecived: "https://google.com"), label: {
+                        NavigationLink(destination: WebContainer(idea: idea!, urlRecived: UserDefaults.standard.value(forKey: key.homeWebAddres.rawValue) as? String ?? "https://google.com"), label: {
                             Text("Open Browser")
                                 .font(.custom("Marker Felt", size: 24))
                                 .foregroundColor(.white)

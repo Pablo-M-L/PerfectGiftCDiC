@@ -41,11 +41,11 @@ struct ContentView: View {
     private var profiles: FetchedResults<Profile>
     
     @State var vistaActiva: VistaActiva = .profiles
-    @State var mostrarAyuda = false
+    @State var firstAppRun = true
     
     var body: some View {
         
-        if !mostrarAyuda{
+        if !firstAppRun{
             NavigationView{
             
             ZStack{
@@ -143,13 +143,6 @@ struct ContentView: View {
                                 userDefault.setArray(arrayEvents, forKey: key.arrayEvents.rawValue)
                             }
                     }
-                    
-                    let uuidFav = HelperWidget.getIdProfileFav(indFav: 1)
-                    let dateEvent = HelperWidget.getUpcomingEventDate(idProfile: uuidFav)
-                    print(dateEvent)
-                    print("dias que faltan")
-                    print(calcularDiasQueFaltan(dateEvent: dateEvent))
-                    
                 }
                 
                 
@@ -158,7 +151,14 @@ struct ContentView: View {
         }.navigationViewStyle(StackNavigationViewStyle())
         }
         else{
-            MensajeBienvenidaView()
+            MensajeBienvenidaView(firstAppRun: $firstAppRun)
+                .onAppear {
+                    //comprueba si es la primera vez que se abre la aplicacion
+                    if let checkfirstAppRun = UserDefaults.standard.value(forKey: key.firstAppRun.rawValue) as? Bool{
+                        print("first \(checkfirstAppRun)")
+                        firstAppRun = checkfirstAppRun
+                    }
+                }
                 
         }
         

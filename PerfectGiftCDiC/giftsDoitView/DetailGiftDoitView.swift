@@ -27,8 +27,7 @@ struct DetailGiftDoitView: View {
     var idea: Ideas?
     var profile: Profile?
     var isNewIdea: Bool
-    
-   // var eventParent: Event
+        
     @State private var giftDate = Date()
     @State private var imageDone = false
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
@@ -40,9 +39,13 @@ struct DetailGiftDoitView: View {
     @State private var regalado = false
     @State private var showAlertDelete = false
     @State private var borrarIdea = false
+    @State private var guardarRegalo = false
     @State private var reasonGift = ""
     @State private var showDatePicker = false
     @State private var showAlertSaveAsGift = false
+    @State private var borrarGift = false
+
+
     
     var body: some View {
         ZStack{
@@ -61,6 +64,9 @@ struct DetailGiftDoitView: View {
                                     
                                     Button(action:{
                                         updateIdea()
+                                        presentationMode.wrappedValue.dismiss()
+                                       
+
                                     },label:{
                                         Text("Save & Close")
                                             .font(.custom("Marker Felt", size: 24))
@@ -95,7 +101,7 @@ struct DetailGiftDoitView: View {
                                     
                                     .onReceive(Just(titleIdea)){ value in
                                         if value != "" && value != idea?.ideaTitle{
-                                            //updateIdea()
+                                            updateIdea()
                                         }
                                         
                                     
@@ -119,7 +125,7 @@ struct DetailGiftDoitView: View {
                                     
                                     .onReceive(Just(reasonGift)){ value in
                                         if value != "" && value != idea?.eventTitleIdea{
-                                            //updateIdea()
+                                            updateIdea()
                                         }
                                         
                                     
@@ -167,16 +173,13 @@ struct DetailGiftDoitView: View {
                                 
                                 if showDatePicker{
                                     HStack{
-                                        
                                         DatePicker(selection: $giftDate, in: ...Date(), displayedComponents: .date) {
-                                            Text("Gift Date")
-                                                .font(.custom("marker Felt", size: 18))
-                                                .foregroundColor(.purple)
-                                                .lineLimit(1)
-                                                .minimumScaleFactor(0.3)
-                                        }
+                                           EmptyView()}
                                         .accentColor(Color("backgroundButton"))
-                                        .datePickerStyle(GraphicalDatePickerStyle())
+                                        .datePickerStyle(WheelDatePickerStyle())
+                                        .onChange(of: giftDate) { newValue in
+                                                updateIdea()
+                                        }
                                     }
                                 }
                                 
@@ -201,7 +204,7 @@ struct DetailGiftDoitView: View {
                                             .cornerRadius(25)
                                             .onReceive(Just(descriptionIdea)){ value in
                                                 if value != "" && value != idea?.descriptionIdea{
-                                                   // updateIdea()
+                                                    updateIdea()
                                                 }
                                                 
                                             }
@@ -285,7 +288,7 @@ struct DetailGiftDoitView: View {
                                 .shadow(color: .gray, radius: 3, x: 3, y: 3)
                             .onDisappear{
                                 if imageChange{
-                                    //updateIdea()
+                                    updateIdea()
                                 }
                             }
                             
@@ -312,11 +315,42 @@ struct DetailGiftDoitView: View {
                 }
                 .padding()
                  .font(.custom("Marker Felt", size: 18))
-            }
+            }.alert(isPresented: $showAlertDelete, content: {
+                Alert(
+                    title: Text("¿Do you want to delete this gift?"),
+                    primaryButton: .default(Text("Delete"), action: {
+                        print("borrar evento")
+                        borrarGift = true
+                        presentationMode.wrappedValue.dismiss()
+                    }),
+                    secondaryButton: .cancel(Text("Cancel")))
+            })
+                .navigationBarItems(trailing:
+                 HStack{
+                    Spacer()
+                    
+                    Button(action:{
+                        showAlertDelete = true
+                    },
+                           label:{
+                        Image(systemName: "trash")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .accentColor(Color("backgroundButton"))
+                            .frame(width: 35, height: 35)
+                    })
+                }
+                                    
+                )
             
 
 
         }
+        .onDisappear(perform: {
+            if borrarGift{
+                deleteIdea(idea: idea!)
+            }
+        })
             .onAppear{
                 recargarLista.toggle()
 //                eventTitle = eventParent.titleEvent ?? "title event Empty"
@@ -378,6 +412,7 @@ struct DetailGiftDoitView: View {
     
     private func deleteIdea(idea: Ideas){
         presentationMode.wrappedValue.dismiss()
+        
         @FetchRequest(
             sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.ideaTitle, ascending: true)],
             animation: .default)
@@ -426,7 +461,12 @@ struct DetailGiftDoitView: View {
             
             do {
                 try viewContext.save()
+                if guardarRegalo{
+                    print("cerrar sheet")
+                    presentationMode.wrappedValue.dismiss()
+                }
                 print("idea actualizada")
+                presentationMode.wrappedValue.dismiss()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -434,7 +474,6 @@ struct DetailGiftDoitView: View {
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
-       presentationMode.wrappedValue.dismiss()
         
     }
 }

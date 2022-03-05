@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct AddEventView: View {
     
@@ -20,6 +21,8 @@ struct AddEventView: View {
     @State private var titleDate = "Date of Birth"
     @State private var nameProfile = ""
     @State private var dateEvent = ""
+    @State private var anyosCumplidos = 0
+
     @State private var observationsEvent = ""
     @State private var yearsAgoEvent = "1"
     @State private var eventSelected: EventeSelected = EventeSelected.birthday
@@ -176,24 +179,18 @@ struct AddEventView: View {
                                     //si no es un special day, solo se puede seleccionar fechas anteriores a la actual ya que los cumpleaños y aniversiarios la fecha siempre será anterior.
                                     if eventSelected != .specialDay{
                                         
-                                        DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
-                                            Text("")
-                                                .font(.custom("marker Felt", size: 18))
-                                                .foregroundColor(.purple)
-                                                .lineLimit(1)
-                                                .minimumScaleFactor(0.3)
-                                        }.accentColor(Color("backgroundButton"))
+                                        DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {EmptyView()}.accentColor(Color("backgroundButton"))
                                          .datePickerStyle(WheelDatePickerStyle())
+                                         .onChange(of: birthDate) { newValue in
+                                                 anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
+                                         }
                                     }
                                     else{
-                                        DatePicker(selection: $birthDate,in:  Date()... ,displayedComponents: .date) {
-                                            Text("Event Date")
-                                                .font(.custom("marker Felt", size: 18))
-                                                .foregroundColor(.purple)
-                                                .lineLimit(1)
-                                                .minimumScaleFactor(0.3)
-                                        }.accentColor(Color("backgroundButton"))
+                                        DatePicker(selection: $birthDate,in:  Date()... ,displayedComponents: .date) {EmptyView()}.accentColor(Color("backgroundButton"))
                                             .datePickerStyle(WheelDatePickerStyle())
+                                            .onChange(of: birthDate) { newValue in
+                                                    anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
+                                            }
                                     }
                                     
                                     
@@ -221,6 +218,24 @@ struct AddEventView: View {
                             
                             
                             //Text("Date is \(birthDate, formatter: dateFormatter)")
+                            
+                            //muestra los años cumplidos o ha conmemorar
+                            if eventSelected == .birthday || eventSelected == .anniversary{
+                                HStack{
+                                    Text(String(anyosCumplidos) + "º")
+                                        .font(.custom("marker Felt", size: 24))
+                                        .foregroundColor(Color("colorTextoTitulo"))
+                                    Text(" \(eventSelected.rawValue)")
+                                        .font(.custom("marker Felt", size: 16))
+                                        .foregroundColor(Color("colorTextoTitulo"))
+                                        
+                                }
+                                .padding(20)
+                                .background(Color("background2"))
+                                .cornerRadius(20)
+                                
+                                
+                            }
                             
                             VStack{
                             HStack{
@@ -324,6 +339,7 @@ struct AddEventView: View {
     }()
     
     private func addEvent() {
+
         withAnimation {
             let newEvent = Event(context: viewContext)
             newEvent.idEvent = UUID()
@@ -344,6 +360,7 @@ struct AddEventView: View {
             
             do {
                 try viewContext.save()
+                WidgetCenter.shared.reloadAllTimelines()
                 print("evento guardado")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
@@ -391,16 +408,6 @@ struct TextFieldAddEvent: View{
                 .background(Color(.white))
                 .font(.custom("marker Felt", size: 12))
                 .cornerRadius(8)
-            
-            HStack{
-                Spacer()
-                Image(systemName: "pencil.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25, height: 25)
-                    .foregroundColor(Color.gray)
-                    .padding(.trailing, 20)
-            }
         }
     }
 }

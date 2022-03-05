@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import WidgetKit
 
 struct DetailEventView: View {
     
@@ -18,7 +19,7 @@ struct DetailEventView: View {
     @EnvironmentObject var viewModel: ViewModel
     
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
-    @State private var birthDate: Date = Date(timeIntervalSince1970: 100)
+    @State private var birthDate = Date()
     @State private var titleEvent = ""
     @State private var titleDate = "Date of Birth"
     @State private var dateEvent = ""
@@ -107,30 +108,22 @@ struct DetailEventView: View {
                     
                             //si no es un special day, solo se puede seleccionar fechas anteriores a la actual ya que los cumpleaños y aniversiarios la fecha siempre será anterior.
                             if eventSelected != .specialDay{
-                                DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
-                                   EmptyView()
+                                DatePicker(selection: $birthDate,in: ...Date(), displayedComponents: .date){EmptyView()}
+                                    .datePickerStyle(WheelDatePickerStyle())
+                                .onChange(of: birthDate) { newValue in
+                                        anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
+                                        saveChanges()
                                 }
-                                .datePickerStyle(WheelDatePickerStyle())
-                               // .frame(width: 20, alignment: .leading)
-                                    .onReceive(Just(birthDate)) { date in
-                                        if birthDate != Date(timeIntervalSince1970: 100){
-                                            anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
-                                            saveChanges()
-                                        }
-                                    }
                             }
                             else{
                                 DatePicker(selection: $birthDate,in: Date()... ,  displayedComponents: .date) {
                                     EmptyView()
                                 }
                                 .datePickerStyle(WheelDatePickerStyle())
-                               // .frame(width: 20, alignment: .leading)
-                                    .onReceive(Just(birthDate)) { date in
-                                        if birthDate != Date(timeIntervalSince1970: 100){
-                                            anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
-                                            saveChanges()
-                                        }
-                                    }
+                                .onChange(of: birthDate) { newValue in
+                                        anyosCumplidos = calcularAnyosCumplidos(dateEvent: birthDate)
+                                        saveChanges()
+                                }
                             }
                             
                         }
@@ -199,11 +192,6 @@ struct DetailEventView: View {
                 }.onTapGesture {
                     UIApplication.shared.endEditing()
                 }
-                
-                
-                
-                //IdeasListView(filterProfile: event.profileEventRelation!.idProfile!.uuidString)
-                
                 Spacer()
                 
             }.padding(.horizontal,10)
@@ -213,6 +201,8 @@ struct DetailEventView: View {
         .onDisappear{
             if borrarEvento{
                 deleteEvent()
+            }else{
+                saveChanges()
             }
         }
         .onAppear{
@@ -221,6 +211,7 @@ struct DetailEventView: View {
             
             titleEvent = event.titleEvent ?? "no title event"
             observationsEvent = event.observationsEvent ?? "no observations"
+            print("on appear detail event \(event.dateEvent)")
             birthDate = event.dateEvent ?? Date()
             anyosCumplidos = calcularAnyosCumplidos(dateEvent: event.dateEvent ?? Date())
             
@@ -298,9 +289,12 @@ struct DetailEventView: View {
         withAnimation {
             event.titleEvent = titleEvent
             event.observationsEvent = observationsEvent
+            print("save detail date event : \(birthDate)")
             event.dateEvent = birthDate
             do {
                 try viewContext.save()
+                HelperWidget.leerListaFavoritos()
+                WidgetCenter.shared.reloadAllTimelines()
                 print("evento actualizado")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
