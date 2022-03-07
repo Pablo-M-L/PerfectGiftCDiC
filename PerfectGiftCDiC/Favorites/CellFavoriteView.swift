@@ -76,12 +76,12 @@ struct CellFavoriteView: View {
                                         RoundedRectangle(cornerRadius: 5)
                                             .foregroundColor(.green)
                                             .opacity(0.8)
-                                            .frame(width: ((UIScreen.main.bounds.width / 2.5) * CGFloat(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent))) / 365,
+                                            .frame(width: calcularAnchoBarra(),
                                                    height: 25,
                                                    alignment: .leading)
                                         Spacer()
                                     }
-                                    Text("\(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent)) Days")
+                                    Text("\(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent)) \(NSLocalizedString("dias", comment: ""))")
                                         .foregroundColor(.white)
                                         .bold()
                                         .font(.custom("marker felt", size: 16))
@@ -92,7 +92,7 @@ struct CellFavoriteView: View {
                             }
                         }
                         else{
-                            Text("No Events")
+                            Text(NSLocalizedString("noEvents", comment: ""))
                                 .bold()
                         }
                     }
@@ -117,6 +117,21 @@ struct CellFavoriteView: View {
                 let imgData = favorite.imgProfileFav
                 let data = try! JSONDecoder().decode(Data.self, from: imgData)
                 imgFavoriteProfile = UIImage(data: data)!
+        }
+    }
+    
+    func calcularAnchoBarra()->CGFloat{
+        let diasQueFaltan = calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent)
+        
+        if upcomingEvent.annualEvent{
+            return ((UIScreen.main.bounds.width / 2.5) * CGFloat(diasQueFaltan)) / 365
+        }
+        else{
+            if diasQueFaltan < 365{
+                return ((UIScreen.main.bounds.width / 2.5) * CGFloat(diasQueFaltan)) / 365
+            }else{
+                return UIScreen.main.bounds.width / 2.5
+            }
         }
     }
 }

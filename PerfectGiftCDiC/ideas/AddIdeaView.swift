@@ -60,7 +60,7 @@ struct AddIdeaView: View {
                             HStack{
                                 Spacer()
                                 
-                                Text("New Idea")
+                                Text(NSLocalizedString("newIdea", comment: ""))
                                     .foregroundColor(Color("colorTextoTitulo"))
                                     .font(.custom("marker Felt", size: 36))
                                 
@@ -71,7 +71,7 @@ struct AddIdeaView: View {
                             
                             VStack{
                                 HStack{
-                                    Text("Idea Title:")
+                                    Text(NSLocalizedString("ideaTit", comment: ""))
                                         .font(.custom("marker Felt", size: 24))
                                         .foregroundColor(.purple)
                                     Spacer()
@@ -79,7 +79,7 @@ struct AddIdeaView: View {
                                 }
                                 
                                 //introducir titulo
-                                TextField("Enter Title", text: $titleIdea)
+                                TextField(NSLocalizedString("enterIdeaTit", comment: ""), text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
                                     .font(.custom("Arial", size: 24))
@@ -98,7 +98,7 @@ struct AddIdeaView: View {
                             //description
                             VStack{
                                 HStack{
-                                    Text("Description")
+                                    Text(NSLocalizedString("description", comment: ""))
                                         .font(.custom("marker Felt", size: 24))
                                         .foregroundColor(.purple)
                                         .lineLimit(1)
@@ -229,7 +229,7 @@ struct AddIdeaView: View {
                                         showWebContainer = true
                                     }
                                 }, label: {
-                                    Text("Open Browser")
+                                    Text(NSLocalizedString("openBrowser", comment: ""))
                                         .font(.custom("Marker Felt", size: 24))
                                         .foregroundColor(.white)
                                         .padding(.vertical,20)
@@ -248,13 +248,13 @@ struct AddIdeaView: View {
                             
                         }.padding(30)
                             .alert(isPresented: $showAlertUrl, content: {
-                                Alert(title: Text("Save Idea"),
-                                      message: Text("To be able to open browser, you have to save the Idea first."),
-                                      primaryButton: Alert.Button.default(Text("Accept"),
+                                Alert(title: Text(NSLocalizedString("saveIdea", comment: "")),
+                                      message: Text(NSLocalizedString("alertUrlMess", comment: "")),
+                                      primaryButton: Alert.Button.default(Text(NSLocalizedString("accept", comment: "")),
                                                                           action: {
                                     addIdeaBeforeUrl()
                                 }),
-                                      secondaryButton: Alert.Button.destructive(Text("Cancel")))
+                                      secondaryButton: Alert.Button.destructive(Text(NSLocalizedString("cancel", comment: ""))))
                             })
                     }
                 }.padding()
@@ -276,7 +276,7 @@ struct AddIdeaView: View {
                         
                     }, label: {
                         
-                        Text(ideaYaGuardada ? "Update Idea" : "Save Idea")
+                        Text(ideaYaGuardada ? NSLocalizedString("updateIdea", comment: "") : NSLocalizedString("saveIdea", comment: ""))
                             .font(.custom("Marker Felt", size: 18))
                             .foregroundColor(.blue)
                             .padding(20)
@@ -293,7 +293,6 @@ struct AddIdeaView: View {
             
         }
         .onAppear{
-            print("appear addidea")
             recargarLista.toggle()
             //                eventTitle = eventParent.titleEvent ?? "title event Empty"
             //                nameProfile = eventParent.profileEventRelation?.nameProfile ?? "name profile empty"
@@ -382,7 +381,6 @@ struct AddIdeaView: View {
             
             do {
                 try viewContext.save()
-                print("idea actualizada")
                 
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
@@ -400,8 +398,6 @@ struct AddIdeaView: View {
     }
     
     private func addIdea(){
-        print("añadiendo idea")
-        
         withAnimation {
             let newIdea = Ideas(context: viewContext)
             newIdea.ideaTitle = titleIdea
@@ -436,7 +432,6 @@ struct AddIdeaView: View {
             
             do {
                 try viewContext.save()
-                print("idea guardada")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -449,8 +444,6 @@ struct AddIdeaView: View {
     }
     
     private func addIdeaBeforeUrl(){
-        print("añadiendo idea antes de url")
-        
         withAnimation {
             
             let newIdea = Ideas(context: viewContext)
@@ -489,7 +482,6 @@ struct AddIdeaView: View {
                 viewModel.currentIdea = newIdea
                 ideaYaGuardada = true
                 showWebContainer = true
-                print("idea guardada")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

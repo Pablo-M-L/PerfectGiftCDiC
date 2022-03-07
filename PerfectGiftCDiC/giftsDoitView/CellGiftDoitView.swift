@@ -35,8 +35,8 @@ struct CellGiftDoitView: View {
         .padding(.vertical,3)
         .frame(height: 80)
         .onAppear{
-            title = idea.ideaTitle ?? "No event title"
-            reasonGift = idea.eventTitleIdea ?? "no reason"
+            title = idea.ideaTitle ?? NSLocalizedString("notitleEvent", comment: "")
+            reasonGift = idea.eventTitleIdea ?? NSLocalizedString("noReason", comment: "")
             giftDate = idea.fechaQueRegalo ?? Date()
         }
     }

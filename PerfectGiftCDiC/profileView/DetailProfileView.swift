@@ -25,7 +25,7 @@ struct DetailProfileView: View {
     @State private var vistaActiva: VistaActivaPerfil = .ideas
     @State private var showAlert = false
     @State private var borrarEvento = false
-    @State private var titleList = "IDEAS"
+    @State private var titleList = NSLocalizedString("ideasUpCase", comment: "")
     @State private var showAddEvent = false
     @State private var showAddIdea = false
     @State private var showAddGift = false
@@ -78,7 +78,7 @@ struct DetailProfileView: View {
                     //nombre y anotaciones
                     VStack(alignment: .leading){
                         
-                            TextFieldProfile(hint: "Enter Person's Name", dataString: $nameProfile)
+                            TextFieldProfile(hint: NSLocalizedString("enterPersonName", comment: ""), dataString: $nameProfile)
                             //onReceive detecta cambio en la variable nameProfile, si hay cambio llama a la funcion de guardar en BD.
                             //tambien se compara con el string "vacio" que es el valor inicial, porque detectaba el cambio en la variable
                             //al abrir la pantalla, y guardaba en la BD el valor "vacio", borrando el dato correcto.
@@ -88,7 +88,7 @@ struct DetailProfileView: View {
                                     }
                         }
                         
-                            TextFieldProfile(hint: "Details", dataString: $annotationsProfile)
+                            TextFieldProfile(hint: NSLocalizedString("details", comment: ""), dataString: $annotationsProfile)
                                 .onReceive(Just(nameProfile)){ value in
                                     if value != profile.annotationsProfile{
                                         saveChangesProfile()
@@ -185,7 +185,7 @@ struct DetailProfileView: View {
                         Button(action:{
                             withAnimation {
                                 vistaActiva = .ideas
-                                titleList = "IDEAS"
+                                titleList = NSLocalizedString("ideasUpCase", comment: "")
                                 imgAddButton = "addIdeaIcon"
                             }
                             
@@ -196,7 +196,7 @@ struct DetailProfileView: View {
                         Button(action:{
                             withAnimation {
                                 vistaActiva = .eventos
-                                titleList = "EVENTS"
+                                titleList = NSLocalizedString("eventsUpCase", comment: "")
                                 imgAddButton = "addEventIcon"
                             }
                         },label:{
@@ -206,7 +206,7 @@ struct DetailProfileView: View {
                         Button(action:{
                             withAnimation {
                                 vistaActiva = .regalados
-                                titleList = "GIFTS"
+                                titleList = NSLocalizedString("giftsUpCase", comment: "")
                                 imgAddButton = "addGiftDoitIcon"
                             }
                         },label:{
@@ -229,7 +229,7 @@ struct DetailProfileView: View {
         .onAppear{
             setupAppearance()
             helper.currentProfile = profile
-            nameProfile = profile.nameProfile ?? "sin nombre"
+            nameProfile = profile.nameProfile ?? "no name"
             annotationsProfile = profile.annotationsProfile ?? ""
             if profile.imageProfile == nil{
                 imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
@@ -265,13 +265,12 @@ struct DetailProfileView: View {
                             
         ).alert(isPresented: $showAlert, content: {
             Alert(
-                title: Text("¿Do you want to delete this person:  \(profile.nameProfile ?? "profile")?"),
-                primaryButton: .default(Text("Delete"), action: {
-                    print("borrar evento")
+                title: Text("\(NSLocalizedString("alertDelProfTit", comment: ""))  \(profile.nameProfile ?? "profile")?"),
+                primaryButton: .default(Text(NSLocalizedString("del", comment: "")), action: {
                     borrarEvento = true
                     presentationMode.wrappedValue.dismiss()
                 }),
-                secondaryButton: .cancel(Text("Cancel")))
+                secondaryButton: .cancel(Text(NSLocalizedString("cancel", comment: ""))))
         })
     }
     private func deleteEvent(){

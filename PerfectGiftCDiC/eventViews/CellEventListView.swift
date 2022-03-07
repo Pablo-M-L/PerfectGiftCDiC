@@ -57,18 +57,20 @@ struct CellEventListView: View {
         }.frame(height: 100)
         .onAppear{
             title = event.titleEvent ?? "No event title"
-            print("appear cell event \(event.dateEvent)")
-            date = getNextDayEvent(date: event.dateEvent ?? Date()) 
+            
             switch event.typeEvent{
             case "BirthDay":
                 eventSelected = .birthday
                 imgEvent = UIImage(imageLiteralResourceName: "birthIcon")
+                date = getNextDayEvent(date: event.dateEvent ?? Date())
             case "Special Day":
                 eventSelected = .specialDay
                 imgEvent = UIImage(imageLiteralResourceName: "specialIcon")
+                date = event.dateEvent ?? Date()
             case "Anniversary":
                 eventSelected = .anniversary
                 imgEvent = UIImage(imageLiteralResourceName: "eventIcon")
+                date = getNextDayEvent(date: event.dateEvent ?? Date())
             default:
                 eventSelected = .birthday
                 imgEvent = UIImage(imageLiteralResourceName: "birthIcon")

@@ -31,11 +31,11 @@ struct AddUrlView: View {
             
             VStack{
                 
-                Text("Web Title:")
+                Text(NSLocalizedString("webTitle", comment: ""))
                     .font(.custom("marker Felt", size: 24))
                     .foregroundColor(Color.purple)
                 
-                TextField("Title url", text: $titleUrl)
+                TextField(NSLocalizedString("urlTitle", comment: ""), text: $titleUrl)
                     .padding(5)
                     .background(Color.white)
                     .font(.custom("Arial", size: 22))
@@ -50,7 +50,7 @@ struct AddUrlView: View {
                     }
                     .padding(.bottom, 15)
                 
-                Text("LINK")
+                Text(NSLocalizedString("linkUpCase", comment: ""))
                     .font(.custom("marker Felt", size: 24))
                     .foregroundColor(Color.purple)
 
@@ -81,9 +81,8 @@ struct AddUrlView: View {
             .navigationBarItems(trailing:
                                    HStack{
                                        Spacer()
-                
+                if !newUrl{
                                         Button(action: {
-                                            print("borrar url")
                                             deleteIdea(url: urlIdea!)
                                         },label:{
                                             Image(systemName: "trash")
@@ -92,6 +91,8 @@ struct AddUrlView: View {
                                                 .frame(width: 35, height: 35)
                                                 .foregroundColor(.purple)
                                         })
+                    
+                }
                                    })
             .onAppear{
                 print(newUrl)
@@ -102,7 +103,6 @@ struct AddUrlView: View {
                     
                     
                     if urlIdea?.thumbailUrl == nil{
-                        print("abre como nulo")
                         thumbailUrl = UIImage(imageLiteralResourceName: "logoPerfectgift")
                     }
                     else{
@@ -130,7 +130,7 @@ struct AddUrlView: View {
                             }
                         }, label: {
                             
-                            Text("Save")
+                            Text(NSLocalizedString("save", comment: ""))
                                 .font(.custom("Marker Felt", size: 18))
                                 .foregroundColor(.blue)
                                 .padding(20)
@@ -179,7 +179,6 @@ struct AddUrlView: View {
             
             do {
                 try viewContext.save()
-                print("url actualizada")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -198,7 +197,7 @@ struct AddUrlView: View {
         withAnimation {
             
             let thumbailImage = UIImage(imageLiteralResourceName: "logoPerfectgift").jpegData(compressionQuality: 0.5)
-            var thumbailImageData = try! JSONEncoder().encode(thumbailImage)
+            //let thumbailImageData = try! JSONEncoder().encode(thumbailImage)
             
             let newUrl = UrlIdeas(context: viewContext)
             newUrl.titleUrl = titleUrl
@@ -215,7 +214,6 @@ struct AddUrlView: View {
             }
                 do {
                     try viewContext.save()
-                    print("url guardada")
                     presentationMode.wrappedValue.dismiss()
                 } catch {
                     // Replace this implementation with code to handle the error appropriately.

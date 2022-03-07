@@ -14,7 +14,7 @@ struct UpcomingListsView: View {
     
     var body: some View {
         VStack{
-            Text("UPCOMING EVENTS")
+            Text(NSLocalizedString("upcomingEvents", comment: ""))
                 .foregroundColor(Color("colorTextoTitulo"))
                 .font(.custom("marker Felt", size: 24))
                 .padding(.top,10)
@@ -48,7 +48,7 @@ struct EventUpcomingList: View{
             ForEach(getUpcomingEventSorted(eventsfitrados: events.filter{$0 == $0}), id: \.self) { evento in
                 ZStack{
                     NavigationLink(destination: DetailEventView(event: getEventFromEventUpcoming(evento: evento, eventos: events)) ){
-                        Text("event")
+                        EmptyView()
                     }.opacity(0)
                     CellEventUpcomingList(event: evento)
                         .background(Color("cellprofileBck"))

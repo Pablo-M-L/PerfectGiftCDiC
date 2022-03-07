@@ -18,7 +18,7 @@ struct AddEventView: View {
     @State private var birthDate = Date()
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var titleEvent = ""
-    @State private var titleDate = "Date of Birth"
+    @State private var titleDate = NSLocalizedString("dateTit", comment: "")
     @State private var nameProfile = ""
     @State private var dateEvent = ""
     @State private var anyosCumplidos = 0
@@ -44,7 +44,7 @@ struct AddEventView: View {
                         HStack{
                             Spacer()
                             
-                            Text("New Event")
+                            Text(NSLocalizedString("newEvent", comment: ""))
                                 .foregroundColor(Color("colorTextoTitulo"))
                                 .font(.custom("marker Felt", size: 30))
                                 .minimumScaleFactor(0.3)
@@ -57,7 +57,7 @@ struct AddEventView: View {
                         //titulo seleccionar tipo de evento
                         HStack{
                             Spacer()
-                            Text("Select Categoty")
+                            Text(NSLocalizedString("selCategory", comment: ""))
                                 .foregroundColor(Color("colorTextoTitulo"))
                                 .font(.custom("marker Felt", size: 22))
                             Spacer()
@@ -75,9 +75,9 @@ struct AddEventView: View {
                                     .onTapGesture {
                                         eventSelected = .birthday
                                         titleEvent = ""//Birthday"
-                                        titleDate = "Date of Birth"
+                                        titleDate = NSLocalizedString("dateTit", comment: "")
                                     }
-                                Text("Birthday")
+                                Text(NSLocalizedString("birthday", comment: ""))
                                     .foregroundColor(Color("colorTextoTitulo"))
                                     .font(.custom("marker Felt", size: 14))
                             }
@@ -94,10 +94,10 @@ struct AddEventView: View {
                                     .onTapGesture {
                                         eventSelected = .specialDay
                                         titleEvent = ""//Special Day"
-                                        titleDate = "Event Date"
+                                        titleDate = NSLocalizedString("specialDayDateTit", comment: "")
                                     }
                                 
-                                Text("Special Day")
+                                Text(NSLocalizedString("specialDay", comment: ""))
                                     .foregroundColor(Color("colorTextoTitulo"))
                                     .font(.custom("marker Felt", size: 14))
                             }
@@ -114,9 +114,9 @@ struct AddEventView: View {
                                     .onTapGesture {
                                         eventSelected = .anniversary
                                         titleEvent = ""//Event / Anniversary / Commemorate"
-                                        titleDate = "Date to Commemorate"
+                                        titleDate = NSLocalizedString("commemorateTit", comment: "")
                                     }
-                                Text("Anniversary")
+                                Text(NSLocalizedString("anniversary", comment: ""))
                                     .foregroundColor(Color("colorTextoTitulo"))
                                     .font(.custom("marker Felt", size: 14))
                             }
@@ -130,7 +130,7 @@ struct AddEventView: View {
                         
                         VStack{
                             //añadir titulo del evento
-                            RowDataEvent(textString: "Event Title", dataString: $titleEvent)
+                            RowDataEvent(textString: NSLocalizedString("eventTit", comment: ""), dataString: $titleEvent)
                                 .font(.custom("marker Felt", size: 22))
                                 .padding(1)
                             
@@ -239,7 +239,7 @@ struct AddEventView: View {
                             
                             VStack{
                             HStack{
-                                Text("Observations")
+                                Text(NSLocalizedString("observations", comment: ""))
                                     .font(.custom("marker Felt", size: 22))
                                     .foregroundColor(.purple)
                                     .lineLimit(1)
@@ -318,7 +318,7 @@ struct AddEventView: View {
                         addEvent()
                     }, label: {
                         
-                        Text("Save")
+                        Text(NSLocalizedString("save", comment: ""))
                             .font(.custom("Marker Felt", size: 18))
                             .foregroundColor(.blue)
                             .padding(20)
@@ -361,7 +361,6 @@ struct AddEventView: View {
             do {
                 try viewContext.save()
                 WidgetCenter.shared.reloadAllTimelines()
-                print("evento guardado")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -390,19 +389,18 @@ struct RowDataEvent: View{
                 .foregroundColor(.purple)
                 Spacer()
             }
-            TextFieldAddEvent(hint: textString, dataString: $dataString)
+            TextFieldAddEvent(dataString: $dataString)
         }
         
     }
 }
 
 struct TextFieldAddEvent: View{
-    var hint: String
     @Binding var dataString: String
     
     var body: some View{
         ZStack{
-            TextField("Birthday / anniversary / special day", text: $dataString)
+            TextField(NSLocalizedString("hintTextField", comment: ""), text: $dataString)
                 .padding([.vertical, .leading],10)
                 .lineLimit(1)
                 .background(Color(.white))

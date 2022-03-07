@@ -59,7 +59,7 @@ struct AddGiftDoitView: View {
                                 HStack{
                                     Spacer()
                                     
-                                    Text("New Gift")
+                                    Text(NSLocalizedString("newGift", comment: ""))
                                         .foregroundColor(Color("colorTextoTitulo"))
                                         .font(.custom("marker Felt", size: 36))
                                     Spacer()
@@ -67,7 +67,7 @@ struct AddGiftDoitView: View {
                                 .padding(.horizontal, 25)
                                 
                                 HStack{
-                                Text("Gift Title:")
+                                Text(NSLocalizedString("giftTitle", comment: ""))
                                         .foregroundColor(.purple)
                                         .font(.custom("marker Felt", size: 22))
                                         .lineLimit(1)
@@ -75,7 +75,7 @@ struct AddGiftDoitView: View {
                                     Spacer()
                                 }
                                 //introducir titulo
-                                TextField("Enter Gift", text: $titleIdea)
+                                TextField(NSLocalizedString("enterGiftTit", comment: ""), text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
                                     .font(.custom("Arial", size: 24))
@@ -91,14 +91,14 @@ struct AddGiftDoitView: View {
                                 
                                 
                                 HStack{
-                                Text("Reason for the Gift")
+                                Text(NSLocalizedString("reasonGift", comment: ""))
                                         .foregroundColor(.purple)
                                         .font(.custom("marker Felt", size: 22))
                                         .lineLimit(1)
                                         .minimumScaleFactor(0.3)
                                     Spacer()
                                 }
-                                TextField("Enter Reason for the Gift", text: $reasonGift)
+                                TextField(NSLocalizedString("enterReasonGift", comment: ""), text: $reasonGift)
                                     .padding(5)
                                     .background(Color.white)
                                     .font(.custom("Arial", size: 24))
@@ -113,7 +113,7 @@ struct AddGiftDoitView: View {
                                 
                                 //añadir fecha
                                     HStack{
-                                        Text("Gift Date:")
+                                        Text(NSLocalizedString("dateGift", comment: ""))
                                             .foregroundColor(.purple)
                                             .font(.custom("marker Felt", size: 22))
                                             .lineLimit(1)
@@ -169,7 +169,7 @@ struct AddGiftDoitView: View {
                                 //description
                                 VStack{
                                     HStack{
-                                        Text("Description")
+                                        Text(NSLocalizedString("description", comment: ""))
                                             .foregroundColor(.purple)
                                             .font(.custom("marker Felt", size: 22))
                                             .lineLimit(1)
@@ -276,7 +276,7 @@ struct AddGiftDoitView: View {
                             
                         }
                     
-                    Text("Links")
+                    Text(NSLocalizedString("links", comment: ""))
                         .foregroundColor(.purple)
                         .font(.custom("marker Felt", size: 18))
                     
@@ -332,13 +332,13 @@ struct AddGiftDoitView: View {
                                     .padding()
                                 })
                                     .alert(isPresented: $showAlertUrl, content: {
-                                        Alert(title: Text("Save Idea"),
-                                              message: Text("To be able to add Links you have to save the Idea first."),
-                                              primaryButton: Alert.Button.default(Text("Accept"),
+                                        Alert(title: Text(NSLocalizedString("alertSaveGiftTit", comment: "")),
+                                              message: Text(NSLocalizedString("alertSaveGiftMess", comment: "")),
+                                              primaryButton: Alert.Button.default(Text(NSLocalizedString("accept", comment: "")),
                                                                                   action: {
                                                                                         addIdeaBeforeUrl()
                                                                                     }),
-                                              secondaryButton: Alert.Button.destructive(Text("Cancel")))
+                                              secondaryButton: Alert.Button.destructive(Text(NSLocalizedString("cancel", comment: ""))))
                                     })
 
                             }
@@ -369,7 +369,7 @@ struct AddGiftDoitView: View {
                     
                 }, label: {
                     
-                    Text(ideaYaGuardada ? "Update Gift" : "Save Gift")
+                    Text(ideaYaGuardada ? NSLocalizedString("updateGift", comment: "") : NSLocalizedString("alertSaveGiftTit", comment: ""))
                         .font(.custom("Marker Felt", size: 18))
                         .foregroundColor(.blue)
                         .padding(20)
@@ -478,7 +478,6 @@ struct AddGiftDoitView: View {
             
             do {
                 try viewContext.save()
-                print("idea actualizada")
                 
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
@@ -582,7 +581,6 @@ struct AddGiftDoitView: View {
                 try viewContext.save()
                 idea = newIdea
                 ideaYaGuardada = true
-                print("idea guardada")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

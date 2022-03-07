@@ -24,7 +24,6 @@ struct CellIdeaListView: View {
             .frame(height: 50)
             .onAppear{
                 title = idea.ideaTitle ?? "No event title"
-                print("celda \(title)")
             }
         }
 

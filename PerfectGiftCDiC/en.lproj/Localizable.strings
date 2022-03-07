@@ -1,0 +1,146 @@
+/* 
+  Localizable.strings
+  PerfectGiftCDiC
+
+  Created by pablo millan lopez on 6/3/22.
+  
+*/
+
+//pantalla menu principal
+//NSLocalizedString("cargar", comment: "")
+"idioma" = "Language";
+
+//comunes
+"eventos" = "Events";
+"noEvents" = "No Events";
+"noName" = "No Name";
+"ideas" = "Ideas";
+"regalos" = "Gifts";
+"dias" = "Days";
+"cancel" = "Cancel";
+"del" = "Delete";
+"accept" = "Accept";
+
+
+//upcomingListView
+"upcomingEvents" = "UPCOMING EVENTS";
+
+//favoriteslistview
+"favorites" = "FAVORITES";
+
+//selectfavlistprofile
+"selectFav" = "Select a Person as a Favorite";
+
+//cellgiftdoitview
+"notitleEvent" = "No Event Title";
+"noReason" = "No Reason";
+
+//detailgiftgoitview
+"saveClose" = "Save & Close";
+"given" = "Given!!!";
+        "giftTitle" = "Gift Title:";
+        "enterGiftTit" = "Enter Gift Title";
+        "reasonGift" = "Reason for the Gift";
+        "enterReasonGift" = "Enter Reason for the Gift";
+        "dateGift" = "Gift Date:";
+        "description" = "Description";
+        "links" = "Links";
+"alertDelGift" = "¿Do you want to delete this gift?";
+
+//addgiftdoitview
+"newGift" = "New Gift";
+"alertSaveGiftTit" = "Save Gift";
+"alertSaveGiftMess" = "To be able to add Links you have to save the Idea first.";
+"updateGift" = "Update Gift";
+
+
+//profilelistview
+"persons" = "PERSONS";
+
+//addprofileview
+"personName" = "Person's Name: ";
+    "enterPersonName" = "Enter person name";
+    "details" = "Details";
+"addPerson" = "ADD PERSON";
+"addPersonTit" = "Add New Person";
+"changeImage" = "Change Image";
+
+//detailprofileview
+"ideasUpCase" = "IDEAS";
+"eventsUpCase" = "EVENTS";
+"giftsUpCase" = "GIFTS";
+"alertDelProfTit" = "Do you want to delete ";
+"alertDelProfMess" = "";
+
+//addurl
+"webTitle" = "Web Title:";
+"urlTitle" = "Url Title";
+"linkUpCase" = "LINK";
+"save" = "Save";
+
+//cellurlslistview
+"edit" = "Edit";
+
+//webcontainer
+"go" = "Go";
+"changeAddres" = "Change Home Web Addres";
+"alertBMarkTit" = "Enter bookmark title";
+"alertNewWeb" = "Enter the new web address";
+"alertEnterWebTit" = "Enter Web Title";
+
+//addeventview
+"dateTit" = "Date of Birth";
+"commemorateTit" = "Date to Commemorate";
+"specialDayDateTit" = "Event Date";
+"newEvent" = "New Event";
+"selCategory" = "Select Category";
+"birthday" = "Birthday";
+"specialDay" = "Special Day";
+"anniversary" = "Anniversary";
+"eventTit" = "Event Title";
+"observations" = "Observations";
+"save" = "Save";
+"hintTextField" = "Birthday / anniversary / special day";
+
+//detaileventview
+"enterEventTit" = "Enter Event Title";
+"alertDelEvent" = "Do you want to delete this event from";
+
+
+//addideaview
+"newIdea" = "New Idea";
+    "ideaTit" = "Idea Title:";
+    "enterIdeaTit" = "Enter Idea Title";
+"openBrowser" = "Open Browser";
+"saveIdea" = "Save Idea";
+"updateIdea" = "Update Idea";
+"alertUrlMess" = "To be able to open browser, you have to save the Idea first.";
+
+//detailideaview
+"saveAsGiven" = "Save As Given!!!";
+"ideaFor" = "Idea For";
+"alertDelIdeaTit" = "Do you want to delete this idea?";
+
+
+//mensjebienvenida
+"mess1A" = "WELCOME";
+"mess1B" = "Thank you \n for using \n Perfect Gift.";
+"mess1C" = "With perfect gift you will not only be able to remember that you have to give a gift, but it will also help you choose the best gift for the person you love.";
+"mess1D" = "See Quick Guide";
+
+"mess2A" = "In the home view you will see the list of your favorite people, all the events and select among them 6 favorite people to display them in the widgets.";
+
+"mess3A" = "Within each person's profile you can see and add, as many events, ideas and gifts as you need.";
+"mess3B" = "The gift idea that has been converted into a gift can be saved and moved to the list of gifts made.";
+
+"mess4A" = "Fill in the data and save any idea, event or gift you want.";
+
+"mess5A" = "In the browser you can search for all the options to help you find that perfect gift with which you want to surprise one of your favorite people.";
+
+"mess6A" = "You also have the option to add widgets to your home screen so you never forget to give someone you love a gift.";
+
+"mess7A" = "THANK YOU \n FOR USING \n PERFECT GIFT!!!";
+"mess7B" = "I HOPE \n YOU ENJOY \n AND \n IT WILL BE OF \n GREAT HELP.";
+"mess7C" = "Close";
+
+//NSLocalizedString("cargar", comment: "")

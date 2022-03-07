@@ -27,7 +27,7 @@ struct SelectFavListProfileView: View {
             
             VStack{
                 
-                Text("Select a Person as a Favorite")
+                Text(NSLocalizedString("selectFav", comment: ""))
                     .foregroundColor(Color("colorTextoTitulo"))
                     .font(.custom("marker Felt", size: 24))
                     .lineLimit(1)
@@ -42,7 +42,7 @@ struct SelectFavListProfileView: View {
                     ForEach(profiles){ profile in
                         HStack{
                             Spacer()
-                        Text(profile.nameProfile ?? "no name")
+                        Text(profile.nameProfile ?? NSLocalizedString("noName", comment: ""))
                             .onTapGesture {
                                 print(String("fav num \(sortNumer)"))
                                 cambiarArrayFav(sortNumber: sortNumer, profile: profile)

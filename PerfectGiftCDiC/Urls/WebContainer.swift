@@ -87,12 +87,12 @@ struct WebContainer: View {
                                             Button(action:{
                                                 urlSeleccionada = url
                                                 openEditView = true
-                                            },label: {Text("Edit")})
+                                            },label: {Text(NSLocalizedString("edit", comment: ""))})
                                             
                                             Button(action: {
                                                 urlSeleccionada = url
                                                 deleteUrl(url: urlSeleccionada!)
-                                            }, label: {Text("Delete")})
+                                            }, label: {Text(NSLocalizedString("del", comment: ""))})
                                         }
                                 }
                             }.listStyle(.inset)
@@ -115,13 +115,13 @@ struct WebContainer: View {
                                             }
                                         )
                                 HStack{
-                                    TextField("web",text: $model.urlString)
+                                    TextField("Web",text: $model.urlString)
                                         .foregroundColor(.blue)
                                         .padding(10)
                                 }
                             },
                         trailing:
-                            Button("Go", action: {
+                            Button(NSLocalizedString("go", comment: ""), action: {
                                 model.loadUrl()
                             })
                             )
@@ -130,7 +130,6 @@ struct WebContainer: View {
                         ToolbarItemGroup(placement: .bottomBar) {
                             HStack(alignment: .center, spacing: 10){
                                 Button(action: {
-                                    print("goback")
                                     model.goBack()
                                 }, label: {
                                     Image(systemName: "arrowshape.turn.up.backward")
@@ -145,7 +144,7 @@ struct WebContainer: View {
                                 }).contextMenu{
                                     Button(action:{
                                         showAlertHomeAdrres = true
-                                    },label: {Text("Change Home Web Addres")})
+                                    },label: {Text(NSLocalizedString("changeAddres", comment: ""))})
                                 }
                                 
                                 Button(action: {
@@ -188,12 +187,12 @@ struct WebContainer: View {
             //ventana que aparece al pulsar en el boton de añadir marcador.
             if showAlertBookmark{
                 VStack{
-                    Text("Enter bookmark title")
+                    Text(NSLocalizedString("alertBMarkTit", comment: ""))
                         .foregroundColor(Color("colorTextoTitulo"))
                         .font(.custom("marker Felt", size: 28))
                         .lineLimit(1)
                         .minimumScaleFactor(0.3)
-                    TextField("Enter title",text: $titleString)
+                    TextField(NSLocalizedString("alertBMarkTit", comment: ""),text: $titleString)
                         .foregroundColor(.black)
                         .font(.custom("Marker Felt", size: 18))
                         .lineLimit(1)
@@ -205,7 +204,7 @@ struct WebContainer: View {
                         Button(action:{
                             showAlertBookmark = false
                         },label:{
-                            Text("Cancel")
+                            Text(NSLocalizedString("cancel", comment: ""))
                                 .font(.custom("Marker Felt", size: 18))
                                 .foregroundColor(.blue)
                                 .lineLimit(1)
@@ -227,7 +226,7 @@ struct WebContainer: View {
                                 showAlertBookmark = false
                             }
                         },label:{
-                            Text("Accept")
+                            Text(NSLocalizedString("accept", comment: ""))
                                 .font(.custom("Marker Felt", size: 18))
                                 .foregroundColor(.blue)
                                 .lineLimit(1)
@@ -254,12 +253,12 @@ struct WebContainer: View {
             //ventana que aparece cuando se da una pulsacion larga en el boton de home, para cambiar direccion web.
             if showAlertHomeAdrres{
                 VStack{
-                    Text("Enter the new web address")
+                    Text(NSLocalizedString("alertNewWeb", comment: ""))
                         .foregroundColor(Color("colorTextoTitulo"))
                         .font(.custom("marker Felt", size: 28))
                         .lineLimit(1)
                         .minimumScaleFactor(0.3)
-                    TextField("Enter title",text: $homeWebAddres)
+                    TextField(NSLocalizedString("alertEnterWebTit", comment: ""),text: $homeWebAddres)
                         .foregroundColor(.black)
                         .font(.custom("Marker Felt", size: 18))
                         .autocapitalization(UITextAutocapitalizationType.none)
@@ -272,7 +271,7 @@ struct WebContainer: View {
                         Button(action:{
                             showAlertHomeAdrres = false
                         },label:{
-                            Text("Cancel")
+                            Text(NSLocalizedString("cancel", comment: ""))
                                 .font(.custom("Marker Felt", size: 18))
                                 .foregroundColor(.blue)
                                 .lineLimit(1)
@@ -292,7 +291,7 @@ struct WebContainer: View {
                             UserDefaults.standard.synchronize()
                             showAlertHomeAdrres = false
                         },label:{
-                            Text("Accept")
+                            Text(NSLocalizedString("accept", comment: ""))
                                 .font(.custom("Marker Felt", size: 18))
                                 .foregroundColor(.blue)
                                 .lineLimit(1)
@@ -368,7 +367,6 @@ struct WebContainer: View {
                 
                 do {
                     try viewContext.save()
-                    print("url guardada")
                 } catch {
                     // Replace this implementation with code to handle the error appropriately.
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

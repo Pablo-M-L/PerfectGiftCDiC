@@ -16,17 +16,6 @@ struct ListGiftDoitView: View {
     var ideas: FetchRequest<Ideas>
     @State private var ideasListEmpty = false
     
- //   var eventParent: Event
-    
-//    init(filterProfile: String,  filterEvent: String, event: Event){
-//        ideas = FetchRequest<Ideas>(entity: Ideas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.ideaTitle, ascending: true)], predicate: NSPredicate(format: "idProfileIdea MATCHES[dc] %@ AND idEventIdea MATCHES[dc] %@", filterProfile, filterEvent),animation: .default)
-        
-
-
-  //      eventParent = event
-
-  //  }
-    
     init(profile: Profile){
         ideas = FetchRequest<Ideas>(entity: Ideas.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Ideas.fechaQueRegalo, ascending: true)], predicate: NSPredicate(format: "idProfileIdea MATCHES[dc] %@ AND regalado == %@", argumentArray: [profile.idProfile?.uuidString ?? "nadie",true]),animation: .default)
         
@@ -42,7 +31,7 @@ struct ListGiftDoitView: View {
 
                     ZStack{
                         NavigationLink(destination: DetailGiftDoitView(idea: idea, isNewIdea: false) ){
-                            Text("gift do it")
+                            EmptyView()
                         }.opacity(0)
                         CellGiftDoitView(idea: idea)
                     }.background(Color("cellprofileBck"))

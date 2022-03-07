@@ -59,7 +59,7 @@ struct AddProfileView: View {
                                 }
                                 
                                 HStack(alignment: .center){
-                                    Text("Change Image")
+                                    Text(NSLocalizedString("changeImage", comment: ""))
                                 }
                             }
                         })
@@ -72,13 +72,13 @@ struct AddProfileView: View {
                     }.padding(.trailing, 7)
                     
                     VStack{
-                        Text("Person's Name: ")
+                        Text(NSLocalizedString("personName", comment: ""))
                             .foregroundColor(Color("colorTextoTitulo"))
                             .font(.custom("marker Felt", size: 22))
                             .lineLimit(1)
                             .minimumScaleFactor(0.3)
 
-                        TextField("Enter Person Name", text: $nameProfile)
+                        TextField(NSLocalizedString("enterPersonName", comment: ""), text: $nameProfile)
                                 .padding()
                                 .background(Color(.white))
                                 .cornerRadius(8)
@@ -87,13 +87,13 @@ struct AddProfileView: View {
                         .padding()
                     
                     VStack{
-                        Text("Details")
+                        Text(NSLocalizedString("details", comment: ""))
                             .foregroundColor(Color("colorTextoTitulo"))
                             .font(.custom("marker Felt", size: 22))
                             .lineLimit(1)
                             .minimumScaleFactor(0.3)
                         
-                            TextField("Details", text: $annotationsProfile)
+                            TextField(NSLocalizedString("details", comment: ""), text: $annotationsProfile)
                             //.multilineTextAlignment(.leading)
                                 .padding()
                                 .background(Color(.white))
@@ -108,7 +108,7 @@ struct AddProfileView: View {
                         presentationMode.wrappedValue.dismiss()
                     },label:{
                         ZStack{
-                            Text("ADD PERSON")
+                            Text(NSLocalizedString("addPerson", comment: ""))
                                 .frame(width: UIScreen.main.bounds.width / 1.2, height: 50)
                                 .background(Color.orange)
                                 .foregroundColor(.white)
@@ -120,7 +120,7 @@ struct AddProfileView: View {
                     }).padding()
                     
                 }
-                .navigationTitle("Add New Person")
+                .navigationTitle(NSLocalizedString("addPersonTit", comment: ""))
             }
         }
     }

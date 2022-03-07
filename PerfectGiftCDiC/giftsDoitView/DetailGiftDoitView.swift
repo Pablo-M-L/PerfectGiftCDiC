@@ -63,12 +63,9 @@ struct DetailGiftDoitView: View {
                                     Spacer()
                                     
                                     Button(action:{
-                                        updateIdea()
-                                        presentationMode.wrappedValue.dismiss()
-                                       
-
+                                        saveAsGift()
                                     },label:{
-                                        Text("Save & Close")
+                                        Text(NSLocalizedString("saveClose", comment: ""))
                                             .font(.custom("Marker Felt", size: 24))
                                             .foregroundColor(.blue)
                                             .padding(.vertical,10)
@@ -82,34 +79,26 @@ struct DetailGiftDoitView: View {
                                 }
                                 else{
                                     
-                                    Text("Given!!!")
+                                    Text(NSLocalizedString("given", comment: ""))
                                         .font(.custom("Arial", size: 32))
                                         .foregroundColor(.purple)
                                 }
                                 HStack{
-                                Text("Gift Title:")
+                                Text(NSLocalizedString("giftTitle", comment: ""))
                                     .foregroundColor(.purple)
                                     .font(.custom("marker Felt", size: 22))
                                     Spacer()
                                 }
                                 
-                                TextField("Enter Gift Title", text: $titleIdea)
+                                TextField(NSLocalizedString("enterGiftTit", comment: ""), text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
                                     .font(.custom("Arial", size: 24))
                                     .cornerRadius(10)
-                                    
-                                    .onReceive(Just(titleIdea)){ value in
-                                        if value != "" && value != idea?.ideaTitle{
-                                            updateIdea()
-                                        }
-                                        
-                                    
-                                }
                                 
                                 
                                 HStack{
-                                Text("Reason for the Gift")
+                                Text(NSLocalizedString("reasonGift", comment: ""))
                                     .foregroundColor(.purple)
                                     .font(.custom("marker Felt", size: 22))
                                     .lineLimit(1)
@@ -117,23 +106,15 @@ struct DetailGiftDoitView: View {
                                     Spacer()
                                 }
                                 
-                                TextField("Reason for the Gift", text: $reasonGift)
+                                TextField(NSLocalizedString("enterReasonGift", comment: ""), text: $reasonGift)
                                     .padding(5)
                                     .background(Color.white)
                                     .font(.custom("Arial", size: 24))
                                     .cornerRadius(10)
-                                    
-                                    .onReceive(Just(reasonGift)){ value in
-                                        if value != "" && value != idea?.eventTitleIdea{
-                                            updateIdea()
-                                        }
-                                        
-                                    
-                                }
                                 
                                 //añadir fecha
                                     HStack{
-                                        Text("Gift Date:")
+                                        Text(NSLocalizedString("dateGift", comment: ""))
                                             .foregroundColor(.purple)
                                             .font(.custom("marker Felt", size: 22))
                                             .lineLimit(1)
@@ -177,9 +158,7 @@ struct DetailGiftDoitView: View {
                                            EmptyView()}
                                         .accentColor(Color("backgroundButton"))
                                         .datePickerStyle(WheelDatePickerStyle())
-                                        .onChange(of: giftDate) { newValue in
-                                                updateIdea()
-                                        }
+                                        
                                     }
                                 }
                                 
@@ -187,7 +166,7 @@ struct DetailGiftDoitView: View {
                                 
                                 VStack{
                                     HStack{
-                                        Text("Description")
+                                        Text(NSLocalizedString("description", comment: ""))
                                             .foregroundColor(.purple)
                                             .font(.custom("marker Felt", size: 22))
                                             .lineLimit(1)
@@ -202,12 +181,6 @@ struct DetailGiftDoitView: View {
                                             .frame(height: UIScreen.main.bounds.height / 5.5)
                                             .font(.custom("Arial", size: 18))
                                             .cornerRadius(25)
-                                            .onReceive(Just(descriptionIdea)){ value in
-                                                if value != "" && value != idea?.descriptionIdea{
-                                                    updateIdea()
-                                                }
-                                                
-                                            }
                                         
                                         VStack{
                                             HStack{
@@ -286,15 +259,11 @@ struct DetailGiftDoitView: View {
                             }.padding(.horizontal,20)
                                 .padding(.vertical, 10)
                                 .shadow(color: .gray, radius: 3, x: 3, y: 3)
-                            .onDisappear{
-                                if imageChange{
-                                    updateIdea()
-                                }
-                            }
+                            
                             
                         }
                     
-                    Text("Links")
+                    Text(NSLocalizedString("links", comment: ""))
                         .foregroundColor(.purple)
                         .font(.custom("marker Felt", size: 18))
 
@@ -317,13 +286,12 @@ struct DetailGiftDoitView: View {
                  .font(.custom("Marker Felt", size: 18))
             }.alert(isPresented: $showAlertDelete, content: {
                 Alert(
-                    title: Text("¿Do you want to delete this gift?"),
-                    primaryButton: .default(Text("Delete"), action: {
-                        print("borrar evento")
+                    title: Text(NSLocalizedString("alertDelGift", comment: "")),
+                    primaryButton: .default(Text(NSLocalizedString("del", comment: "")), action: {
                         borrarGift = true
                         presentationMode.wrappedValue.dismiss()
                     }),
-                    secondaryButton: .cancel(Text("Cancel")))
+                    secondaryButton: .cancel(Text(NSLocalizedString("cancel", comment: ""))))
             })
                 .navigationBarItems(trailing:
                  HStack{
@@ -433,7 +401,7 @@ struct DetailGiftDoitView: View {
         
     }
     
-    private func updateIdea(){
+    private func saveAsGift(){
         withAnimation {
             idea?.ideaTitle = titleIdea
             idea?.descriptionIdea = descriptionIdea
@@ -461,11 +429,6 @@ struct DetailGiftDoitView: View {
             
             do {
                 try viewContext.save()
-                if guardarRegalo{
-                    print("cerrar sheet")
-                    presentationMode.wrappedValue.dismiss()
-                }
-                print("idea actualizada")
                 presentationMode.wrappedValue.dismiss()
             } catch {
                 // Replace this implementation with code to handle the error appropriately.

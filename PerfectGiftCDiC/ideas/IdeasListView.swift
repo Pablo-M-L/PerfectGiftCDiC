@@ -40,7 +40,7 @@ struct IdeasListView: View {
                 ForEach(ideas.wrappedValue, id: \.self) { idea in
                     ZStack{
                         NavigationLink(destination: DetailIdeaView(idea: idea) ){
-                            Text("ideas")
+                            EmptyView()
                         }.opacity(0)
                         CellIdeaListView(idea: idea)
                     }.background(Color("cellprofileBck"))

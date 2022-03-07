@@ -1,0 +1,148 @@
+/* 
+  Localizable.strings
+  PerfectGiftCDiC
+
+  Created by pablo millan lopez on 6/3/22.
+  
+*/
+
+
+//pantalla menu principal
+//NSLocalizedString("cargar", comment: "")
+"idioma" = "Idioma";
+
+//comunes
+"eventos" = "Eventos";
+"noEvents" = "No hay Eventos";
+"noName" = "Sin Nombre";
+"ideas" = "Ideas";
+"regalos" = "Regalos";
+"dias" = "Dias";
+"cancel" = "Cancelar";
+"del" = "Eliminar";
+"accept" = "Aceptar";
+
+
+//upcomingListView
+"upcomingEvents" = "PROXIMOS EVENTOS";
+
+//favoriteslistview
+"favorites" = "FAVORITOS";
+
+//selectfavlistprofile
+"selectFav" = "Selecciona una persona como favorita";
+
+//cellgiftdoitview
+"notitleEvent" = "Evento sin titulo";
+"noReason" = "Sin Motivo";
+
+//detailgiftgoitview
+"saveClose" = "Guardar & Cerrar";
+"given" = "Regalado!!!";
+        "giftTitle" = "Titulo del Regalo:";
+        "enterGiftTit" = "Introduce un titulo para el regalo";
+        "reasonGift" = "Motivo del Regalo";
+        "enterReasonGift" = "Introduce un Motivo del Regalo";
+        "dateGift" = "Fecha del Regalo:";
+        "description" = "Descriccion";
+        "links" = "Enlaces";
+"alertDelGift" = "¿Desea Borrar este Regalo?";
+
+//addgiftdoitview
+"newGift" = "Nuevo Regalo";
+"alertSaveGiftTit" = "Guardar Regalo";
+"alertSaveGiftMess" = "Para poder añadir enlaces, hay que guardar la idea primero.";
+"updateGift" = "Actualizar Regalo";
+
+
+//profilelistview
+"persons" = "PERSONAS";
+
+//addprofileview
+"personName" = "Nombre de la Persona: ";
+    "enterPersonName" = "Introduce el Nombre de la Pesona";
+    "details" = "Detalles";
+"addPerson" = "Añadir Persona";
+"addPersonTit" = "Añadir nueva Persona";
+"changeImage" = "Cambiar Imagen";
+
+//detailprofileview
+"ideasUpCase" = "IDEAS";
+"eventsUpCase" = "EVENTOS";
+"giftsUpCase" = "REGALOS";
+"alertDelProfTit" = "Desea eliminar a ";
+"alertDelProfMess" = "";
+
+//addurl
+"webTitle" = "Titulo Web:";
+"urlTitle" = "Titulo Url";
+"linkUpCase" = "ENLACE";
+"save" = "Guardar";
+
+//cellurlslistview
+"edit" = "Editar";
+
+//webcontainer
+"go" = "Ir";
+"changeAddres" = "Cambiar Pagina de Inicio";
+"alertBMarkTit" = "Introduce titulo del Marcador";
+"alertNewWeb" = "Introduce Direccion Web.";
+"alertEnterWebTit" = "Introduce titulo para la Web";
+
+//addeventview
+"dateTit" = "Fecha de Nacimiento";
+"commemorateTit" = "Fecha a Conmemorar";
+"specialDayDateTit" = "Fecha del Evento";
+"newEvent" = "Nuevo Evento";
+"selCategory" = "Selecciona una Categoria";
+"birthday" = "Cumpleaños";
+"specialDay" = "Dia Especial";
+"anniversary" = "Aniversario";
+"eventTit" = "Titulo del Evento";
+"observations" = "Observaciones";
+"save" = "Guardar";
+"hintTextField" = "Cumpleaños / Aniversario / Dia Especial";
+
+//detaileventview
+"enterEventTit" = "Introduce el Titulo del Evento";
+"alertDelEvent" = "Desea eliminar este evento de ";
+
+
+//addideaview
+"newIdea" = "Nueva Idea";
+    "ideaTit" = "Titulo de la Idea:";
+    "enterIdeaTit" = "Introduce el titulo de la Idea";
+"openBrowser" = "Ir al Navegador";
+"saveIdea" = "Guardar Idea";
+"updateIdea" = "Actualizar Idea";
+"alertUrlMess" = "Para ir al navegador, hay que guardar la idea primero.";
+
+//detailideaview
+"saveAsGiven" = "Guardar como Regalo!!!";
+"ideaFor" = "Idea Para";
+"alertDelIdeaTit" = "Desea eliminar esta idea?";
+
+
+//mensjebienvenida
+"mess1A" = "BIENVENIDO/A";
+"mess1B" = "Gracias \n por descargar \n Perfect Gift.";
+"mess1C" = "Con perfect gift no solo podrá recordar que tiene que hacer un regalo, tambien le ayudará a elegir el mejor regalo para cualquiera de sus personas favoritas.";
+"mess1D" = "Ver Guia Rapida";
+
+"mess2A" = "En la ventana principal podrá ver la lista de sus personas favoritas, todos los eventos y seleccionar 6 de ellas como favoritas, estas las podrá visualizar en los gidgets.";
+
+"mess3A" = "En cada una de las personas podrá ver y añadir todos los eventos, ideas y regalos que necesite.";
+"mess3B" = "Cualquier idea que se haya convertido en regalo podrá moverla a la lista de regalos hechos.";
+
+"mess4A" = "Rellenar los datos y guardar idea, evento o regalo que desee.";
+
+"mess5A" = "En el navegador puede buscar y guardar cualquier informacion que le ayude a encontrar el regalo perfecto para sorprender a cualquiera de sus personas favoritas.";
+
+"mess6A" = "Tambien tiene la opcion de añadir widgets en la pantalla de inicio de su dispositivo, para no olvidar nunca un dia especial ni de hacer un regalo.";
+
+"mess7A" = "GRACIAS \n POR DESCARGAR \n PERFECT GIFT!!!";
+"mess7B" = "ESPERO \n QUE LE SEA \n DE \n GRAN AYUDA.";
+"mess7C" = "Cerrar";
+
+//NSLocalizedString("cargar", comment: "")
+

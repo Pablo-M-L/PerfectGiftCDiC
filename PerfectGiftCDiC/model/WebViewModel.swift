@@ -50,12 +50,10 @@ class WebViewModel: ObservableObject{
     }
     
     func goForward() {
-        print("go")
         webView.goForward()
     }
     
     func goBack() {
-        print("goba")
         webView.goBack()
     }
 }

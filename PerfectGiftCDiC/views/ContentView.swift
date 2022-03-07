@@ -42,6 +42,8 @@ struct ContentView: View {
     
     @State var vistaActiva: VistaActiva = .profiles
     @State var firstAppRun = true
+    @State private var showHelp = false
+    @State private var showManual = false
     
     var body: some View {
         
@@ -52,6 +54,9 @@ struct ContentView: View {
                 
                 Color("background")
                     .edgesIgnoringSafeArea(.all)
+                
+                NavigationLink(destination: PdfView(), isActive: $showManual){EmptyView()}
+                NavigationLink(destination: MensajeBienvenidaView(firstAppRun: $firstAppRun), isActive: $showHelp){EmptyView()}
                 
                 VStack{
                     if vistaActiva == .favorites{
@@ -100,7 +105,13 @@ struct ContentView: View {
                     
                     
                 }
-                .navigationBarItems(leading: logoButtonDummy() ,trailing: saveProfileButton2())
+                .navigationBarItems(leading:
+                                        HStack(spacing: 2){
+                                        helpButton(showHelp: $showHelp)
+                                        manualButton(showManual: $showManual)
+                                        Spacer()
+                                        }
+                                    ,trailing: saveProfileButton2())
                 .navigationTitle("Perfect Gift")
                 .navigationBarTitleDisplayMode(.inline)
                 .colorMultiply(Color("background"))
@@ -131,7 +142,6 @@ struct ContentView: View {
                             
                             if let userDefault = UserDefaults(suiteName: appGroupName){
                                 for event in events{
-                                    print("si hay eventos")
                                     let eventsUpcoming = EventDateUpComing(
                                                             dateEvent: event.dateEvent ?? Date(),
                                                             titleEvent: event.titleEvent ?? "no title",
@@ -182,13 +192,14 @@ struct ContentView: View {
     
 }
 
-struct logoButtonDummy:View{
+struct helpButton:View{
+    
+    @Binding var showHelp: Bool
     
     var body: some View{
         
         Button(action:{
-            
-            print("ayuda")
+            showHelp = true
         },label:{
             HStack{
                 
@@ -201,12 +212,31 @@ struct logoButtonDummy:View{
                 Image(systemName: "questionmark.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
+                    .frame(width: 20, height: 20)
                     .foregroundColor(.red)
-                
-                Spacer()
             }
-        })
+        }).padding(.trailing,2)
+        
+    }
+}
+
+struct manualButton:View{
+    
+    @Binding var showManual: Bool
+    
+    var body: some View{
+        
+        Button(action:{
+            showManual = true
+        },label:{
+            HStack{
+                Image(systemName: "book.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(.red)
+            }
+        }).padding(2)
         
     }
 }

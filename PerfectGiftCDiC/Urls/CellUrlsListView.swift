@@ -38,11 +38,11 @@ struct CellUrlsListView: View {
                         Button(action:{
                             openEditView.toggle()
                         }) {
-                            Text("edit")
+                            Text(NSLocalizedString("edit", comment: ""))
                         }
                     }
                     
-                    Button(action: {deleteUrl(url: url)}, label: {Text("Delete")})
+                    Button(action: {deleteUrl(url: url)}, label: {Text(NSLocalizedString("del", comment: ""))})
 
                 }
             }

@@ -15,11 +15,9 @@ let itemFormatter: DateFormatter = {
 }()
 
 func getStringFromDate(date: Date)-> String{
-    print("string from date \(date)")
     let formatter3 = DateFormatter()
     //formatter3.timeZone = TimeZone(abbreviation: "GMT")
     formatter3.dateStyle = .short
-    print("string from date en string \(formatter3.string(from: date))")
     return formatter3.string(from: date)
 }
 
@@ -44,8 +42,6 @@ func ObtenerMesActual()->Int{
 
 
 func getNextDayEvent(date: Date)-> Date{
-    print("get next day date")
-    print(date)
     let calendar = Calendar.current
     var firstDateComponents = DateComponents()
     
@@ -63,11 +59,6 @@ func getNextDayEvent(date: Date)-> Date{
     firstDateComponents.day = diaEnNumero
     firstDateComponents.month = mesEnNumero
     
-    print(mesEnNumero)
-    print(diaEnNumero)
-    print(mesActualEnNumero)
-    print(diaActualEnNumero)
-    print(añoActualEnNumero)
     if mesEnNumero > mesActualEnNumero{
         //si el mes actual es menor que el mes de la fecha a celebrar es que aun no ha cumplido la fecha.
         firstDateComponents.year = añoActualEnNumero
@@ -89,13 +80,11 @@ func getNextDayEvent(date: Date)-> Date{
     //firstDateComponents.timeZone = TimeZone(abbreviation: "GMT")
 
     let firstDate = Calendar(identifier: Calendar.Identifier.gregorian).date(from: firstDateComponents)
-    print("get nex day returned \(firstDate)")
     return firstDate ?? Date()
    
 }
 
 func diasQueFaltan(fechaInicio: String)->Int{
-    print("dias que faltan")
     var diasQueFaltan = 0
     let dateStringFormatter = DateFormatter()
     dateStringFormatter.dateFormat = "yyyy-MM-dd"
@@ -118,20 +107,15 @@ func diasQueFaltan(fechaInicio: String)->Int{
 }
 
 func calcularDiasQueFaltan(dateEvent: Date)-> Int{
-    print("calcular dias que faltan")
-    print("Fecha")
-    print(dateEvent)
+
     let calendar = Calendar.current
     
     let dias = Set<Calendar.Component>([.day])
-    print("dias")
-    print(dias)
+
     let result = calendar.dateComponents(dias, from: dateEvent as   Date,  to: Date() as Date)
-    print("resul")
-    print(result)
+
     let resultado = (result.day ?? 0) * -1
-    print("resultado")
-    print(resultado)
+
     if resultado < 0 {
         return 0
     }

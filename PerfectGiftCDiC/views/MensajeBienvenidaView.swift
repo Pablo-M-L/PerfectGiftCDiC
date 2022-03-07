@@ -51,7 +51,7 @@ struct mensaje1: View{
             
             VStack{
                 Spacer()
-                Text("WELCOME")
+                Text(NSLocalizedString(NSLocalizedString("mess1A", comment: ""), comment: ""))
                     .font(.custom("Marker Felt", size: 70))
                     .lineLimit(1)
                     .frame(alignment: .center)
@@ -59,7 +59,7 @@ struct mensaje1: View{
                     .foregroundColor(.purple)
                     .padding()
 
-                Text("Thank you \n for using \n Perfect Gift.")
+                Text(NSLocalizedString("mess1B", comment: ""))
                     .font(.custom("Marker Felt", size: 56))
                     .lineLimit(3)
                     .multilineTextAlignment(.center)
@@ -68,13 +68,13 @@ struct mensaje1: View{
                     .padding(.bottom,55)
                 
                 
-                formatoParrafo(texto: "With perfect gift you will not only be able to remember that you have to give a gift, but it will also help you choose the best gift for the person you love.")
+                formatoParrafo(texto: NSLocalizedString("mess1C", comment: ""))
                 
                 Spacer()
                 
                 ZStack{
                     HStack{
-                        formatoParrafo(texto: "see quick guide")
+                        formatoParrafo(texto: NSLocalizedString("mess1D", comment: ""))
                         Spacer()
                     }
                     
@@ -115,7 +115,7 @@ struct mensaje2: View{
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                 
-                formatoParrafo(texto: "In the home view you will see the list of your favorite people to whom you want to give a gift, all the events and select among them 6 favorite people to display them in the widgets.")
+                formatoParrafo(texto: NSLocalizedString("mess2A", comment: ""))
                 
                 Spacer()
             }.padding()
@@ -139,9 +139,9 @@ struct mensaje3: View{
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                 
-                formatoParrafo(texto: "Within each person's profile you can see and add, as many events, ideas and gifts as you need.")
+                formatoParrafo(texto: NSLocalizedString("mess3A", comment: ""))
                 
-                formatoParrafo(texto: "The gift idea that has been converted into a gift can be saved and moved to the list of gifts made")
+                formatoParrafo(texto: NSLocalizedString("mess3B", comment: ""))
                     .padding(.top,15)
                 
                 
@@ -176,7 +176,7 @@ struct mensaje4: View{
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                 
-                formatoParrafo(texto: "Fill in the data and save any idea, event or gift you want.")
+                formatoParrafo(texto: NSLocalizedString("mess4A", comment: ""))
                 
                 
                 Spacer()
@@ -201,7 +201,7 @@ struct mensaje5: View{
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                 
-                formatoParrafo(texto: "In the browser you can search for all the options to help you find that perfect gift with which you want to surprise one of your favorite people.")
+                formatoParrafo(texto: NSLocalizedString("mess5A", comment: ""))
                 
                 Spacer()
             }.padding()
@@ -223,7 +223,7 @@ struct mensaje6: View{
                 Image("widgets")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                formatoParrafo(texto: "You also have the option to add widgets to your home screen so you never forget to give someone you love a gift.")
+                formatoParrafo(texto: NSLocalizedString("mess6A", comment: ""))
                 
                 Spacer()
             }.padding()
@@ -245,7 +245,7 @@ struct mensaje7: View{
             VStack{
                 Spacer()
                 
-                Text("THANK YOU \n FOR USING \n PERFECT GIFT!!!")
+                Text(NSLocalizedString("mess7A", comment: ""))
                     .font(.custom("Marker Felt", size: 70))
                     .lineLimit(3)
                     .multilineTextAlignment(.center)
@@ -253,7 +253,7 @@ struct mensaje7: View{
                     .foregroundColor(.purple)
                     .padding()
                 
-                Text("I HOPE \n YOU ENJOY \n AND \n IT WILL BE OF \n GREAT HELP.")
+                Text(NSLocalizedString("mess7B", comment: ""))
                     .font(.custom("Marker Felt", size: 40))
                     .lineLimit(5)
                     .multilineTextAlignment(.center)
@@ -262,16 +262,12 @@ struct mensaje7: View{
                     .padding()
                                                
                 Spacer()
-
-            }.padding()
-            
-            VStack{
-                Spacer()
+                
                 Button(action:{
                     UserDefaults.standard.setValue(false, forKey: key.firstAppRun.rawValue)
                     firstAppRun = false
                 },label:{
-                    Text("Close")
+                    Text(NSLocalizedString("mess7C", comment: ""))
                         .font(.custom("Marker Felt", size: 18))
                         .foregroundColor(.blue)
                         .padding(20)
@@ -279,7 +275,8 @@ struct mensaje7: View{
                         .cornerRadius(25)
                         .shadow(color: .gray, radius: 2, x: 2, y: 2)
                 }).padding(.bottom,50)
-            }
+
+            }.padding()
 
         }.padding(.horizontal,10)
     }

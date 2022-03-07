@@ -28,7 +28,7 @@ struct UrlsListView: View {
                     }.contextMenu{
                         Button(action: {
                             deleteUrl(url: url)
-                        }, label: {Text("Delete")})
+                        }, label: {Text(NSLocalizedString("del", comment: ""))})
                     }
 
    

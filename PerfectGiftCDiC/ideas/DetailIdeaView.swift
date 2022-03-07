@@ -65,7 +65,7 @@ struct DetailIdeaView: View {
                                 }, label:{
                                     ZStack{
                                             
-                                        Text("Save As GIVEN!!!!!")
+                                        Text(NSLocalizedString("saveAsGiven", comment: ""))
                                             .font(.custom("Marker Felt", size: 24))
                                             .foregroundColor(.blue)
                                             .padding(.vertical,10)
@@ -83,14 +83,14 @@ struct DetailIdeaView: View {
                             }
                             VStack{
                                 HStack{
-                                    Text("Idea Title:")
+                                    Text(NSLocalizedString("ideaTit", comment: ""))
                                         .font(.custom("Arial", size: 24))
                                         .foregroundColor(.purple)
                                     Spacer()
                                     
                                 }
                                 
-                                TextField("Enter Title", text: $titleIdea)
+                                TextField(NSLocalizedString("enterIdeaTit", comment: ""), text: $titleIdea)
                                     .padding(5)
                                     .background(Color.white)
                                     .font(.custom("Arial", size: 24))
@@ -108,7 +108,7 @@ struct DetailIdeaView: View {
                                 VStack{
                                     
                                     HStack{
-                                        Text("Description")
+                                        Text(NSLocalizedString("description", comment: ""))
                                             .font(.custom("Arial", size: 24))
                                             .foregroundColor(.purple)
                                         Spacer()
@@ -218,7 +218,7 @@ struct DetailIdeaView: View {
                         Spacer()
                         
                         NavigationLink(destination: WebContainer(idea: idea!, urlRecived: UserDefaults.standard.value(forKey: key.homeWebAddres.rawValue) as? String ?? "https://google.com"), label: {
-                            Text("Open Browser")
+                            Text(NSLocalizedString("openBrowser", comment: ""))
                                 .font(.custom("Marker Felt", size: 24))
                                 .foregroundColor(.white)
                                 .padding(.vertical,20)
@@ -246,7 +246,7 @@ struct DetailIdeaView: View {
             
 
 
-        }.navigationBarTitle("Idea for \(nameProfile)")
+        }.navigationBarTitle("\(NSLocalizedString("ideaFor", comment: "")) \(nameProfile)")
          .navigationBarItems(trailing:
                                 HStack{
                                     Spacer()
@@ -258,7 +258,6 @@ struct DetailIdeaView: View {
                                         .overlay(Circle().stroke(.white, lineWidth: 3))
              
                                      Button(action: {
-                                         print("borrar idea")
                                          showAlertDelete = true
                                      },label:{
                                          Image(systemName: "trash")
@@ -271,13 +270,12 @@ struct DetailIdeaView: View {
                                 }
             ).alert(isPresented: $showAlertDelete, content: {
              Alert(
-                 title: Text("Do you want to delete this idea?"),
-                 primaryButton: .default(Text("Delete"), action: {
-                     print("borrar idea")
+                 title: Text(NSLocalizedString("alertDelIdeaTit", comment: "")),
+                 primaryButton: .default(Text(NSLocalizedString("del", comment: "")), action: {
                      borrarIdea = true
                      presentationMode.wrappedValue.dismiss()
                  }),
-                 secondaryButton: .cancel(Text("Cancel")))
+                 secondaryButton: .cancel(Text(NSLocalizedString("cancel", comment: ""))))
          })
             .onAppear{
                 recargarLista.toggle()
@@ -384,7 +382,6 @@ struct DetailIdeaView: View {
             
             do {
                 try viewContext.save()
-                print("idea actualizada")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

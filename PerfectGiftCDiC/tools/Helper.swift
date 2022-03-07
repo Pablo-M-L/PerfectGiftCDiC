@@ -25,9 +25,6 @@ extension UIApplication {
      */
 }
 
-
-
-
 //crea un contenedor local asociado al app group.
 //devuelve la url del archivo.
 public enum AppGroup: String{
@@ -81,13 +78,10 @@ func getTitleWeb(url: String)-> String{
     var webTitle = "no title web"
     DispatchQueue.global().async {
         if let content = try? String(contentsOf: url, encoding: .utf8) {
-            print("content")
             DispatchQueue.main.async {
-                print("asys")
                 if let range = content.range(of: "<title>.*?</title>", options: .regularExpression, range: nil, locale: nil) {
                     let title = content[range].replacingOccurrences(of: "</?title>", with: "", options: .regularExpression, range: nil)
-                    print("title")
-                    print(title) // prints "ios - Get Title when input URL on UITextField on swift 4 - Stack Overflow"
+
                     webTitle = title
                 }
             }

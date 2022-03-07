@@ -22,6 +22,11 @@ struct FullScreenImage: View {
                     .foregroundColor(.gray)
                     .frame(width: 150, height: 10)
                     .padding(.top,50)
+                Image(systemName: "arrow.down")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.gray)
                 Spacer()
             }
             

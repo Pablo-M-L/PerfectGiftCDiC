@@ -21,7 +21,7 @@ struct DetailEventView: View {
     @State private var imgServicio = UIImage(imageLiteralResourceName: "logoPerfectgift")
     @State private var birthDate = Date()
     @State private var titleEvent = ""
-    @State private var titleDate = "Date of Birth"
+    @State private var titleDate = NSLocalizedString("dateTit", comment: "")
     @State private var dateEvent = ""
     @State private var observationsEvent = ""
     @State private var yearsAgoEvent = "1"
@@ -43,7 +43,7 @@ struct DetailEventView: View {
                 VStack{
                     //titulo fecha de nacimiento.......
                     HStack{
-                        Text("Event Title")
+                        Text(NSLocalizedString("eventTit", comment: ""))
                             .font(.custom("marker Felt", size: 22))
                             .foregroundColor(.purple)
                             .lineLimit(1)
@@ -52,7 +52,7 @@ struct DetailEventView: View {
                     }
                     
                     
-                    TextFieldProfile(hint: "title", dataString: $titleEvent)
+                    TextFieldProfile(hint: NSLocalizedString("enterEventTit", comment: ""), dataString: $titleEvent)
                         .onReceive(Just(titleEvent)){ value in
                             if value != "" && value != event.titleEvent{
                                 saveChanges()
@@ -64,13 +64,12 @@ struct DetailEventView: View {
                     //añadir fecha
                         HStack{
                             //titulo fecha de nacimiento.......
-                            Text(eventSelected == .birthday ? "Date of Birth" : "Date to Commemorate")
+                            Text(eventSelected == .birthday ? NSLocalizedString("dateTit", comment: "") : NSLocalizedString("commemorateTit", comment: ""))
                                 .font(.custom("marker Felt", size: 22))
                                 .foregroundColor(.purple)
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.3)
-                                .padding(.top, 10)
-                            
+                                
                             Spacer()
                             
                             Text(getStringFromDate(date:birthDate))
@@ -149,7 +148,7 @@ struct DetailEventView: View {
                     
                     
                     HStack{
-                        Text("Observations")
+                        Text(NSLocalizedString("observations", comment: ""))
                             .font(.custom("marker Felt", size: 22))
                             .foregroundColor(.purple)
                             .lineLimit(1)
@@ -211,7 +210,6 @@ struct DetailEventView: View {
             
             titleEvent = event.titleEvent ?? "no title event"
             observationsEvent = event.observationsEvent ?? "no observations"
-            print("on appear detail event \(event.dateEvent)")
             birthDate = event.dateEvent ?? Date()
             anyosCumplidos = calcularAnyosCumplidos(dateEvent: event.dateEvent ?? Date())
             
@@ -257,13 +255,13 @@ struct DetailEventView: View {
                             
         ).alert(isPresented: $showAlert, content: {
             Alert(
-                title: Text("¿Do you want to delete this event from \(event.profileEventRelation?.nameProfile ?? "profile")?"),
-                primaryButton: .default(Text("Delete"), action: {
+                title: Text("\(NSLocalizedString("alertDelEvent", comment: "")) \(event.profileEventRelation?.nameProfile ?? "profile")?"),
+                primaryButton: .default(Text(NSLocalizedString("del", comment: "")), action: {
                     print("borrar evento")
                     borrarEvento = true
                     presentationMode.wrappedValue.dismiss()
                 }),
-                secondaryButton: .cancel(Text("Cancel")))
+                secondaryButton: .cancel(Text(NSLocalizedString("cancel", comment: ""))))
         })
     }
     
@@ -285,17 +283,14 @@ struct DetailEventView: View {
     }
     
     private func saveChanges(){
-        print("guardar")
         withAnimation {
             event.titleEvent = titleEvent
             event.observationsEvent = observationsEvent
-            print("save detail date event : \(birthDate)")
             event.dateEvent = birthDate
             do {
                 try viewContext.save()
                 HelperWidget.leerListaFavoritos()
                 WidgetCenter.shared.reloadAllTimelines()
-                print("evento actualizado")
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.

@@ -75,7 +75,7 @@ struct datosProfileCell:View{
                 
                 VStack(alignment: .leading){
                     //nombre del perfil
-                    Text(profile.nameProfile ?? "sin nombre")
+                    Text(profile.nameProfile ?? "no name")
                         .font(.custom("Marker Felt", size: 16))
                         .bold()
                         .foregroundColor(.purple)
@@ -111,12 +111,12 @@ struct datosProfileCell:View{
                                         RoundedRectangle(cornerRadius: 5)
                                             .foregroundColor(.green)
                                             .opacity(0.8)
-                                            .frame(width: ((UIScreen.main.bounds.width / 2.5) * CGFloat(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent))) / 365,
+                                            .frame(width: calcularAnchoBarra(),
                                                    height: 25,
                                                    alignment: .leading)
                                         Spacer()
                                     }
-                                    Text("\(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent)) Days")
+                                    Text("\(calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent)) \(NSLocalizedString("dias", comment: ""))")
                                         .foregroundColor(.white)
                                         .bold()
                                         .font(.custom("marker felt", size: 16))
@@ -127,7 +127,7 @@ struct datosProfileCell:View{
                             }
                         }
                         else{
-                            Text("No hay eventos")
+                            Text(NSLocalizedString("noEvents", comment: ""))
                                 .bold()
                         }
                     }
@@ -149,8 +149,6 @@ struct datosProfileCell:View{
             if !eventos.isEmpty{
                 let eventFilter = eventos.filter{$0.profileEventRelation?.idProfile == profile.idProfile}
                 if !eventFilter.isEmpty{
-                    print("celda profile")
-                    print(eventFilter[0].dateEvent)
                     
                     upcomingEvent =  getUpcomingEvent(eventsfitrados: eventFilter)
 
@@ -169,6 +167,20 @@ struct datosProfileCell:View{
         }
     }
     
+    func calcularAnchoBarra()->CGFloat{
+        let diasQueFaltan = calcularDiasQueFaltan(dateEvent: upcomingEvent.dateEvent)
+        
+        if upcomingEvent.annualEvent{
+            return ((UIScreen.main.bounds.width / 2.5) * CGFloat(diasQueFaltan)) / 365
+        }
+        else{
+            if diasQueFaltan < 365{
+                return ((UIScreen.main.bounds.width / 2.5) * CGFloat(diasQueFaltan)) / 365
+            }else{
+                return UIScreen.main.bounds.width / 2.5
+            }
+        }
+    }
 }
 
 struct addIdeaButton: View{
